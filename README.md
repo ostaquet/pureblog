@@ -24,6 +24,8 @@ date: 2026-02-16
 Your content here.
 ```
 
+The URL of a post is the filename of the Markdown file (without the `.md` extension).
+
 Run `make build` to generate the static site in `build/`.
 
 ## Project structure
