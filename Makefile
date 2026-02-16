@@ -1,10 +1,15 @@
-.PHONY: build serve clean install
+.PHONY: build serve clean
 
-install:
-	pip install --break-system-packages markdown pyyaml
+VENV = venv
+BIN = $(VENV)/bin
 
-build:
-	python3 build.py
+$(VENV): requirements.txt
+	python3 -m venv $(VENV)
+	$(BIN)/pip install -r requirements.txt
+	touch $(VENV)
+
+build: $(VENV)
+	$(BIN)/python build.py
 
 serve: build
 	cd build && python3 -m http.server 8000
