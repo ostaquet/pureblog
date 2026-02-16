@@ -1,0 +1,16 @@
+services:
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.claude
+    image: techanism/my-blog-claude
+    container_name: my-blog-claude
+    volumes:
+      - ../..:/workspace
+      - ./claude-data:/home/claude/.claude
+      - ./claude-data/.claude.json:/home/claude/.claude.json
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
