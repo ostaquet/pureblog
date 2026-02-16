@@ -1,21 +1,17 @@
-.PHONY: build serve clean test
+.PHONY: venv build serve clean test
 
-VENV = venv
-BIN = $(VENV)/bin
+venv: requirements.txt
+	python3 -m venv .venv
+	. .venv/bin/activate; pip install --upgrade pip; pip install -r requirements.txt
 
-$(VENV): requirements.txt
-	python3 -m venv $(VENV)
-	$(BIN)/pip3 install -r requirements.txt
-	touch $(VENV)
-
-build: $(VENV)
-	$(BIN)/python3 src/build.py
+build: venv
+	. .venv/bin/activate; python3 src/build.py
 
 serve: build
 	cd build && python3 -m http.server 8000
 
-test: $(VENV)
-	$(BIN)/pytest src/test_build.py -v
+test: venv
+	. .venv/bin/activate; pytest src/test_build.py -v
 
 clean:
-	rm -rf build
+	rm -rf build .venv

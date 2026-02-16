@@ -27,6 +27,7 @@ When a tasks involves enhancing the project (typically adding a new feature), a 
 - Run the unit tests to ensure that everything passes.
 - Document in `README.md` for the humans.
 - Potentially update the `CLAUDE.md` for yourself.
+- Update the `CHANGELOG.md` with your changes and the task related to the change.
 - Commit and mark the task done.
 
 **IMPORTANT** If you block on something and are in autonomous mode, adapt the task with your analysis and questions, move it to `analyzed` and move to the next task.
