@@ -8,10 +8,11 @@ from string import Template
 import markdown
 import yaml
 
+SRC_DIR = Path(__file__).resolve().parent
 POSTS_DIR = Path("posts")
 BUILD_DIR = Path("build")
-TEMPLATE_FILE = Path("template.html")
-STYLE_FILE = Path("style.css")
+TEMPLATE_FILE = SRC_DIR / "template.html"
+STYLE_FILE = SRC_DIR / "style.css"
 SITE_TITLE = "Olivier's Blog"
 
 

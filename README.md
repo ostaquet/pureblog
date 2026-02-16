@@ -29,9 +29,10 @@ Run `make build` to generate the static site in `build/`.
 ## Project structure
 
 ```
-posts/          Markdown source files
-build.py        Static site generator
-template.html   HTML page template
-style.css       Stylesheet
-test_build.py   Unit tests
+src/
+  build.py        Static site generator
+  template.html   HTML page template
+  style.css       Stylesheet
+  test_build.py   Unit tests
+posts/            Markdown source files
 ```

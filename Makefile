@@ -9,13 +9,13 @@ $(VENV): requirements.txt
 	touch $(VENV)
 
 build: $(VENV)
-	$(BIN)/python3 build.py
+	$(BIN)/python3 src/build.py
 
 serve: build
 	cd build && python3 -m http.server 8000
 
 test: $(VENV)
-	$(BIN)/pytest test_build.py -v
+	$(BIN)/pytest src/test_build.py -v
 
 clean:
 	rm -rf build

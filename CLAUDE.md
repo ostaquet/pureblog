@@ -10,6 +10,8 @@ Olivier's Blog project is a blog to let Olivier express himself on various topic
 
 ## Architecture
 
+Source code lives in the `src/` folder (`build.py`, `template.html`, `style.css`, `test_build.py`). Tests import from `src/` via the `pythonpath` setting in `pyproject.toml`.
+
 ## Test-Driven Development
 
 ## Tasks & agents
