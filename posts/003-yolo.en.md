@@ -1,6 +1,6 @@
 ---
 title: Yolo
-date: 2026-02-19
+date: 2026-02-17
 excerpt: You only live once — make it count.
 ---
 
