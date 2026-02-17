@@ -149,8 +149,8 @@ def format_rfc822_date(iso_date: str) -> str:
     return dt.strftime("%a, %d %b %Y %H:%M:%S +0000")
 
 
-def build_rss_description(post: Post) -> str:
-    """Return the RSS description for a post: excerpt or truncated plain text."""
+def build_post_description(post: Post) -> str:
+    """Return the post description: excerpt or truncated plain text."""
     if post["excerpt"]:
         return post["excerpt"]
     plain: str = re.sub(r"<[^>]+>", "", post["html"])
@@ -163,7 +163,7 @@ def render_rss_item(post: Post, lang: str) -> str:
     """Render a single RSS <item> element for a post."""
     url: str = f"{SITE_URL}/{lang}/{post['slug']}/"
     title_escaped: str = html.escape(post["title"])
-    description: str = html.escape(build_rss_description(post))
+    description: str = html.escape(build_post_description(post))
     pub_date: str = format_rfc822_date(post["date"])
     return (
         "<item>"
@@ -229,7 +229,7 @@ def build_post_pages(
             title=post["title"],
             lang=lang,
             lang_switcher=switcher,
-            description=post["excerpt"],
+            description=build_post_description(post),
             content=(
                 f'<a href="../" class="back-link">{back_label}</a>'
                 f'<article><time>{post["date"]}</time>'

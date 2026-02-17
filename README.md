@@ -25,7 +25,7 @@ excerpt: A short summary shown on the index page and used for SEO.
 Your content here.
 ```
 
-The `excerpt` field is optional. When provided, it appears below the post title on the index page and is injected as a `<meta name="description">` tag on the post page.
+The `excerpt` field is optional. When provided, it appears below the post title on the index page and is used as the `<meta name="description">` tag on the post page. When no excerpt is set, the meta description falls back to the first 200 characters of the post body.
 
 An estimated reading time is automatically calculated from the post word count (200 words per minute) and displayed alongside the date on both post and index pages, localized per language.
 

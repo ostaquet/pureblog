@@ -434,6 +434,31 @@ def test_build_post_page_has_meta_description(
     assert '<meta name="description" content="">' in index_html
 
 
+def test_build_post_meta_description_fallback(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    post_no_excerpt: str = """\
+---
+title: No Excerpt
+date: 2026-01-15
+---
+
+Some body text without an excerpt field.
+"""
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": post_no_excerpt},
+        template_text='<meta name="description" content="$description">$content',
+    )
+
+    build.build_site()
+
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert "Some body text without an excerpt field." in post_html
+    assert 'content=""' not in post_html
+
+
 # --- Reading time integration tests ---
 
 
@@ -532,35 +557,35 @@ def test_render_rss_item_escapes_title() -> None:
     assert "A &lt;b&gt;Bold&lt;/b&gt; &amp; &quot;Quoted&quot; Title" in item
 
 
-# --- build_rss_description tests ---
+# --- build_post_description tests ---
 
 
-def test_build_rss_description_uses_excerpt() -> None:
+def test_build_post_description_uses_excerpt() -> None:
     post: build.Post = {
         "title": "T", "date": "2026-01-01", "excerpt": "My excerpt.",
         "reading_time": 1, "post_id": "001", "slug": "t", "lang": "en",
         "html": "<p>Full content here.</p>",
     }
-    assert build.build_rss_description(post) == "My excerpt."
+    assert build.build_post_description(post) == "My excerpt."
 
 
-def test_build_rss_description_fallback_short() -> None:
+def test_build_post_description_fallback_short() -> None:
     post: build.Post = {
         "title": "T", "date": "2026-01-01", "excerpt": "",
         "reading_time": 1, "post_id": "001", "slug": "t", "lang": "en",
         "html": "<p>Short content.</p>",
     }
-    assert build.build_rss_description(post) == "Short content."
+    assert build.build_post_description(post) == "Short content."
 
 
-def test_build_rss_description_fallback_truncates() -> None:
+def test_build_post_description_fallback_truncates() -> None:
     long_text: str = "A" * 300
     post: build.Post = {
         "title": "T", "date": "2026-01-01", "excerpt": "",
         "reading_time": 1, "post_id": "001", "slug": "t", "lang": "en",
         "html": f"<p>{long_text}</p>",
     }
-    result: str = build.build_rss_description(post)
+    result: str = build.build_post_description(post)
     assert result == "A" * 200 + "..."
     assert len(result) == 203
 
