@@ -5,13 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [1.0.1]
+
+### Changed
+
+- Localized back link on post pages: "Back" (en), "Retour" (fr), "Terug" (nl) (_0018-back-link-localization_)
 
 ## [1.0.0]
 
 ### Added
 
-- Localized back link on post pages: "Back" (en), "Retour" (fr), "Terug" (nl) (*0018-back-link-localization*)
 - RSS feed dates use Europe/Brussels timezone with 13:00 default publish time (_0015-publishing-date-and-hour_)
 - Index page shows fallback description (first 200 chars) when no excerpt is set (_0014-fallback-if-excerpt-not-set-on-index_)
 - SEO meta description falls back to first 200 characters of post body when no excerpt is set (_0013-fallback-if-excerpt-not-set_)
