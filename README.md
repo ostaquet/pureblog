@@ -19,10 +19,13 @@ Create a Markdown file in `posts/` named `{prefix}-{slug}.{lang}.md` where `{pre
 ---
 title: My Post Title
 date: 2026-02-16
+excerpt: A short summary shown on the index page and used for SEO.
 ---
 
 Your content here.
 ```
+
+The `excerpt` field is optional. When provided, it appears below the post title on the index page and is injected as a `<meta name="description">` tag on the post page.
 
 For example, `001-hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation with its own SEO-friendly slug, create `001-bonjour-le-monde.fr.md` (same prefix `001` links the translations). The French version will be served at `/fr/bonjour-le-monde/`.
 

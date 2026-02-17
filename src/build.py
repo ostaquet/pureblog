@@ -22,6 +22,7 @@ LANGUAGES: list[str] = ["en", "fr", "nl"]
 class Post(TypedDict):
     title: str
     date: str
+    excerpt: str
     post_id: str
     slug: str
     lang: str
@@ -67,6 +68,7 @@ def parse_post(filepath: Path) -> Post:
     return {
         "title": metadata["title"],
         "date": str(metadata["date"]),
+        "excerpt": metadata.get("excerpt", ""),
         "post_id": post_id,
         "slug": slug,
         "lang": lang,
@@ -144,6 +146,7 @@ def build_post_pages(
             title=post["title"],
             lang=lang,
             lang_switcher=switcher,
+            description=post["excerpt"],
             content=(
                 f'<a href="../" class="back-link">{back_label}</a>'
                 f'<article><time>{post["date"]}</time>'
@@ -170,10 +173,14 @@ def build_index_page(
     )
     items: list[str] = []
     for post in lang_posts:
+        excerpt_html: str = (
+            f'<p class="excerpt">{post["excerpt"]}</p>' if post["excerpt"] else ""
+        )
         items.append(
             f"<article>"
             f'<time>{post["date"]}</time>'
             f'<a href="{post["slug"]}/">{post["title"]}</a>'
+            f"{excerpt_html}"
             f"</article>"
         )
     index_content: str = "\n".join(items)
@@ -181,6 +188,7 @@ def build_index_page(
         title=SITE_TITLE,
         lang=lang,
         lang_switcher=switcher,
+        description="",
         content=index_content,
         root="..",
     )

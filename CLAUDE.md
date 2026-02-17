@@ -22,6 +22,8 @@ Source code lives in the `src/` folder (`build.py`, `template.html`, `style.css`
 
 The blog supports three languages: English (`en`), French (`fr`), and Dutch (`nl`), defined in `LANGUAGES` in `build.py`. Posts use the naming convention `{prefix}-{slug}.{lang}.md` (e.g. `001-hello-world.en.md`). The numeric prefix links translations together, allowing each language to have its own SEO-friendly slug (e.g. `001-hello-world.en.md` and `001-bonjour-le-monde.fr.md`). The build produces `build/{lang}/{slug}/index.html` per post, `build/{lang}/index.html` per language index, and a root `build/index.html` that redirects to `/en/`. A language switcher nav appears on every page, linking to the correct per-language slug.
 
+Posts support an optional `excerpt` field in YAML frontmatter. When present, it is displayed on the index page below the post title and injected as a `<meta name="description">` tag on the post page for SEO.
+
 ## Test-Driven Development
 
 ## Tasks & agents

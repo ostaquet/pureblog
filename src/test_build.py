@@ -11,6 +11,7 @@ SAMPLE_POST: str = """\
 ---
 title: Test Post
 date: 2026-01-15
+excerpt: A short test excerpt.
 ---
 
 This is a **test** post.
@@ -20,6 +21,7 @@ SAMPLE_POST_2: str = """\
 ---
 title: Earlier Post
 date: 2025-12-01
+excerpt: An older post excerpt.
 ---
 
 An older post.
@@ -29,6 +31,7 @@ SAMPLE_POST_FR: str = """\
 ---
 title: Article de Test
 date: 2026-01-15
+excerpt: Un court extrait de test.
 ---
 
 Ceci est un article de **test**.
@@ -39,7 +42,7 @@ def _setup_site(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     post_files: dict[str, str],
-    template_text: str = "$lang $lang_switcher $title $content $root",
+    template_text: str = "$lang $lang_switcher $title $description $content $root",
 ) -> Path:
     """Helper to set up a temporary site structure. Returns build_dir."""
     posts_dir: Path = tmp_path / "posts"
@@ -115,10 +118,26 @@ def test_parse_post(tmp_path: Path) -> None:
     result: build.Post = build.parse_post(md_file)
     assert result["title"] == "Test Post"
     assert result["date"] == "2026-01-15"
+    assert result["excerpt"] == "A short test excerpt."
     assert result["post_id"] == "001"
     assert result["slug"] == "test-post"
     assert result["lang"] == "en"
     assert "<strong>test</strong>" in result["html"]
+
+
+def test_parse_post_without_excerpt(tmp_path: Path) -> None:
+    post_no_excerpt: str = """\
+---
+title: No Excerpt
+date: 2026-01-15
+---
+
+Body text.
+"""
+    md_file: Path = tmp_path / "001-no-excerpt.en.md"
+    md_file.write_text(post_no_excerpt)
+    result: build.Post = build.parse_post(md_file)
+    assert result["excerpt"] == ""
 
 
 # --- group_translations tests ---
@@ -126,9 +145,9 @@ def test_parse_post(tmp_path: Path) -> None:
 
 def test_group_translations() -> None:
     posts: list[build.Post] = [
-        {"title": "A", "date": "2026-01-01", "post_id": "001", "slug": "a", "lang": "en", "html": ""},
-        {"title": "A", "date": "2026-01-01", "post_id": "001", "slug": "a-fr", "lang": "fr", "html": ""},
-        {"title": "B", "date": "2026-01-02", "post_id": "002", "slug": "b", "lang": "en", "html": ""},
+        {"title": "A", "date": "2026-01-01", "excerpt": "", "post_id": "001", "slug": "a", "lang": "en", "html": ""},
+        {"title": "A", "date": "2026-01-01", "excerpt": "", "post_id": "001", "slug": "a-fr", "lang": "fr", "html": ""},
+        {"title": "B", "date": "2026-01-02", "excerpt": "", "post_id": "002", "slug": "b", "lang": "en", "html": ""},
     ]
     groups: dict[str, dict[str, build.Post]] = build.group_translations(posts)
     assert "001" in groups
@@ -179,7 +198,7 @@ def test_build_index_lists_posts_newest_first(
         tmp_path,
         monkeypatch,
         {"001-first.en.md": SAMPLE_POST, "002-second.en.md": SAMPLE_POST_2},
-        template_text="$lang $lang_switcher $content",
+        template_text="$lang $lang_switcher $description $content",
     )
 
     build.build_site()
@@ -197,7 +216,7 @@ def test_build_post_page_contains_content(
         tmp_path,
         monkeypatch,
         {"001-hello.en.md": SAMPLE_POST},
-        template_text="$lang $lang_switcher $title $content",
+        template_text="$lang $lang_switcher $title $description $content",
     )
 
     build.build_site()
@@ -214,7 +233,7 @@ def test_build_cleans_previous_build(
         tmp_path,
         monkeypatch,
         {"001-hello.en.md": SAMPLE_POST},
-        template_text="$lang $lang_switcher $content",
+        template_text="$lang $lang_switcher $description $content",
     )
     build_dir.mkdir()
     stale_file: Path = build_dir / "stale.html"
@@ -303,7 +322,7 @@ def test_build_post_page_has_back_link(
         tmp_path,
         monkeypatch,
         {"001-hello.en.md": SAMPLE_POST},
-        template_text="$lang $lang_switcher $title $content",
+        template_text="$lang $lang_switcher $title $description $content",
     )
 
     build.build_site()
@@ -320,7 +339,7 @@ def test_build_index_article_structure(
         tmp_path,
         monkeypatch,
         {"001-hello.en.md": SAMPLE_POST},
-        template_text="$content",
+        template_text="$description $content",
     )
 
     build.build_site()
@@ -338,10 +357,45 @@ def test_build_html_lang_attribute(
         tmp_path,
         monkeypatch,
         {"001-hello.fr.md": SAMPLE_POST_FR},
-        template_text='<html lang="$lang">$lang_switcher $title $content $root</html>',
+        template_text='<html lang="$lang">$lang_switcher $title $description $content $root</html>',
     )
 
     build.build_site()
 
     fr_html: str = (build_dir / "fr" / "hello" / "index.html").read_text()
     assert 'lang="fr"' in fr_html
+
+
+def test_build_index_shows_excerpt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text="$description $content",
+    )
+
+    build.build_site()
+
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert '<p class="excerpt">A short test excerpt.</p>' in index_html
+
+
+def test_build_post_page_has_meta_description(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text='<meta name="description" content="$description">$content',
+    )
+
+    build.build_site()
+
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert '<meta name="description" content="A short test excerpt.">' in post_html
+
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert '<meta name="description" content="">' in index_html
