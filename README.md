@@ -8,7 +8,7 @@ A minimal static blog engine that converts Markdown posts to HTML.
 make build    # Build the site (creates venv automatically)
 make serve    # Build and start a local server on port 8000
 make test     # Run the unit tests
-make clean    # Remove the build directory
+make clean    # Remove the build directory and virtual environments
 ```
 
 ## Writing posts
