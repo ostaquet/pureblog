@@ -13,7 +13,7 @@ make clean    # Remove the build directory and virtual environments
 
 ## Writing posts
 
-Create a Markdown file in `posts/` with YAML frontmatter:
+Create a Markdown file in `posts/` named `{slug}.{lang}.md` where `{lang}` is one of `en`, `fr`, or `nl`:
 
 ```markdown
 ---
@@ -24,7 +24,9 @@ date: 2026-02-16
 Your content here.
 ```
 
-The URL of a post is the filename of the Markdown file (without the `.md` extension).
+For example, `hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation, create `hello-world.fr.md`.
+
+The site builds a per-language index at `/{lang}/` and a root page that redirects to `/en/`. A language switcher appears on every page, linking to available translations.
 
 Run `make build` to generate the static site in `build/`.
 

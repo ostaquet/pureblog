@@ -18,6 +18,10 @@ Olivier's Blog project is a blog to let Olivier express himself on various topic
 
 Source code lives in the `src/` folder (`build.py`, `template.html`, `style.css`, `test_build.py`). Tests import from `src/` via the `pythonpath` setting in `pyproject.toml`.
 
+### Multi-language support
+
+The blog supports three languages: English (`en`), French (`fr`), and Dutch (`nl`), defined in `LANGUAGES` in `build.py`. Posts use the naming convention `{slug}.{lang}.md` (e.g. `hello-world.en.md`). The build produces `build/{lang}/{slug}/index.html` per post, `build/{lang}/index.html` per language index, and a root `build/index.html` that redirects to `/en/`. A language switcher nav appears on every page.
+
 ## Test-Driven Development
 
 ## Tasks & agents
