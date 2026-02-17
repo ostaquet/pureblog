@@ -514,7 +514,7 @@ def test_render_rss_item() -> None:
     assert f"<link>{build.SITE_URL}/en/test-post/</link>" in item
     assert f"<guid>{build.SITE_URL}/en/test-post/</guid>" in item
     assert "<pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>" in item
-    assert "&lt;p&gt;Hello &lt;strong&gt;world&lt;/strong&gt;&lt;/p&gt;" in item
+    assert "A test excerpt." in item
 
 
 def test_render_rss_item_escapes_title() -> None:
@@ -530,6 +530,39 @@ def test_render_rss_item_escapes_title() -> None:
     }
     item: str = build.render_rss_item(post, "en")
     assert "A &lt;b&gt;Bold&lt;/b&gt; &amp; &quot;Quoted&quot; Title" in item
+
+
+# --- build_rss_description tests ---
+
+
+def test_build_rss_description_uses_excerpt() -> None:
+    post: build.Post = {
+        "title": "T", "date": "2026-01-01", "excerpt": "My excerpt.",
+        "reading_time": 1, "post_id": "001", "slug": "t", "lang": "en",
+        "html": "<p>Full content here.</p>",
+    }
+    assert build.build_rss_description(post) == "My excerpt."
+
+
+def test_build_rss_description_fallback_short() -> None:
+    post: build.Post = {
+        "title": "T", "date": "2026-01-01", "excerpt": "",
+        "reading_time": 1, "post_id": "001", "slug": "t", "lang": "en",
+        "html": "<p>Short content.</p>",
+    }
+    assert build.build_rss_description(post) == "Short content."
+
+
+def test_build_rss_description_fallback_truncates() -> None:
+    long_text: str = "A" * 300
+    post: build.Post = {
+        "title": "T", "date": "2026-01-01", "excerpt": "",
+        "reading_time": 1, "post_id": "001", "slug": "t", "lang": "en",
+        "html": f"<p>{long_text}</p>",
+    }
+    result: str = build.build_rss_description(post)
+    assert result == "A" * 200 + "..."
+    assert len(result) == 203
 
 
 # --- RSS feed integration tests ---
@@ -603,6 +636,46 @@ def test_rss_feed_posts_sorted_newest_first(
     pos_new: int = feed.index("Test Post")
     pos_old: int = feed.index("Earlier Post")
     assert pos_new < pos_old
+
+
+def test_rss_feed_uses_excerpt_as_description(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+    )
+
+    build.build_site()
+
+    feed: str = (build_dir / "en" / "feed.xml").read_text()
+    assert "A short test excerpt." in feed
+    assert "&lt;p&gt;" not in feed
+
+
+def test_rss_feed_truncates_without_excerpt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    long_body: str = "word " * 100
+    post_no_excerpt: str = f"""\
+---
+title: Long Post
+date: 2026-01-15
+---
+
+{long_body}
+"""
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-long.en.md": post_no_excerpt},
+    )
+
+    build.build_site()
+
+    feed: str = (build_dir / "en" / "feed.xml").read_text()
+    assert "..." in feed
 
 
 def test_rss_discovery_link_in_html(

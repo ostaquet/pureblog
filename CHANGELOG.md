@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- RSS feed description uses post excerpt, with fallback to first 200 characters of plain text ([.claude/tasks/todo/0012-rss-feed-with-excerpt.md])
 - Per-language RSS 2.0 feeds at `/{lang}/feed.xml` with RSS autodiscovery `<link>` in all HTML pages ([.claude/tasks/todo/0011-add-rss-feeds.md])
 - Estimated reading time displayed on post pages and index pages, localized for en/fr/nl ([.claude/tasks/todo/0010-add-estimated-reading-time.md])
 - Post excerpts displayed on index page and as `<meta name="description">` for SEO ([.claude/tasks/todo/0009-add-excerpt.md])

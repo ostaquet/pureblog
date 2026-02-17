@@ -3,6 +3,7 @@
 
 import html
 import math
+import re
 import shutil
 from collections.abc import Callable
 from datetime import datetime, timezone
@@ -148,11 +149,21 @@ def format_rfc822_date(iso_date: str) -> str:
     return dt.strftime("%a, %d %b %Y %H:%M:%S +0000")
 
 
+def build_rss_description(post: Post) -> str:
+    """Return the RSS description for a post: excerpt or truncated plain text."""
+    if post["excerpt"]:
+        return post["excerpt"]
+    plain: str = re.sub(r"<[^>]+>", "", post["html"])
+    if len(plain) <= 200:
+        return plain
+    return plain[:200] + "..."
+
+
 def render_rss_item(post: Post, lang: str) -> str:
     """Render a single RSS <item> element for a post."""
     url: str = f"{SITE_URL}/{lang}/{post['slug']}/"
     title_escaped: str = html.escape(post["title"])
-    description: str = html.escape(post["html"])
+    description: str = html.escape(build_rss_description(post))
     pub_date: str = format_rfc822_date(post["date"])
     return (
         "<item>"
