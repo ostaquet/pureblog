@@ -542,7 +542,12 @@ def test_build_index_shows_reading_time(
 
 def test_format_rfc822_date() -> None:
     result: str = build.format_rfc822_date("2026-02-16")
-    assert result == "Mon, 16 Feb 2026 00:00:00 +0000"
+    assert result == "Mon, 16 Feb 2026 13:00:00 +0100"
+
+
+def test_format_rfc822_date_summer_dst() -> None:
+    result: str = build.format_rfc822_date("2026-07-15")
+    assert result == "Wed, 15 Jul 2026 13:00:00 +0200"
 
 
 # --- render_rss_item tests ---
@@ -563,7 +568,7 @@ def test_render_rss_item() -> None:
     assert "<title>Test Post</title>" in item
     assert f"<link>{build.SITE_URL}/en/test-post/</link>" in item
     assert f"<guid>{build.SITE_URL}/en/test-post/</guid>" in item
-    assert "<pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>" in item
+    assert "<pubDate>Thu, 15 Jan 2026 13:00:00 +0100</pubDate>" in item
     assert "A test excerpt." in item
 
 

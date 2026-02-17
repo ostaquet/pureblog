@@ -6,7 +6,8 @@ import math
 import re
 import shutil
 from collections.abc import Callable
-from datetime import datetime, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from string import Template
 from typing import Any, TypedDict
@@ -22,6 +23,8 @@ STYLE_FILE: Path = SRC_DIR / "style.css"
 SITE_TITLE: str = "Olivier's Blog"
 SITE_URL: str = "https://example.com"
 LANGUAGES: list[str] = ["en", "fr", "nl"]
+DEFAULT_TIMEZONE: ZoneInfo = ZoneInfo("Europe/Brussels")
+DEFAULT_PUBLISH_HOUR: int = 13
 READING_TIME_LABELS: dict[str, str] = {
     "en": "min read",
     "fr": "min de lecture",
@@ -142,11 +145,14 @@ def load_posts() -> list[Post]:
 
 
 def format_rfc822_date(iso_date: str) -> str:
-    """Convert an ISO date string (YYYY-MM-DD) to RFC 822 format for RSS."""
+    """Convert an ISO date string (YYYY-MM-DD) to RFC 822 format for RSS.
+
+    Uses Europe/Brussels timezone and 13:00 as the default publish time.
+    """
     dt: datetime = datetime.strptime(iso_date, "%Y-%m-%d").replace(
-        tzinfo=timezone.utc
+        hour=DEFAULT_PUBLISH_HOUR, tzinfo=DEFAULT_TIMEZONE
     )
-    return dt.strftime("%a, %d %b %Y %H:%M:%S +0000")
+    return dt.strftime("%a, %d %b %Y %H:%M:%S %z")
 
 
 def build_post_description(post: Post) -> str:

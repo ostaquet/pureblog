@@ -3,3 +3,4 @@ pyyaml
 pytest
 types-Markdown
 types-PyYAML
+tzdata
