@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Index page shows fallback description (first 200 chars) when no excerpt is set ([.claude/tasks/todo/0014-fallback-if-excerpt-not-set-on-index.md])
 - SEO meta description falls back to first 200 characters of post body when no excerpt is set ([.claude/tasks/todo/0013-fallback-if-excerpt-not-set.md])
 - RSS feed description uses post excerpt, with fallback to first 200 characters of plain text ([.claude/tasks/todo/0012-rss-feed-with-excerpt.md])
 - Per-language RSS 2.0 feeds at `/{lang}/feed.xml` with RSS autodiscovery `<link>` in all HTML pages ([.claude/tasks/todo/0011-add-rss-feeds.md])

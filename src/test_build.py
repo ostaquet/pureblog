@@ -415,6 +415,31 @@ def test_build_index_shows_excerpt(
     assert '<p class="excerpt">A short test excerpt.</p>' in index_html
 
 
+def test_build_index_shows_fallback_when_no_excerpt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    post_no_excerpt: str = """\
+---
+title: No Excerpt
+date: 2026-01-15
+---
+
+Some body text without an excerpt field.
+"""
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": post_no_excerpt},
+        template_text="$content",
+    )
+
+    build.build_site()
+
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert '<p class="excerpt">' in index_html
+    assert "Some body text without an excerpt field." in index_html
+
+
 def test_build_post_page_has_meta_description(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

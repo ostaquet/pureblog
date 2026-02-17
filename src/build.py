@@ -257,9 +257,8 @@ def build_index_page(
     )
     items: list[str] = []
     for post in lang_posts:
-        excerpt_html: str = (
-            f'<p class="excerpt">{post["excerpt"]}</p>' if post["excerpt"] else ""
-        )
+        description: str = build_post_description(post)
+        excerpt_html: str = f'<p class="excerpt">{description}</p>'
         reading_time_str: str = format_reading_time(
             post["reading_time"], lang
         )
