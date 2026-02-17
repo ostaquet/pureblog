@@ -20,4 +20,4 @@ test: venv
 	. $(VENV)/bin/activate; pytest src/test_build.py -v
 
 clean:
-	rm -rf build .venv_docker .venv_local
+	rm -rf build $(VENV)
