@@ -485,3 +485,146 @@ def test_build_index_shows_reading_time(
     index_html: str = (build_dir / "en" / "index.html").read_text()
     assert "min read" in index_html
     assert 'class="reading-time"' in index_html
+
+
+# --- format_rfc822_date tests ---
+
+
+def test_format_rfc822_date() -> None:
+    result: str = build.format_rfc822_date("2026-02-16")
+    assert result == "Mon, 16 Feb 2026 00:00:00 +0000"
+
+
+# --- render_rss_item tests ---
+
+
+def test_render_rss_item() -> None:
+    post: build.Post = {
+        "title": "Test Post",
+        "date": "2026-01-15",
+        "excerpt": "A test excerpt.",
+        "reading_time": 1,
+        "post_id": "001",
+        "slug": "test-post",
+        "lang": "en",
+        "html": "<p>Hello <strong>world</strong></p>",
+    }
+    item: str = build.render_rss_item(post, "en")
+    assert "<title>Test Post</title>" in item
+    assert f"<link>{build.SITE_URL}/en/test-post/</link>" in item
+    assert f"<guid>{build.SITE_URL}/en/test-post/</guid>" in item
+    assert "<pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>" in item
+    assert "&lt;p&gt;Hello &lt;strong&gt;world&lt;/strong&gt;&lt;/p&gt;" in item
+
+
+def test_render_rss_item_escapes_title() -> None:
+    post: build.Post = {
+        "title": "A <b>Bold</b> & \"Quoted\" Title",
+        "date": "2026-01-15",
+        "excerpt": "",
+        "reading_time": 1,
+        "post_id": "001",
+        "slug": "bold-title",
+        "lang": "en",
+        "html": "<p>Content</p>",
+    }
+    item: str = build.render_rss_item(post, "en")
+    assert "A &lt;b&gt;Bold&lt;/b&gt; &amp; &quot;Quoted&quot; Title" in item
+
+
+# --- RSS feed integration tests ---
+
+
+def test_build_creates_rss_feeds(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST, "001-bonjour.fr.md": SAMPLE_POST_FR},
+    )
+
+    build.build_site()
+
+    assert (build_dir / "en" / "feed.xml").exists()
+    assert (build_dir / "fr" / "feed.xml").exists()
+    assert (build_dir / "nl" / "feed.xml").exists()
+
+
+def test_rss_feed_contains_posts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+    )
+
+    build.build_site()
+
+    feed: str = (build_dir / "en" / "feed.xml").read_text()
+    assert 'version="2.0"' in feed
+    assert "<language>en</language>" in feed
+    assert "<title>Test Post</title>" in feed
+
+
+def test_rss_feed_only_contains_lang_posts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST, "001-bonjour.fr.md": SAMPLE_POST_FR},
+    )
+
+    build.build_site()
+
+    en_feed: str = (build_dir / "en" / "feed.xml").read_text()
+    assert "Test Post" in en_feed
+    assert "Article de Test" not in en_feed
+
+    fr_feed: str = (build_dir / "fr" / "feed.xml").read_text()
+    assert "Article de Test" in fr_feed
+    assert "Test Post" not in fr_feed
+
+
+def test_rss_feed_posts_sorted_newest_first(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-first.en.md": SAMPLE_POST, "002-second.en.md": SAMPLE_POST_2},
+    )
+
+    build.build_site()
+
+    feed: str = (build_dir / "en" / "feed.xml").read_text()
+    pos_new: int = feed.index("Test Post")
+    pos_old: int = feed.index("Earlier Post")
+    assert pos_new < pos_old
+
+
+def test_rss_discovery_link_in_html(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text=(
+            '<link rel="stylesheet" href="$root/style.css">'
+            '<link rel="alternate" type="application/rss+xml"'
+            ' title="$title - RSS" href="$root/$lang/feed.xml">'
+            "$lang_switcher $description $content"
+        ),
+    )
+
+    build.build_site()
+
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert 'type="application/rss+xml"' in index_html
+    assert "../en/feed.xml" in index_html
+
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert "../../en/feed.xml" in post_html

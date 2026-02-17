@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Minimal blog engine. Converts Markdown posts to static HTML."""
 
+import html
+import math
 import shutil
 from collections.abc import Callable
+from datetime import datetime, timezone
 from pathlib import Path
 from string import Template
 from typing import Any, TypedDict
-
-import math
 
 import markdown
 import yaml
@@ -18,6 +19,7 @@ BUILD_DIR: Path = Path("build")
 TEMPLATE_FILE: Path = SRC_DIR / "template.html"
 STYLE_FILE: Path = SRC_DIR / "style.css"
 SITE_TITLE: str = "Olivier's Blog"
+SITE_URL: str = "https://example.com"
 LANGUAGES: list[str] = ["en", "fr", "nl"]
 READING_TIME_LABELS: dict[str, str] = {
     "en": "min read",
@@ -138,6 +140,52 @@ def load_posts() -> list[Post]:
     return posts
 
 
+def format_rfc822_date(iso_date: str) -> str:
+    """Convert an ISO date string (YYYY-MM-DD) to RFC 822 format for RSS."""
+    dt: datetime = datetime.strptime(iso_date, "%Y-%m-%d").replace(
+        tzinfo=timezone.utc
+    )
+    return dt.strftime("%a, %d %b %Y %H:%M:%S +0000")
+
+
+def render_rss_item(post: Post, lang: str) -> str:
+    """Render a single RSS <item> element for a post."""
+    url: str = f"{SITE_URL}/{lang}/{post['slug']}/"
+    title_escaped: str = html.escape(post["title"])
+    description: str = html.escape(post["html"])
+    pub_date: str = format_rfc822_date(post["date"])
+    return (
+        "<item>"
+        f"<title>{title_escaped}</title>"
+        f"<link>{url}</link>"
+        f"<description>{description}</description>"
+        f"<pubDate>{pub_date}</pubDate>"
+        f"<guid>{url}</guid>"
+        "</item>"
+    )
+
+
+def build_feed(lang: str, lang_dir: Path, lang_posts: list[Post]) -> None:
+    """Build an RSS 2.0 feed.xml for a given language."""
+    feed_url: str = f"{SITE_URL}/{lang}/feed.xml"
+    lang_url: str = f"{SITE_URL}/{lang}/"
+    items: str = "\n".join(render_rss_item(post, lang) for post in lang_posts)
+    feed: str = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+        "<channel>\n"
+        f"<title>{html.escape(SITE_TITLE)}</title>\n"
+        f"<link>{lang_url}</link>\n"
+        f"<description>{html.escape(SITE_TITLE)}</description>\n"
+        f"<language>{lang}</language>\n"
+        f'<atom:link href="{feed_url}" rel="self" type="application/rss+xml"/>\n'
+        f"{items}\n"
+        "</channel>\n"
+        "</rss>"
+    )
+    (lang_dir / "feed.xml").write_text(feed, encoding="utf-8")
+
+
 def build_post_pages(
     lang: str,
     lang_dir: Path,
@@ -236,6 +284,7 @@ def build_lang(
     lang_posts: list[Post] = [p for p in posts if p["lang"] == lang]
     build_post_pages(lang, lang_dir, lang_posts, translations, template)
     build_index_page(lang, lang_dir, lang_posts, template)
+    build_feed(lang, lang_dir, lang_posts)
 
 
 def build_root_redirect() -> None:

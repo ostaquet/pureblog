@@ -26,6 +26,8 @@ Posts support an optional `excerpt` field in YAML frontmatter. When present, it 
 
 Reading time is automatically calculated from the post body word count (200 wpm, minimum 1 minute) and displayed on both post and index pages with localized labels (`READING_TIME_LABELS`).
 
+Per-language RSS 2.0 feeds are generated at `build/{lang}/feed.xml`. The `SITE_URL` constant defines the base URL used in feed links (default: `https://example.com`). All HTML pages include an RSS autodiscovery `<link>` tag.
+
 ## Test-Driven Development
 
 ## Tasks & agents
