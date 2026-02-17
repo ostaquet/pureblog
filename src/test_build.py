@@ -140,14 +140,47 @@ Body text.
     assert result["excerpt"] == ""
 
 
+# --- estimate_reading_time tests ---
+
+
+def test_estimate_reading_time_short() -> None:
+    short_text: str = "Hello world this is a short text."
+    assert build.estimate_reading_time(short_text) == 1
+
+
+def test_estimate_reading_time_long() -> None:
+    long_text: str = "word " * 400
+    assert build.estimate_reading_time(long_text) == 2
+
+
+# --- format_reading_time tests ---
+
+
+def test_format_reading_time() -> None:
+    assert build.format_reading_time(2, "en") == "2 min read"
+    assert build.format_reading_time(3, "fr") == "3 min de lecture"
+    assert build.format_reading_time(1, "nl") == "1 min leestijd"
+
+
+# --- parse_post reading_time test ---
+
+
+def test_parse_post_includes_reading_time(tmp_path: Path) -> None:
+    md_file: Path = tmp_path / "001-test-post.en.md"
+    md_file.write_text(SAMPLE_POST)
+    result: build.Post = build.parse_post(md_file)
+    assert "reading_time" in result
+    assert result["reading_time"] >= 1
+
+
 # --- group_translations tests ---
 
 
 def test_group_translations() -> None:
     posts: list[build.Post] = [
-        {"title": "A", "date": "2026-01-01", "excerpt": "", "post_id": "001", "slug": "a", "lang": "en", "html": ""},
-        {"title": "A", "date": "2026-01-01", "excerpt": "", "post_id": "001", "slug": "a-fr", "lang": "fr", "html": ""},
-        {"title": "B", "date": "2026-01-02", "excerpt": "", "post_id": "002", "slug": "b", "lang": "en", "html": ""},
+        {"title": "A", "date": "2026-01-01", "excerpt": "", "reading_time": 1, "post_id": "001", "slug": "a", "lang": "en", "html": ""},
+        {"title": "A", "date": "2026-01-01", "excerpt": "", "reading_time": 1, "post_id": "001", "slug": "a-fr", "lang": "fr", "html": ""},
+        {"title": "B", "date": "2026-01-02", "excerpt": "", "reading_time": 1, "post_id": "002", "slug": "b", "lang": "en", "html": ""},
     ]
     groups: dict[str, dict[str, build.Post]] = build.group_translations(posts)
     assert "001" in groups
@@ -399,3 +432,56 @@ def test_build_post_page_has_meta_description(
 
     index_html: str = (build_dir / "en" / "index.html").read_text()
     assert '<meta name="description" content="">' in index_html
+
+
+# --- Reading time integration tests ---
+
+
+def test_build_post_page_shows_reading_time(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text="$content",
+    )
+
+    build.build_site()
+
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert "min read" in post_html
+    assert 'class="reading-time"' in post_html
+
+
+def test_build_post_page_shows_localized_reading_time(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-bonjour.fr.md": SAMPLE_POST_FR},
+        template_text="$content",
+    )
+
+    build.build_site()
+
+    fr_html: str = (build_dir / "fr" / "bonjour" / "index.html").read_text()
+    assert "min de lecture" in fr_html
+
+
+def test_build_index_shows_reading_time(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text="$content",
+    )
+
+    build.build_site()
+
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert "min read" in index_html
+    assert 'class="reading-time"' in index_html

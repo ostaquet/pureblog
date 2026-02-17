@@ -7,6 +7,8 @@ from pathlib import Path
 from string import Template
 from typing import Any, TypedDict
 
+import math
+
 import markdown
 import yaml
 
@@ -17,16 +19,34 @@ TEMPLATE_FILE: Path = SRC_DIR / "template.html"
 STYLE_FILE: Path = SRC_DIR / "style.css"
 SITE_TITLE: str = "Olivier's Blog"
 LANGUAGES: list[str] = ["en", "fr", "nl"]
+READING_TIME_LABELS: dict[str, str] = {
+    "en": "min read",
+    "fr": "min de lecture",
+    "nl": "min leestijd",
+}
 
 
 class Post(TypedDict):
     title: str
     date: str
     excerpt: str
+    reading_time: int
     post_id: str
     slug: str
     lang: str
     html: str
+
+
+def estimate_reading_time(text: str) -> int:
+    """Estimate reading time in minutes from raw markdown text."""
+    word_count: int = len(text.split())
+    return max(1, math.ceil(word_count / 200))
+
+
+def format_reading_time(minutes: int, lang: str) -> str:
+    """Return localized reading time string, e.g. '2 min read'."""
+    label: str = READING_TIME_LABELS[lang]
+    return f"{minutes} {label}"
 
 
 def split_stem(stem: str) -> tuple[str, str, str]:
@@ -69,6 +89,7 @@ def parse_post(filepath: Path) -> Post:
         "title": metadata["title"],
         "date": str(metadata["date"]),
         "excerpt": metadata.get("excerpt", ""),
+        "reading_time": estimate_reading_time(body),
         "post_id": post_id,
         "slug": slug,
         "lang": lang,
@@ -142,6 +163,9 @@ def build_post_pages(
             ),
         )
         back_label: str = "\u2190 Back"
+        reading_time_str: str = format_reading_time(
+            post["reading_time"], lang
+        )
         page: str = template.substitute(
             title=post["title"],
             lang=lang,
@@ -150,6 +174,7 @@ def build_post_pages(
             content=(
                 f'<a href="../" class="back-link">{back_label}</a>'
                 f'<article><time>{post["date"]}</time>'
+                f'<span class="reading-time">{reading_time_str}</span>'
                 f'<h2>{post["title"]}</h2>'
                 f'{post["html"]}</article>'
             ),
@@ -176,9 +201,13 @@ def build_index_page(
         excerpt_html: str = (
             f'<p class="excerpt">{post["excerpt"]}</p>' if post["excerpt"] else ""
         )
+        reading_time_str: str = format_reading_time(
+            post["reading_time"], lang
+        )
         items.append(
             f"<article>"
             f'<time>{post["date"]}</time>'
+            f'<span class="reading-time">{reading_time_str}</span>'
             f'<a href="{post["slug"]}/">{post["title"]}</a>'
             f"{excerpt_html}"
             f"</article>"

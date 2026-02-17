@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Estimated reading time displayed on post pages and index pages, localized for en/fr/nl ([.claude/tasks/todo/0010-add-estimated-reading-time.md])
 - Post excerpts displayed on index page and as `<meta name="description">` for SEO ([.claude/tasks/todo/0009-add-excerpt.md])
 - Clean editorial blog design with Lora serif web font ([.claude/tasks/done/0008-improve-blog-design.md])
 - "Back" navigation link on post pages ([.claude/tasks/done/0008-improve-blog-design.md])

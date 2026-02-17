@@ -24,6 +24,8 @@ The blog supports three languages: English (`en`), French (`fr`), and Dutch (`nl
 
 Posts support an optional `excerpt` field in YAML frontmatter. When present, it is displayed on the index page below the post title and injected as a `<meta name="description">` tag on the post page for SEO.
 
+Reading time is automatically calculated from the post body word count (200 wpm, minimum 1 minute) and displayed on both post and index pages with localized labels (`READING_TIME_LABELS`).
+
 ## Test-Driven Development
 
 ## Tasks & agents
