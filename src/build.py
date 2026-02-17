@@ -238,9 +238,12 @@ def build_post_pages(
             description=build_post_description(post),
             content=(
                 f'<a href="../" class="back-link">{back_label}</a>'
-                f'<article><time>{post["date"]}</time>'
+                f"<article>"
+                f'<h1>{post["title"]}</h1>'
+                f'<div class="meta">'
+                f'<time>{post["date"]}</time>'
                 f'<span class="reading-time">{reading_time_str}</span>'
-                f'<h2>{post["title"]}</h2>'
+                f"</div>"
                 f'{post["html"]}</article>'
             ),
             root="../..",

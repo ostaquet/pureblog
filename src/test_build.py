@@ -365,6 +365,27 @@ def test_build_post_page_has_back_link(
     assert 'href="../"' in post_html
 
 
+def test_build_post_page_article_structure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text="$content",
+    )
+
+    build.build_site()
+
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert "<h1>Test Post</h1>" in post_html
+    assert '<div class="meta">' in post_html
+    pos_title: int = post_html.index("<h1>")
+    pos_meta: int = post_html.index('<div class="meta">')
+    pos_content: int = post_html.index("<strong>test</strong>")
+    assert pos_title < pos_meta < pos_content
+
+
 def test_build_index_article_structure(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
