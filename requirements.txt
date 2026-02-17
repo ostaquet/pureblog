@@ -1,3 +1,5 @@
 markdown
 pyyaml
 pytest
+types-Markdown
+types-PyYAML
