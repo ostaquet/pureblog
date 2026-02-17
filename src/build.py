@@ -30,6 +30,11 @@ READING_TIME_LABELS: dict[str, str] = {
     "fr": "min de lecture",
     "nl": "min leestijd",
 }
+BACK_LABELS: dict[str, str] = {
+    "en": "\u2190 Back",
+    "fr": "\u2190 Retour",
+    "nl": "\u2190 Terug",
+}
 
 
 class Post(TypedDict):
@@ -227,7 +232,7 @@ def build_post_pages(
                 else f"../../{other_lang}/{s}/"
             ),
         )
-        back_label: str = "\u2190 Back"
+        back_label: str = BACK_LABELS[lang]
         reading_time_str: str = format_reading_time(
             post["reading_time"], lang
         )

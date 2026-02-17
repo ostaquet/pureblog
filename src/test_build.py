@@ -365,6 +365,25 @@ def test_build_post_page_has_back_link(
     assert 'href="../"' in post_html
 
 
+def test_build_post_page_back_link_localized(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST, "001-bonjour.fr.md": SAMPLE_POST_FR},
+        template_text="$lang_switcher $title $description $content",
+    )
+
+    build.build_site()
+
+    en_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert "Back" in en_html
+
+    fr_html: str = (build_dir / "fr" / "bonjour" / "index.html").read_text()
+    assert "Retour" in fr_html
+
+
 def test_build_post_page_article_structure(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
