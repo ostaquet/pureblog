@@ -63,18 +63,96 @@ def _setup_site(
     return build_dir
 
 
-# --- Existing tests (updated for multi-language) ---
+# --- split_stem tests ---
+
+
+def test_split_stem_valid() -> None:
+    post_id: str
+    slug: str
+    lang: str
+    post_id, slug, lang = build.split_stem("001-hello-world.en")
+    assert post_id == "001"
+    assert slug == "hello-world"
+    assert lang == "en"
+
+
+def test_split_stem_slug_with_hyphens() -> None:
+    post_id: str
+    slug: str
+    lang: str
+    post_id, slug, lang = build.split_stem("001-bonjour-le-monde.fr")
+    assert post_id == "001"
+    assert slug == "bonjour-le-monde"
+    assert lang == "fr"
+
+
+def test_split_stem_invalid_no_lang() -> None:
+    with pytest.raises(ValueError, match="No language suffix"):
+        build.split_stem("001-no-lang")
+
+
+def test_split_stem_invalid_unknown_lang() -> None:
+    with pytest.raises(ValueError, match="Unknown language"):
+        build.split_stem("001-hello.de")
+
+
+def test_split_stem_no_prefix() -> None:
+    with pytest.raises(ValueError, match="Non-numeric prefix"):
+        build.split_stem("hello-world.en")
+
+
+def test_split_stem_non_numeric_prefix() -> None:
+    with pytest.raises(ValueError, match="Non-numeric prefix"):
+        build.split_stem("abc-hello.en")
+
+
+# --- parse_post tests ---
 
 
 def test_parse_post(tmp_path: Path) -> None:
-    md_file: Path = tmp_path / "test-post.en.md"
+    md_file: Path = tmp_path / "001-test-post.en.md"
     md_file.write_text(SAMPLE_POST)
     result: build.Post = build.parse_post(md_file)
     assert result["title"] == "Test Post"
     assert result["date"] == "2026-01-15"
+    assert result["post_id"] == "001"
     assert result["slug"] == "test-post"
     assert result["lang"] == "en"
     assert "<strong>test</strong>" in result["html"]
+
+
+# --- group_translations tests ---
+
+
+def test_group_translations() -> None:
+    posts: list[build.Post] = [
+        {"title": "A", "date": "2026-01-01", "post_id": "001", "slug": "a", "lang": "en", "html": ""},
+        {"title": "A", "date": "2026-01-01", "post_id": "001", "slug": "a-fr", "lang": "fr", "html": ""},
+        {"title": "B", "date": "2026-01-02", "post_id": "002", "slug": "b", "lang": "en", "html": ""},
+    ]
+    groups: dict[str, dict[str, build.Post]] = build.group_translations(posts)
+    assert "001" in groups
+    assert "en" in groups["001"]
+    assert "fr" in groups["001"]
+    assert "002" in groups
+    assert "en" in groups["002"]
+    assert "fr" not in groups["002"]
+
+
+# --- render_lang_switcher tests ---
+
+
+def test_render_lang_switcher() -> None:
+    html: str = build.render_lang_switcher(
+        "en", ["en", "fr", "nl"], lambda lang: f"../{lang}/"
+    )
+    assert "<span>en</span>" in html
+    assert '<a href="../fr/">fr</a>' in html
+    assert '<a href="../nl/">nl</a>' in html
+    assert "lang-switcher" in html
+
+
+# --- Integration tests ---
 
 
 def test_build_creates_index_and_post_pages(
@@ -83,7 +161,7 @@ def test_build_creates_index_and_post_pages(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"first.en.md": SAMPLE_POST, "second.en.md": SAMPLE_POST_2},
+        {"001-first.en.md": SAMPLE_POST, "002-second.en.md": SAMPLE_POST_2},
     )
 
     build.build_site()
@@ -100,7 +178,7 @@ def test_build_index_lists_posts_newest_first(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"first.en.md": SAMPLE_POST, "second.en.md": SAMPLE_POST_2},
+        {"001-first.en.md": SAMPLE_POST, "002-second.en.md": SAMPLE_POST_2},
         template_text="$lang $lang_switcher $content",
     )
 
@@ -118,7 +196,7 @@ def test_build_post_page_contains_content(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"hello.en.md": SAMPLE_POST},
+        {"001-hello.en.md": SAMPLE_POST},
         template_text="$lang $lang_switcher $title $content",
     )
 
@@ -135,7 +213,7 @@ def test_build_cleans_previous_build(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"hello.en.md": SAMPLE_POST},
+        {"001-hello.en.md": SAMPLE_POST},
         template_text="$lang $lang_switcher $content",
     )
     build_dir.mkdir()
@@ -147,65 +225,19 @@ def test_build_cleans_previous_build(
     assert not stale_file.exists()
 
 
-# --- New tests for multi-language support ---
-
-
-def test_split_stem_valid() -> None:
-    slug: str
-    lang: str
-    slug, lang = build.split_stem("hello-world.en")
-    assert slug == "hello-world"
-    assert lang == "en"
-
-
-def test_split_stem_invalid_no_lang() -> None:
-    with pytest.raises(ValueError, match="No language suffix"):
-        build.split_stem("no-lang")
-
-
-def test_split_stem_invalid_unknown_lang() -> None:
-    with pytest.raises(ValueError, match="Unknown language"):
-        build.split_stem("hello.de")
-
-
-def test_group_translations() -> None:
-    posts: list[build.Post] = [
-        {"title": "A", "date": "2026-01-01", "slug": "a", "lang": "en", "html": ""},
-        {"title": "A", "date": "2026-01-01", "slug": "a", "lang": "fr", "html": ""},
-        {"title": "B", "date": "2026-01-02", "slug": "b", "lang": "en", "html": ""},
-    ]
-    groups: dict[str, dict[str, build.Post]] = build.group_translations(posts)
-    assert "a" in groups
-    assert "en" in groups["a"]
-    assert "fr" in groups["a"]
-    assert "b" in groups
-    assert "en" in groups["b"]
-    assert "fr" not in groups["b"]
-
-
-def test_render_lang_switcher() -> None:
-    html: str = build.render_lang_switcher(
-        "en", ["en", "fr", "nl"], lambda lang: f"../{lang}/"
-    )
-    assert "<span>en</span>" in html
-    assert '<a href="../fr/">fr</a>' in html
-    assert '<a href="../nl/">nl</a>' in html
-    assert "lang-switcher" in html
-
-
 def test_build_multilang_creates_per_lang_dirs(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"hello.en.md": SAMPLE_POST, "hello.fr.md": SAMPLE_POST_FR},
+        {"001-hello.en.md": SAMPLE_POST, "001-bonjour.fr.md": SAMPLE_POST_FR},
     )
 
     build.build_site()
 
     assert (build_dir / "en" / "hello" / "index.html").exists()
-    assert (build_dir / "fr" / "hello" / "index.html").exists()
+    assert (build_dir / "fr" / "bonjour" / "index.html").exists()
     assert (build_dir / "nl" / "index.html").exists()
 
 
@@ -215,7 +247,7 @@ def test_build_root_redirect(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"hello.en.md": SAMPLE_POST},
+        {"001-hello.en.md": SAMPLE_POST},
     )
 
     build.build_site()
@@ -231,15 +263,20 @@ def test_build_lang_switcher_on_post_page(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"hello.en.md": SAMPLE_POST, "hello.fr.md": SAMPLE_POST_FR},
+        {"001-hello.en.md": SAMPLE_POST, "001-bonjour.fr.md": SAMPLE_POST_FR},
     )
 
     build.build_site()
 
-    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
-    assert "<span>en</span>" in post_html
-    assert '../../fr/hello/' in post_html
-    assert '../../nl/hello/' in post_html
+    en_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert "<span>en</span>" in en_html
+    assert "../../fr/bonjour/" in en_html
+    assert "../../nl/hello/" in en_html
+
+    fr_html: str = (build_dir / "fr" / "bonjour" / "index.html").read_text()
+    assert "<span>fr</span>" in fr_html
+    assert "../../en/hello/" in fr_html
+    assert "../../nl/bonjour/" in fr_html
 
 
 def test_build_lang_switcher_on_index_page(
@@ -248,7 +285,7 @@ def test_build_lang_switcher_on_index_page(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"hello.en.md": SAMPLE_POST},
+        {"001-hello.en.md": SAMPLE_POST},
     )
 
     build.build_site()
@@ -265,7 +302,7 @@ def test_build_html_lang_attribute(
     build_dir: Path = _setup_site(
         tmp_path,
         monkeypatch,
-        {"hello.fr.md": SAMPLE_POST_FR},
+        {"001-hello.fr.md": SAMPLE_POST_FR},
         template_text='<html lang="$lang">$lang_switcher $title $content $root</html>',
     )
 

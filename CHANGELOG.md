@@ -13,10 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Language switcher navigation on all pages ([.claude/tasks/done/0006-multi-language-support.md])
 - Root redirect from `/` to `/en/` ([.claude/tasks/done/0006-multi-language-support.md])
 - Per-language URL structure: `/{lang}/{slug}/` ([.claude/tasks/done/0006-multi-language-support.md])
+- Per-language SEO-friendly slugs via numeric filename prefix ([.claude/tasks/todo/0007-improve-multi-language-seo.md])
 
 ### Changed
 
-- Post filenames now use `{slug}.{lang}.md` convention (e.g. `hello-world.en.md`) ([.claude/tasks/done/0006-multi-language-support.md])
+- Post filenames now use `{prefix}-{slug}.{lang}.md` convention with numeric prefix linking translations (e.g. `001-hello-world.en.md` and `001-bonjour-le-monde.fr.md`) ([.claude/tasks/todo/0007-improve-multi-language-seo.md])
+- Language switcher on post pages links to the correct per-language slug for each translation ([.claude/tasks/todo/0007-improve-multi-language-seo.md])
 - `build.py` decomposed into smaller functions: `prepare_build_dir`, `load_posts`, `build_lang`, `build_post_pages`, `build_index_page`, `build_root_redirect` ([.claude/tasks/done/0006-multi-language-support.md])
 - Template uses `$lang` and `$lang_switcher` placeholders ([.claude/tasks/done/0006-multi-language-support.md])
 

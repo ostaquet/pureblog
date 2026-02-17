@@ -20,7 +20,7 @@ Source code lives in the `src/` folder (`build.py`, `template.html`, `style.css`
 
 ### Multi-language support
 
-The blog supports three languages: English (`en`), French (`fr`), and Dutch (`nl`), defined in `LANGUAGES` in `build.py`. Posts use the naming convention `{slug}.{lang}.md` (e.g. `hello-world.en.md`). The build produces `build/{lang}/{slug}/index.html` per post, `build/{lang}/index.html` per language index, and a root `build/index.html` that redirects to `/en/`. A language switcher nav appears on every page.
+The blog supports three languages: English (`en`), French (`fr`), and Dutch (`nl`), defined in `LANGUAGES` in `build.py`. Posts use the naming convention `{prefix}-{slug}.{lang}.md` (e.g. `001-hello-world.en.md`). The numeric prefix links translations together, allowing each language to have its own SEO-friendly slug (e.g. `001-hello-world.en.md` and `001-bonjour-le-monde.fr.md`). The build produces `build/{lang}/{slug}/index.html` per post, `build/{lang}/index.html` per language index, and a root `build/index.html` that redirects to `/en/`. A language switcher nav appears on every page, linking to the correct per-language slug.
 
 ## Test-Driven Development
 

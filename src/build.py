@@ -22,21 +22,34 @@ LANGUAGES: list[str] = ["en", "fr", "nl"]
 class Post(TypedDict):
     title: str
     date: str
+    post_id: str
     slug: str
     lang: str
     html: str
 
 
-def split_stem(stem: str) -> tuple[str, str]:
-    """Extract slug and lang from a filename stem like 'hello-world.en'."""
+def split_stem(stem: str) -> tuple[str, str, str]:
+    """Extract post_id, slug, and lang from a stem like '001-hello-world.en'.
+
+    Returns (post_id, slug, lang).
+    """
     dot_index: int = stem.rfind(".")
     if dot_index == -1:
         raise ValueError(f"No language suffix in stem: {stem!r}")
-    slug: str = stem[:dot_index]
+    prefix_slug: str = stem[:dot_index]
     lang: str = stem[dot_index + 1 :]
     if lang not in LANGUAGES:
         raise ValueError(f"Unknown language {lang!r} in stem: {stem!r}")
-    return slug, lang
+    dash_index: int = prefix_slug.find("-")
+    if dash_index == -1:
+        raise ValueError(f"No prefix-slug separator in stem: {stem!r}")
+    post_id: str = prefix_slug[:dash_index]
+    slug: str = prefix_slug[dash_index + 1 :]
+    if not post_id.isdigit():
+        raise ValueError(f"Non-numeric prefix {post_id!r} in stem: {stem!r}")
+    if not slug:
+        raise ValueError(f"Empty slug in stem: {stem!r}")
+    return post_id, slug, lang
 
 
 def parse_post(filepath: Path) -> Post:
@@ -47,12 +60,14 @@ def parse_post(filepath: Path) -> Post:
     body: str = parts[2]
     metadata: dict[str, Any] = yaml.safe_load(frontmatter)
     content: str = markdown.markdown(body, extensions=["fenced_code"])
+    post_id: str
     slug: str
     lang: str
-    slug, lang = split_stem(filepath.stem)
+    post_id, slug, lang = split_stem(filepath.stem)
     return {
         "title": metadata["title"],
         "date": str(metadata["date"]),
+        "post_id": post_id,
         "slug": slug,
         "lang": lang,
         "html": content,
@@ -60,13 +75,13 @@ def parse_post(filepath: Path) -> Post:
 
 
 def group_translations(posts: list[Post]) -> dict[str, dict[str, Post]]:
-    """Group posts by slug, then by lang. Returns {slug: {lang: Post}}."""
+    """Group posts by post_id, then by lang. Returns {post_id: {lang: Post}}."""
     groups: dict[str, dict[str, Post]] = {}
     for post in posts:
-        slug: str = post["slug"]
-        if slug not in groups:
-            groups[slug] = {}
-        groups[slug][post["lang"]] = post
+        post_id: str = post["post_id"]
+        if post_id not in groups:
+            groups[post_id] = {}
+        groups[post_id][post["lang"]] = post
     return groups
 
 
@@ -111,12 +126,18 @@ def build_post_pages(
     available_langs: list[str] = LANGUAGES
     for post in lang_posts:
         slug: str = post["slug"]
+        post_id: str = post["post_id"]
         post_dir: Path = lang_dir / slug
         post_dir.mkdir(parents=True)
+        sibling_posts: dict[str, Post] = translations.get(post_id, {})
         switcher: str = render_lang_switcher(
             lang,
             available_langs,
-            lambda other_lang, s=slug: f"../../{other_lang}/{s}/",
+            lambda other_lang, sp=sibling_posts, s=slug: (
+                f"../../{other_lang}/{sp[other_lang]['slug']}/"
+                if other_lang in sp
+                else f"../../{other_lang}/{s}/"
+            ),
         )
         page: str = template.substitute(
             title=post["title"],

@@ -13,7 +13,7 @@ make clean    # Remove the build directory and virtual environments
 
 ## Writing posts
 
-Create a Markdown file in `posts/` named `{slug}.{lang}.md` where `{lang}` is one of `en`, `fr`, or `nl`:
+Create a Markdown file in `posts/` named `{prefix}-{slug}.{lang}.md` where `{prefix}` is a numeric ID linking translations together, `{slug}` is the URL-friendly name, and `{lang}` is one of `en`, `fr`, or `nl`:
 
 ```markdown
 ---
@@ -24,9 +24,9 @@ date: 2026-02-16
 Your content here.
 ```
 
-For example, `hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation, create `hello-world.fr.md`.
+For example, `001-hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation with its own SEO-friendly slug, create `001-bonjour-le-monde.fr.md` (same prefix `001` links the translations). The French version will be served at `/fr/bonjour-le-monde/`.
 
-The site builds a per-language index at `/{lang}/` and a root page that redirects to `/en/`. A language switcher appears on every page, linking to available translations.
+The site builds a per-language index at `/{lang}/` and a root page that redirects to `/en/`. A language switcher appears on every page, linking to the correct per-language slug for each translation.
 
 Run `make build` to generate the static site in `build/`.
 
