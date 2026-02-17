@@ -139,11 +139,13 @@ def build_post_pages(
                 else f"../../{other_lang}/{s}/"
             ),
         )
+        back_label: str = "\u2190 Back"
         page: str = template.substitute(
             title=post["title"],
             lang=lang,
             lang_switcher=switcher,
             content=(
+                f'<a href="../" class="back-link">{back_label}</a>'
                 f'<article><time>{post["date"]}</time>'
                 f'<h2>{post["title"]}</h2>'
                 f'{post["html"]}</article>'
@@ -169,8 +171,10 @@ def build_index_page(
     items: list[str] = []
     for post in lang_posts:
         items.append(
-            f'<article><time>{post["date"]}</time> '
-            f'<a href="{post["slug"]}/">{post["title"]}</a></article>'
+            f"<article>"
+            f'<time>{post["date"]}</time>'
+            f'<a href="{post["slug"]}/">{post["title"]}</a>'
+            f"</article>"
         )
     index_content: str = "\n".join(items)
     page: str = template.substitute(

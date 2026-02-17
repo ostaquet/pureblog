@@ -296,6 +296,41 @@ def test_build_lang_switcher_on_index_page(
     assert '../nl/' in index_html
 
 
+def test_build_post_page_has_back_link(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text="$lang $lang_switcher $title $content",
+    )
+
+    build.build_site()
+
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert 'class="back-link"' in post_html
+    assert 'href="../"' in post_html
+
+
+def test_build_index_article_structure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text="$content",
+    )
+
+    build.build_site()
+
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert "<article>" in index_html
+    assert "<time>" in index_html
+    assert 'href="hello/">' in index_html
+
+
 def test_build_html_lang_attribute(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

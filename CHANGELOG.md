@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Clean editorial blog design with Lora serif web font ([.claude/tasks/done/0008-improve-blog-design.md])
+- "Back" navigation link on post pages ([.claude/tasks/done/0008-improve-blog-design.md])
+
+### Changed
+
+- Redesigned CSS with editorial typography, refined color palette (`#1a1a1a` text, `#2c5282` accent), improved spacing and layout ([.claude/tasks/done/0008-improve-blog-design.md])
+- Language switcher styled with uppercase labels and active language emphasis ([.claude/tasks/done/0008-improve-blog-design.md])
+- Index page articles now display date above title for cleaner visual hierarchy ([.claude/tasks/done/0008-improve-blog-design.md])
+- Code blocks and blockquotes refined with subtle backgrounds and borders ([.claude/tasks/done/0008-improve-blog-design.md])
+
+### Added
+
 - Multi-language support for English (`en`), French (`fr`), and Dutch (`nl`) ([.claude/tasks/done/0006-multi-language-support.md])
 - Language switcher navigation on all pages ([.claude/tasks/done/0006-multi-language-support.md])
 - Root redirect from `/` to `/en/` ([.claude/tasks/done/0006-multi-language-support.md])
