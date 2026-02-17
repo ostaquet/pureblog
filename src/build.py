@@ -270,9 +270,11 @@ def build_index_page(
         )
         items.append(
             f"<article>"
+            f'<a href="{post["slug"]}/">{post["title"]}</a>'
+            f'<div class="meta">'
             f'<time>{post["date"]}</time>'
             f'<span class="reading-time">{reading_time_str}</span>'
-            f'<a href="{post["slug"]}/">{post["title"]}</a>'
+            f"</div>"
             f"{excerpt_html}"
             f"</article>"
         )

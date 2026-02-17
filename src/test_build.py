@@ -381,6 +381,11 @@ def test_build_index_article_structure(
     assert "<article>" in index_html
     assert "<time>" in index_html
     assert 'href="hello/">' in index_html
+    assert '<div class="meta">' in index_html
+    pos_title: int = index_html.index('href="hello/">')
+    pos_date: int = index_html.index("<time>")
+    pos_excerpt: int = index_html.index("excerpt")
+    assert pos_title < pos_date < pos_excerpt
 
 
 def test_build_html_lang_attribute(

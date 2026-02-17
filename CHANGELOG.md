@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Index page layout: title on first line, date and reading time on second, excerpt on third ([.claude/tasks/todo/0016-improve-design-of-index.md])
 - Redesigned CSS with editorial typography, refined color palette (`#1a1a1a` text, `#2c5282` accent), improved spacing and layout ([.claude/tasks/done/0008-improve-blog-design.md])
 - Language switcher styled with uppercase labels and active language emphasis ([.claude/tasks/done/0008-improve-blog-design.md])
 - Index page articles now display date above title for cleaner visual hierarchy ([.claude/tasks/done/0008-improve-blog-design.md])
