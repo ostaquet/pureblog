@@ -5,59 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0]
 
 ### Added
 
-- RSS feed dates use Europe/Brussels timezone with 13:00 default publish time ([.claude/tasks/todo/0015-publishing-date-and-hour.md])
-- Index page shows fallback description (first 200 chars) when no excerpt is set ([.claude/tasks/todo/0014-fallback-if-excerpt-not-set-on-index.md])
-- SEO meta description falls back to first 200 characters of post body when no excerpt is set ([.claude/tasks/todo/0013-fallback-if-excerpt-not-set.md])
-- RSS feed description uses post excerpt, with fallback to first 200 characters of plain text ([.claude/tasks/todo/0012-rss-feed-with-excerpt.md])
-- Per-language RSS 2.0 feeds at `/{lang}/feed.xml` with RSS autodiscovery `<link>` in all HTML pages ([.claude/tasks/todo/0011-add-rss-feeds.md])
-- Estimated reading time displayed on post pages and index pages, localized for en/fr/nl ([.claude/tasks/todo/0010-add-estimated-reading-time.md])
-- Post excerpts displayed on index page and as `<meta name="description">` for SEO ([.claude/tasks/todo/0009-add-excerpt.md])
-- Clean editorial blog design with Lora serif web font ([.claude/tasks/done/0008-improve-blog-design.md])
-- "Back" navigation link on post pages ([.claude/tasks/done/0008-improve-blog-design.md])
+- RSS feed dates use Europe/Brussels timezone with 13:00 default publish time (*0015-publishing-date-and-hour*)
+- Index page shows fallback description (first 200 chars) when no excerpt is set (*0014-fallback-if-excerpt-not-set-on-index*)
+- SEO meta description falls back to first 200 characters of post body when no excerpt is set (*0013-fallback-if-excerpt-not-set*)
+- RSS feed description uses post excerpt, with fallback to first 200 characters of plain text (*0012-rss-feed-with-excerpt*)
+- Per-language RSS 2.0 feeds at `/{lang}/feed.xml` with RSS autodiscovery `<link>` in all HTML pages (*0011-add-rss-feeds*)
+- Estimated reading time displayed on post pages and index pages, localized for en/fr/nl (*0010-add-estimated-reading-time*)
+- Post excerpts displayed on index page and as `<meta name="description">` for SEO (*0009-add-excerpt*)
+- Clean editorial blog design with Lora serif web font (*0008-improve-blog-design*)
+- "Back" navigation link on post pages (*0008-improve-blog-design*)
+- Multi-language support for English (`en`), French (`fr`), and Dutch (`nl`) (*0006-multi-language-support*)
+- Language switcher navigation on all pages (*0006-multi-language-support*)
+- Root redirect from `/` to `/en/` (*0006-multi-language-support*)
+- Per-language URL structure: `/{lang}/{slug}/` (*0006-multi-language-support*)
+- Per-language SEO-friendly slugs via numeric filename prefix (*0007-improve-multi-language-seo*)
 
 ### Changed
 
-- Post page layout: h1 title first, then date + reading time in meta div, then content ([.claude/tasks/todo/0017-improve-design-of-post.md])
-- Index page layout: title on first line, date and reading time on second, excerpt on third ([.claude/tasks/todo/0016-improve-design-of-index.md])
-- Redesigned CSS with editorial typography, refined color palette (`#1a1a1a` text, `#2c5282` accent), improved spacing and layout ([.claude/tasks/done/0008-improve-blog-design.md])
-- Language switcher styled with uppercase labels and active language emphasis ([.claude/tasks/done/0008-improve-blog-design.md])
-- Index page articles now display date above title for cleaner visual hierarchy ([.claude/tasks/done/0008-improve-blog-design.md])
-- Code blocks and blockquotes refined with subtle backgrounds and borders ([.claude/tasks/done/0008-improve-blog-design.md])
+- Post page layout: h1 title first, then date + reading time in meta div, then content (*0017-improve-design-of-post*)
+- Index page layout: title on first line, date and reading time on second, excerpt on third (*0016-improve-design-of-index*)
+- Redesigned CSS with editorial typography, refined color palette (`#1a1a1a` text, `#2c5282` accent), improved spacing and layout (*0008-improve-blog-design*)
+- Language switcher styled with uppercase labels and active language emphasis (*0008-improve-blog-design*)
+- Index page articles now display date above title for cleaner visual hierarchy (*0008-improve-blog-design*)
+- Code blocks and blockquotes refined with subtle backgrounds and borders (*0008-improve-blog-design*)
+- Post filenames now use `{prefix}-{slug}.{lang}.md` convention with numeric prefix linking translations (e.g. `001-hello-world.en.md` and `001-bonjour-le-monde.fr.md`) (*0007-improve-multi-language-seo*)
+- Language switcher on post pages links to the correct per-language slug for each translation (*0007-improve-multi-language-seo*)
+- `build.py` decomposed into smaller functions: `prepare_build_dir`, `load_posts`, `build_lang`, `build_post_pages`, `build_index_page`, `build_root_redirect` (*0006-multi-language-support*)
+- Template uses `$lang` and `$lang_switcher` placeholders (*0006-multi-language-support*)
+
+## [0.0.1]
 
 ### Added
 
-- Multi-language support for English (`en`), French (`fr`), and Dutch (`nl`) ([.claude/tasks/done/0006-multi-language-support.md])
-- Language switcher navigation on all pages ([.claude/tasks/done/0006-multi-language-support.md])
-- Root redirect from `/` to `/en/` ([.claude/tasks/done/0006-multi-language-support.md])
-- Per-language URL structure: `/{lang}/{slug}/` ([.claude/tasks/done/0006-multi-language-support.md])
-- Per-language SEO-friendly slugs via numeric filename prefix ([.claude/tasks/todo/0007-improve-multi-language-seo.md])
+- Minimal blog engine: Python build script converting Markdown posts to static HTML (*0000-base-of-the-blog*)
+- Single HTML template with clean URL structure (`/post-slug/`) (*0000-base-of-the-blog*)
+- Minimal CSS stylesheet with responsive design (*0000-base-of-the-blog*)
+- Makefile with `install`, `build`, `serve`, and `clean` targets (*0000-base-of-the-blog*)
+- Sample "Hello World" post demonstrating frontmatter format (*0000-base-of-the-blog*)
+- Separate Python virtual environments for Docker (`.venv_docker`) and local (`.venv_local`) to avoid cross-architecture conflicts (*0004-improve-makefile*)
 
 ### Changed
 
-- Post filenames now use `{prefix}-{slug}.{lang}.md` convention with numeric prefix linking translations (e.g. `001-hello-world.en.md` and `001-bonjour-le-monde.fr.md`) ([.claude/tasks/todo/0007-improve-multi-language-seo.md])
-- Language switcher on post pages links to the correct per-language slug for each translation ([.claude/tasks/todo/0007-improve-multi-language-seo.md])
-- `build.py` decomposed into smaller functions: `prepare_build_dir`, `load_posts`, `build_lang`, `build_post_pages`, `build_index_page`, `build_root_redirect` ([.claude/tasks/done/0006-multi-language-support.md])
-- Template uses `$lang` and `$lang_switcher` placeholders ([.claude/tasks/done/0006-multi-language-support.md])
-
-## [Previous]
-
-### Added
-
-- Minimal blog engine: Python build script converting Markdown posts to static HTML ([.claude/tasks/done/0000-base-of-the-blog.md]))
-- Single HTML template with clean URL structure (`/post-slug/`) ([.claude/tasks/done/0000-base-of-the-blog.md])
-- Minimal CSS stylesheet with responsive design ([.claude/tasks/done/0000-base-of-the-blog.md])
-- Makefile with `install`, `build`, `serve`, and `clean` targets ([.claude/tasks/done/0000-base-of-the-blog.md])
-- Sample "Hello World" post demonstrating frontmatter format ([.claude/tasks/done/0000-base-of-the-blog.md])
-- Separate Python virtual environments for Docker (`.venv_docker`) and local (`.venv_local`) to avoid cross-architecture conflicts ([.claude/tasks/done/0004-improve-makefile.md])
-
-### Changed
-
-- Added explicit type annotations to all functions and variables in `build.py` and `test_build.py` ([.claude/tasks/done/0005-clean-code-and-lint.md])
-- Introduced `Post` TypedDict for type-safe post data ([.claude/tasks/done/0005-clean-code-and-lint.md])
-- Renamed `build()` to `build_site()` for verb-based function naming ([.claude/tasks/done/0005-clean-code-and-lint.md])
-- Added `types-Markdown` and `types-PyYAML` stubs for Pylance compatibility ([.claude/tasks/done/0005-clean-code-and-lint.md])
-- Added Pyright `extraPaths` config in `pyproject.toml` for Pylance import resolution ([.claude/tasks/done/0005-clean-code-and-lint.md])
+- Added explicit type annotations to all functions and variables in `build.py` and `test_build.py` (*0005-clean-code-and-lint*)
+- Introduced `Post` TypedDict for type-safe post data (*0005-clean-code-and-lint*)
+- Renamed `build()` to `build_site()` for verb-based function naming (*0005-clean-code-and-lint*)
+- Added `types-Markdown` and `types-PyYAML` stubs for Pylance compatibility (*0005-clean-code-and-lint*)
+- Added Pyright `extraPaths` config in `pyproject.toml` for Pylance import resolution (*0005-clean-code-and-lint*)
