@@ -15,7 +15,7 @@ shell:
 	docker compose exec dev bash
 
 claude:
-	docker compose exec dev c
+	docker compose exec dev claude_skip_permissions
 
 restart: down up
 
