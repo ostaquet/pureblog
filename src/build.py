@@ -18,8 +18,9 @@ import yaml
 SRC_DIR: Path = Path(__file__).resolve().parent
 POSTS_DIR: Path = Path("posts")
 BUILD_DIR: Path = Path("build")
-TEMPLATE_FILE: Path = SRC_DIR / "template.html"
-STYLE_FILE: Path = SRC_DIR / "style.css"
+THEME_DIR: Path = Path("theme")
+TEMPLATE_FILE: Path = THEME_DIR / "template.html"
+STYLE_FILE: Path = THEME_DIR / "style.css"
 SITE_TITLE: str = "Olivier's Blog"
 SITE_URL: str = "https://example.com"
 LANGUAGES: list[str] = ["en", "fr", "nl"]
