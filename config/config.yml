@@ -1,0 +1,80 @@
+# =============================================================================
+# Blog engine configuration
+# =============================================================================
+# This file controls all blog-wide settings. Every field below is mandatory.
+# When the engine starts it validates this file and reports a clear error if
+# anything is missing. To use a different file, run:
+#
+#     python3 src/build.py --config path/to/your-config.yml
+#
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# General
+# -----------------------------------------------------------------------------
+# site_title : Human-readable name of the blog. Shown in <title>, RSS feed,
+#              and as default page title for the index pages.
+# site_url   : Absolute base URL of the deployed site (no trailing slash).
+#              Used for RSS <link>/<guid> elements. Update before deployment.
+# posts_dir  : Directory (relative to the project root) containing the source
+#              Markdown posts named '{prefix}-{slug}.{lang}.md'.
+# build_dir  : Directory where the static site is generated. It is wiped on
+#              every build, so do not store source files here.
+general:
+  site_title: "Olivier's Blog"
+  site_url: "https://example.com"
+  posts_dir: "posts"
+  build_dir: "build"
+
+# -----------------------------------------------------------------------------
+# Languages
+# -----------------------------------------------------------------------------
+# codes               : List of ISO language codes the blog supports. Each
+#                       post file must end with one of these codes (e.g.
+#                       '001-hello.en.md').
+# reading_time_labels : Localized suffix shown next to the reading-time number
+#                       on post and index pages (e.g. "5 min read"). Every
+#                       language listed in 'codes' must have an entry here.
+# back_labels         : Localized "back to index" link shown at the top of
+#                       each post page. Every language listed in 'codes' must
+#                       have an entry here.
+languages:
+  codes:
+    - en
+    - fr
+    - nl
+  reading_time_labels:
+    en: "min read"
+    fr: "min de lecture"
+    nl: "min leestijd"
+  back_labels:
+    en: "← Back"
+    fr: "← Retour"
+    nl: "← Terug"
+
+# -----------------------------------------------------------------------------
+# Publish
+# -----------------------------------------------------------------------------
+# default_timezone     : IANA timezone name applied to post dates when
+#                        generating RSS pubDate values. Handles DST
+#                        automatically. Examples: "Europe/Brussels", "UTC",
+#                        "America/New_York".
+# default_publish_hour : Hour-of-day (0-23) used as the publish time when a
+#                        post date has no explicit time component.
+publish:
+  default_timezone: "Europe/Brussels"
+  default_publish_hour: 13
+
+# -----------------------------------------------------------------------------
+# Theme
+# -----------------------------------------------------------------------------
+# theme_dir     : Directory containing the HTML template and CSS stylesheet.
+# template_file : Filename (inside theme_dir) of the page template. Uses
+#                 $-style placeholders: $title, $lang, $lang_switcher,
+#                 $description, $content, $root.
+# style_file    : Filename (inside theme_dir) of the CSS stylesheet. Copied
+#                 verbatim into the build directory as '/style.css'.
+theme:
+  theme_dir: "theme"
+  template_file: "template.html"
+  style_file: "style.css"

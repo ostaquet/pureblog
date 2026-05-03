@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Configuration manager: blog settings now live in `config/config.yml` (general, languages, publish, theme), loaded and validated by `src/config.py`. `build.py` accepts `--config <path>` to point at an alternative file (_0019-config-mgnt_)
+
 ### Changed
 
 - Localized back link on post pages: "Back" (en), "Retour" (fr), "Terug" (nl) (_0018-back-link-localization_)

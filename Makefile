@@ -17,7 +17,7 @@ serve: build
 	cd build && python3 -m http.server 8000
 
 test: venv
-	. $(VENV)/bin/activate; pytest src/test_build.py -v
+	. $(VENV)/bin/activate; pytest src/ -v
 
 clean:
 	rm -rf build $(VENV)

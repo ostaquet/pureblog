@@ -12,10 +12,17 @@ from pathlib import Path
 from string import Template
 from typing import Any, TypedDict
 
+import argparse
+import sys
+
 import markdown
 import yaml
 
+from config import BlogConfig, ConfigError, load_config
+
 SRC_DIR: Path = Path(__file__).resolve().parent
+DEFAULT_CONFIG_PATH: Path = Path("config/config.yml")
+
 POSTS_DIR: Path = Path("posts")
 BUILD_DIR: Path = Path("build")
 THEME_DIR: Path = Path("theme")
@@ -36,6 +43,25 @@ BACK_LABELS: dict[str, str] = {
     "fr": "\u2190 Retour",
     "nl": "\u2190 Terug",
 }
+
+
+def apply_config(cfg: BlogConfig) -> None:
+    """Apply a loaded BlogConfig to the module-level settings."""
+    global POSTS_DIR, BUILD_DIR, THEME_DIR, TEMPLATE_FILE, STYLE_FILE
+    global SITE_TITLE, SITE_URL, LANGUAGES, DEFAULT_TIMEZONE, DEFAULT_PUBLISH_HOUR
+    global READING_TIME_LABELS, BACK_LABELS
+    POSTS_DIR = cfg.posts_dir
+    BUILD_DIR = cfg.build_dir
+    THEME_DIR = cfg.theme_dir
+    TEMPLATE_FILE = cfg.template_file
+    STYLE_FILE = cfg.style_file
+    SITE_TITLE = cfg.site_title
+    SITE_URL = cfg.site_url
+    LANGUAGES = cfg.languages
+    DEFAULT_TIMEZONE = cfg.default_timezone
+    DEFAULT_PUBLISH_HOUR = cfg.default_publish_hour
+    READING_TIME_LABELS = cfg.reading_time_labels
+    BACK_LABELS = cfg.back_labels
 
 
 class Post(TypedDict):
@@ -340,5 +366,27 @@ def build_site() -> None:
     print(f"Built {len(posts)} posts -> {BUILD_DIR}/")
 
 
-if __name__ == "__main__":
+def main(argv: list[str] | None = None) -> int:
+    """CLI entrypoint. Loads configuration then builds the site."""
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(
+        description="Build the static blog site."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=DEFAULT_CONFIG_PATH,
+        help=f"Path to the configuration file (default: {DEFAULT_CONFIG_PATH}).",
+    )
+    args: argparse.Namespace = parser.parse_args(argv)
+    try:
+        cfg: BlogConfig = load_config(args.config)
+    except ConfigError as exc:
+        print(f"Configuration error: {exc}", file=sys.stderr)
+        return 1
+    apply_config(cfg)
     build_site()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

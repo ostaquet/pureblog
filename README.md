@@ -37,17 +37,39 @@ The site builds a per-language index at `/{lang}/` and a root page that redirect
 
 Each language has an RSS 2.0 feed at `/{lang}/feed.xml` (e.g. `/en/feed.xml`). All HTML pages include an RSS autodiscovery `<link>` tag so feed readers can find the feed automatically.
 
-The feed URLs use the `SITE_URL` constant in `build.py` (currently `https://example.com`). Update it to your actual domain before deploying.
+The feed URLs use the `site_url` value in `config/config.yml` (currently `https://example.com`). Update it to your actual domain before deploying.
 
 Run `make build` to generate the static site in `build/`.
+
+## Configuration
+
+All blog settings live in `config/config.yml`. The file is split into four documented sections:
+
+- `general`: site title, site URL, posts directory, build directory.
+- `languages`: list of language codes plus localized labels for reading time and the back link.
+- `publish`: timezone and default publish hour used for RSS dates.
+- `theme`: theme directory and the names of the template and stylesheet inside it.
+
+All fields are mandatory. The build aborts with an explanatory error if any field is missing or invalid (for example, a missing label for a declared language, or an unknown timezone).
+
+To use a different configuration file, pass it via `--config`:
+
+```sh
+python3 src/build.py --config path/to/your-config.yml
+```
 
 ## Project structure
 
 ```
 src/
   build.py        Static site generator
+  config.py       Configuration loader and validator
+  test_build.py   Unit tests for the generator
+  test_config.py  Unit tests for the configuration loader
+config/
+  config.yml      Blog configuration (site, languages, publish, theme)
+theme/
   template.html   HTML page template
   style.css       Stylesheet
-  test_build.py   Unit tests
 posts/            Markdown source files
 ```
