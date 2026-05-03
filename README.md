@@ -1,6 +1,6 @@
-# Olivier's Blog
+# PureBlog : Pure content. Any language.
 
-A minimal static blog engine that converts Markdown posts to HTML.
+A minimal static blog engine that converts Markdown posts to HTML with enhanced multilanguage support.
 
 ## Quick start
 
