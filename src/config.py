@@ -23,12 +23,12 @@ class BlogConfig:
     site_url: str
     posts_dir: Path
     build_dir: Path
+    robots_file: Path
     languages: list[str]
     reading_time_labels: dict[str, str]
     back_labels: dict[str, str]
     default_timezone: ZoneInfo
     default_publish_hour: int
-    theme_dir: Path
     template_file: Path
     style_file: Path
 
@@ -131,6 +131,7 @@ def load_config(config_path: Path) -> BlogConfig:
         )
 
     general: dict[str, Any] = _require_section(data, "general")
+    seo: dict[str, Any] = _require_section(data, "seo")
     languages_section: dict[str, Any] = _require_section(data, "languages")
     publish: dict[str, Any] = _require_section(data, "publish")
     theme: dict[str, Any] = _require_section(data, "theme")
@@ -139,6 +140,8 @@ def load_config(config_path: Path) -> BlogConfig:
     site_url: str = _require_str(general, "general", "site_url")
     posts_dir: Path = Path(_require_str(general, "general", "posts_dir"))
     build_dir: Path = Path(_require_str(general, "general", "build_dir"))
+    
+    robots_file: Path = Path(_require_str(seo, "seo", "robots_file"))
 
     codes_value: Any = _require_field(languages_section, "languages", "codes")
     if not isinstance(codes_value, list) or not codes_value:
@@ -168,21 +171,20 @@ def load_config(config_path: Path) -> BlogConfig:
             "Field 'publish.default_publish_hour' must be between 0 and 23."
         )
 
-    theme_dir: Path = Path(_require_str(theme, "theme", "theme_dir"))
-    template_file: Path = theme_dir / _require_str(theme, "theme", "template_file")
-    style_file: Path = theme_dir / _require_str(theme, "theme", "style_file")
+    template_file: Path = Path(_require_str(theme, "theme", "template_file"))
+    style_file: Path = Path(_require_str(theme, "theme", "style_file"))
 
     return BlogConfig(
         site_title=site_title,
         site_url=site_url,
         posts_dir=posts_dir,
         build_dir=build_dir,
+        robots_file=robots_file,
         languages=languages,
         reading_time_labels=reading_time_labels,
         back_labels=back_labels,
         default_timezone=default_timezone,
         default_publish_hour=default_publish_hour,
-        theme_dir=theme_dir,
         template_file=template_file,
         style_file=style_file,
     )

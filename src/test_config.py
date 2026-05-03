@@ -13,6 +13,8 @@ general:
   site_url: "https://test.example"
   posts_dir: "posts"
   build_dir: "build"
+seo:
+  robots_file: "seo/robots.txt"
 languages:
   codes: [en, fr]
   reading_time_labels:
@@ -25,9 +27,8 @@ publish:
   default_timezone: "Europe/Brussels"
   default_publish_hour: 13
 theme:
-  theme_dir: "theme"
-  template_file: "template.html"
-  style_file: "style.css"
+  template_file: "theme/template.html"
+  style_file: "theme/style.css"
 """
 
 
@@ -43,12 +44,12 @@ def test_load_valid_config(tmp_path: Path) -> None:
     assert cfg.site_url == "https://test.example"
     assert cfg.posts_dir == Path("posts")
     assert cfg.build_dir == Path("build")
+    assert cfg.robots_file == Path("seo/robots.txt")
     assert cfg.languages == ["en", "fr"]
     assert cfg.reading_time_labels == {"en": "min read", "fr": "min de lecture"}
     assert cfg.back_labels == {"en": "Back", "fr": "Retour"}
     assert str(cfg.default_timezone) == "Europe/Brussels"
     assert cfg.default_publish_hour == 13
-    assert cfg.theme_dir == Path("theme")
     assert cfg.template_file == Path("theme/template.html")
     assert cfg.style_file == Path("theme/style.css")
 

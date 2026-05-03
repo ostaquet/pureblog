@@ -11,7 +11,7 @@ venv: requirements.txt
 	. $(VENV)/bin/activate; pip install --upgrade pip; pip install -r requirements.txt
 
 build: venv
-	. $(VENV)/bin/activate; python3 src/build.py
+	. $(VENV)/bin/activate; python3 src/main.py
 
 serve: build
 	cd build && python3 -m http.server 8000

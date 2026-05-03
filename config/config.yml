@@ -27,6 +27,15 @@ general:
   build_dir: "build"
 
 # -----------------------------------------------------------------------------
+# SEO
+# -----------------------------------------------------------------------------
+# robots_file : Filename of the robots.txt. The file is used as template. The
+#               sitemap directive will be automatically added during the
+#               building of the website.
+seo:
+  robots_file: "seo/robots.txt"
+
+# -----------------------------------------------------------------------------
 # Languages
 # -----------------------------------------------------------------------------
 # codes               : List of ISO language codes the blog supports. Each
@@ -68,13 +77,11 @@ publish:
 # -----------------------------------------------------------------------------
 # Theme
 # -----------------------------------------------------------------------------
-# theme_dir     : Directory containing the HTML template and CSS stylesheet.
-# template_file : Filename (inside theme_dir) of the page template. Uses
+# template_file : Filename of the page template. Uses
 #                 $-style placeholders: $title, $lang, $lang_switcher,
 #                 $description, $content, $root.
-# style_file    : Filename (inside theme_dir) of the CSS stylesheet. Copied
+# style_file    : Filename of the CSS stylesheet. Copied
 #                 verbatim into the build directory as '/style.css'.
 theme:
-  theme_dir: "theme"
-  template_file: "template.html"
-  style_file: "style.css"
+  template_file: "theme/template.html"
+  style_file: "theme/style.css"
