@@ -43,6 +43,12 @@ The feed URLs use the `site_url` value in `config/config.yml` (currently `https:
 
 Run `make build` to generate the static site in `build/`.
 
+## SEO: sitemap and robots.txt
+
+The build generates `/sitemap.xml` listing every per-language index and post page (with `<lastmod>` taken from the post date or, for index pages, the most recent post in that language).
+
+The static file `seo/robots.txt` is copied to `/robots.txt` at the root of the build output. The build appends `Sitemap: {site_url}/sitemap.xml` if that directive is not already present, so the source file only needs the rules you care about.
+
 ## Configuration
 
 All blog settings live in `config/config.yml`. The file is split into four documented sections:
@@ -70,6 +76,8 @@ src/
   test_config.py  Unit tests for the configuration loader
 config/
   config.yml      Blog configuration (site, languages, publish, theme)
+seo/
+  robots.txt      Static robots rules; build appends Sitemap directive
 theme/
   template.html   HTML page template
   style.css       Stylesheet

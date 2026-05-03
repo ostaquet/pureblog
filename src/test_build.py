@@ -58,10 +58,14 @@ def _setup_site(
 
     build_dir: Path = tmp_path / "build"
 
+    robots: Path = tmp_path / "robots.txt"
+    robots.write_text("User-agent: *\nAllow: /\n")
+
     monkeypatch.setattr(build, "POSTS_DIR", posts_dir)
     monkeypatch.setattr(build, "BUILD_DIR", build_dir)
     monkeypatch.setattr(build, "TEMPLATE_FILE", template)
     monkeypatch.setattr(build, "STYLE_FILE", style)
+    monkeypatch.setattr(build, "ROBOTS_SOURCE", robots)
 
     return build_dir
 
@@ -437,6 +441,83 @@ def test_build_post_strikethrough_for_missing_translation(
     post_html: str = (build_dir / "en" / "only-english" / "index.html").read_text()
     assert '<a href="./" class="missing-translation">fr</a>' in post_html
     assert '<a href="./" class="missing-translation">nl</a>' in post_html
+
+
+def test_build_writes_sitemap_with_posts_and_indexes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST, "001-bonjour.fr.md": SAMPLE_POST_FR},
+    )
+
+    build.build_site()
+
+    sitemap: str = (build_dir / "sitemap.xml").read_text()
+    assert '<?xml version="1.0" encoding="UTF-8"?>' in sitemap
+    assert 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"' in sitemap
+    assert f"<loc>{build.SITE_URL}/en/</loc>" in sitemap
+    assert f"<loc>{build.SITE_URL}/fr/</loc>" in sitemap
+    assert f"<loc>{build.SITE_URL}/nl/</loc>" in sitemap
+    assert f"<loc>{build.SITE_URL}/en/hello/</loc>" in sitemap
+    assert f"<loc>{build.SITE_URL}/fr/bonjour/</loc>" in sitemap
+    assert "<lastmod>2026-01-15</lastmod>" in sitemap
+
+
+def test_build_writes_robots_with_sitemap_directive(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+    )
+
+    build.build_site()
+
+    robots: str = (build_dir / "robots.txt").read_text()
+    assert "User-agent: *" in robots
+    assert f"Sitemap: {build.SITE_URL}/sitemap.xml" in robots
+
+
+def test_build_robots_does_not_duplicate_sitemap_directive(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+    )
+    existing: str = (
+        f"User-agent: *\nAllow: /\nSitemap: {build.SITE_URL}/sitemap.xml\n"
+    )
+    monkeypatch.setattr(build, "ROBOTS_SOURCE", tmp_path / "preset-robots.txt")
+    (tmp_path / "preset-robots.txt").write_text(existing)
+
+    build.build_site()
+
+    robots: str = (build_dir / "robots.txt").read_text()
+    assert robots.count(f"Sitemap: {build.SITE_URL}/sitemap.xml") == 1
+
+
+def test_build_robots_warns_when_source_missing(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"001-hello.en.md": SAMPLE_POST},
+    )
+    monkeypatch.setattr(build, "ROBOTS_SOURCE", tmp_path / "missing-robots.txt")
+
+    build.build_site()
+
+    captured: pytest.CaptureResult[str] = capsys.readouterr()
+    assert "missing-robots.txt" in captured.err
+    assert not (build_dir / "robots.txt").exists()
 
 
 def test_build_post_page_back_link_localized(

@@ -22,6 +22,8 @@ from config import BlogConfig, ConfigError, load_config
 
 SRC_DIR: Path = Path(__file__).resolve().parent
 DEFAULT_CONFIG_PATH: Path = Path("config/config.yml")
+SEO_DIR: Path = Path("seo")
+ROBOTS_SOURCE: Path = SEO_DIR / "robots.txt"
 
 POSTS_DIR: Path = Path("posts")
 BUILD_DIR: Path = Path("build")
@@ -371,6 +373,57 @@ def build_lang(
     build_feed(lang, lang_dir, lang_posts)
 
 
+def build_sitemap(posts: list[Post]) -> None:
+    """Write sitemap.xml listing all language indexes and post pages."""
+    latest_per_lang: dict[str, str] = {}
+    for post in posts:
+        current: str = latest_per_lang.get(post["lang"], "")
+        if post["date"] > current:
+            latest_per_lang[post["lang"]] = post["date"]
+
+    entries: list[str] = []
+    for lang in LANGUAGES:
+        loc: str = f"{SITE_URL}/{lang}/"
+        if lang in latest_per_lang:
+            entries.append(
+                f"<url><loc>{loc}</loc>"
+                f"<lastmod>{latest_per_lang[lang]}</lastmod></url>"
+            )
+        else:
+            entries.append(f"<url><loc>{loc}</loc></url>")
+    for post in posts:
+        post_loc: str = f"{SITE_URL}/{post['lang']}/{post['slug']}/"
+        entries.append(
+            f"<url><loc>{post_loc}</loc>"
+            f"<lastmod>{post['date']}</lastmod></url>"
+        )
+
+    sitemap: str = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(entries)
+        + "\n</urlset>"
+    )
+    (BUILD_DIR / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+
+
+def build_robots() -> None:
+    """Copy seo/robots.txt to build/, ensuring the Sitemap directive is set."""
+    directive: str = f"Sitemap: {SITE_URL}/sitemap.xml"
+    if not ROBOTS_SOURCE.is_file():
+        print(
+            f"Warning: {ROBOTS_SOURCE} not found; skipping robots.txt generation.",
+            file=sys.stderr,
+        )
+        return
+    source_text: str = ROBOTS_SOURCE.read_text(encoding="utf-8")
+    if directive not in source_text:
+        if source_text and not source_text.endswith("\n"):
+            source_text += "\n"
+        source_text += directive + "\n"
+    (BUILD_DIR / "robots.txt").write_text(source_text, encoding="utf-8")
+
+
 def build_root_redirect() -> None:
     """Write a root index.html that redirects to /en/."""
     html: str = (
@@ -394,6 +447,8 @@ def build_site() -> None:
         build_lang(lang, posts, translations, template)
 
     build_root_redirect()
+    build_sitemap(posts)
+    build_robots()
 
     print(f"Built {len(posts)} posts -> {BUILD_DIR}/")
 
