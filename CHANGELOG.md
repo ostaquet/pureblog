@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Configuration manager: blog settings now live in `config/config.yml` (general, languages, publish, theme), loaded and validated by `src/config.py`. `build.py` accepts `--config <path>` to point at an alternative file (_0019-config-mgnt_)
+- Warning on stderr when a post is missing one or more translations; language switcher renders missing-translation links as strikethrough pointing to the current page (avoids 404s) (_0020-handle-not-translated-post_)
 
 ### Changed
 

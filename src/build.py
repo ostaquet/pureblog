@@ -149,16 +149,47 @@ def group_translations(posts: list[Post]) -> dict[str, dict[str, Post]]:
 def render_lang_switcher(
     current_lang: str,
     available_langs: list[str],
-    path_builder: Callable[[str], str],
+    link_builder: Callable[[str], tuple[str, bool]],
 ) -> str:
-    """Generate a language switcher nav element."""
+    """Generate a language switcher nav element.
+
+    `link_builder` returns `(href, is_translated)` for each other language.
+    When `is_translated` is False the link is rendered strikethrough so the
+    reader can see the translation is missing without hitting a 404.
+    """
     items: list[str] = []
     for lang in available_langs:
         if lang == current_lang:
             items.append(f"<span>{lang}</span>")
+            continue
+        href: str
+        is_translated: bool
+        href, is_translated = link_builder(lang)
+        if is_translated:
+            items.append(f'<a href="{href}">{lang}</a>')
         else:
-            items.append(f'<a href="{path_builder(lang)}">{lang}</a>')
+            items.append(
+                f'<a href="{href}" class="missing-translation"><s>{lang}</s></a>'
+            )
     return '<nav class="lang-switcher">' + " | ".join(items) + "</nav>"
+
+
+def warn_missing_translations(
+    translations: dict[str, dict[str, "Post"]],
+    languages: list[str],
+) -> None:
+    """Print a warning to stderr for each post missing one or more translations."""
+    for post_id in sorted(translations.keys()):
+        by_lang: dict[str, Post] = translations[post_id]
+        missing: list[str] = [lang for lang in languages if lang not in by_lang]
+        if not missing:
+            continue
+        sample_post: Post = next(iter(by_lang.values()))
+        print(
+            f"Warning: post {post_id} ('{sample_post['title']}') is missing "
+            f"translation(s): {', '.join(missing)}",
+            file=sys.stderr,
+        )
 
 
 def prepare_build_dir() -> None:
@@ -253,10 +284,10 @@ def build_post_pages(
         switcher: str = render_lang_switcher(
             lang,
             available_langs,
-            lambda other_lang, sp=sibling_posts, s=slug: (
-                f"../../{other_lang}/{sp[other_lang]['slug']}/"
+            lambda other_lang, sp=sibling_posts: (
+                (f"../../{other_lang}/{sp[other_lang]['slug']}/", True)
                 if other_lang in sp
-                else f"../../{other_lang}/{s}/"
+                else ("./", False)
             ),
         )
         back_label: str = BACK_LABELS[lang]
@@ -294,7 +325,7 @@ def build_index_page(
     switcher: str = render_lang_switcher(
         lang,
         available_langs,
-        lambda other_lang: f"../{other_lang}/",
+        lambda other_lang: (f"../{other_lang}/", True),
     )
     items: list[str] = []
     for post in lang_posts:
@@ -357,6 +388,7 @@ def build_site() -> None:
     template: Template = Template(TEMPLATE_FILE.read_text(encoding="utf-8"))
     posts: list[Post] = load_posts()
     translations: dict[str, dict[str, Post]] = group_translations(posts)
+    warn_missing_translations(translations, LANGUAGES)
 
     for lang in LANGUAGES:
         build_lang(lang, posts, translations, template)

@@ -33,6 +33,8 @@ For example, `001-hello-world.en.md` produces the URL `/en/hello-world/`. To add
 
 The site builds a per-language index at `/{lang}/` and a root page that redirects to `/en/`. A language switcher appears on every page, linking to the correct per-language slug for each translation.
 
+If a translation is missing for a post, the build prints a warning to stderr (the build still succeeds), and the language switcher renders the missing language as a strikethrough link pointing to the current page so the reader does not get a 404.
+
 ## RSS feeds
 
 Each language has an RSS 2.0 feed at `/{lang}/feed.xml` (e.g. `/en/feed.xml`). All HTML pages include an RSS autodiscovery `<link>` tag so feed readers can find the feed automatically.

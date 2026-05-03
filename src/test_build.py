@@ -196,12 +196,50 @@ def test_group_translations() -> None:
 
 def test_render_lang_switcher() -> None:
     html: str = build.render_lang_switcher(
-        "en", ["en", "fr", "nl"], lambda lang: f"../{lang}/"
+        "en", ["en", "fr", "nl"], lambda lang: (f"../{lang}/", True)
     )
     assert "<span>en</span>" in html
     assert '<a href="../fr/">fr</a>' in html
     assert '<a href="../nl/">nl</a>' in html
     assert "lang-switcher" in html
+
+
+def test_render_lang_switcher_missing_translation() -> None:
+    html: str = build.render_lang_switcher(
+        "en",
+        ["en", "fr", "nl"],
+        lambda lang: (f"../{lang}/", False) if lang == "nl" else (f"../{lang}/", True),
+    )
+    assert '<a href="../fr/">fr</a>' in html
+    assert '<a href="../nl/" class="missing-translation"><s>nl</s></a>' in html
+
+
+def test_warn_missing_translations(capsys: pytest.CaptureFixture[str]) -> None:
+    translations: dict[str, dict[str, build.Post]] = {
+        "001": {
+            "en": {"title": "Hello", "date": "2026-01-01", "excerpt": "",
+                   "reading_time": 1, "post_id": "001", "slug": "hello",
+                   "lang": "en", "html": ""},
+        },
+        "002": {
+            "en": {"title": "World", "date": "2026-01-02", "excerpt": "",
+                   "reading_time": 1, "post_id": "002", "slug": "world",
+                   "lang": "en", "html": ""},
+            "fr": {"title": "Monde", "date": "2026-01-02", "excerpt": "",
+                   "reading_time": 1, "post_id": "002", "slug": "monde",
+                   "lang": "fr", "html": ""},
+            "nl": {"title": "Wereld", "date": "2026-01-02", "excerpt": "",
+                   "reading_time": 1, "post_id": "002", "slug": "wereld",
+                   "lang": "nl", "html": ""},
+        },
+    }
+    build.warn_missing_translations(translations, ["en", "fr", "nl"])
+    captured: pytest.CaptureResult[str] = capsys.readouterr()
+    assert "001" in captured.err
+    assert "Hello" in captured.err
+    assert "fr" in captured.err
+    assert "nl" in captured.err
+    assert "002" not in captured.err
 
 
 # --- Integration tests ---
@@ -323,12 +361,12 @@ def test_build_lang_switcher_on_post_page(
     en_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
     assert "<span>en</span>" in en_html
     assert "../../fr/bonjour/" in en_html
-    assert "../../nl/hello/" in en_html
+    assert '<a href="./" class="missing-translation"><s>nl</s></a>' in en_html
 
     fr_html: str = (build_dir / "fr" / "bonjour" / "index.html").read_text()
     assert "<span>fr</span>" in fr_html
     assert "../../en/hello/" in fr_html
-    assert "../../nl/bonjour/" in fr_html
+    assert '<a href="./" class="missing-translation"><s>nl</s></a>' in fr_html
 
 
 def test_build_lang_switcher_on_index_page(
@@ -363,6 +401,42 @@ def test_build_post_page_has_back_link(
     post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
     assert 'class="back-link"' in post_html
     assert 'href="../"' in post_html
+
+
+def test_build_warns_about_missing_translations(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"002-only-english.en.md": SAMPLE_POST},
+    )
+
+    build.build_site()
+
+    captured: pytest.CaptureResult[str] = capsys.readouterr()
+    assert "002" in captured.err
+    assert "fr" in captured.err
+    assert "nl" in captured.err
+    assert (build_dir / "en" / "only-english" / "index.html").exists()
+
+
+def test_build_post_strikethrough_for_missing_translation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    build_dir: Path = _setup_site(
+        tmp_path,
+        monkeypatch,
+        {"002-only-english.en.md": SAMPLE_POST},
+    )
+
+    build.build_site()
+
+    post_html: str = (build_dir / "en" / "only-english" / "index.html").read_text()
+    assert '<a href="./" class="missing-translation"><s>fr</s></a>' in post_html
+    assert '<a href="./" class="missing-translation"><s>nl</s></a>' in post_html
 
 
 def test_build_post_page_back_link_localized(
