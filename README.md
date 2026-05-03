@@ -54,28 +54,30 @@ The static file `seo/robots.txt` is copied to `/robots.txt` at the root of the b
 All blog settings live in `config/config.yml`. The file is split into four documented sections:
 
 - `general`: site title, site URL, posts directory, build directory.
+- `seo`: path to the source `robots.txt` file.
 - `languages`: list of language codes plus localized labels for reading time and the back link.
 - `publish`: timezone and default publish hour used for RSS dates.
-- `theme`: theme directory and the names of the template and stylesheet inside it.
+- `theme`: paths to the template and stylesheet files.
 
 All fields are mandatory. The build aborts with an explanatory error if any field is missing or invalid (for example, a missing label for a declared language, or an unknown timezone).
 
 To use a different configuration file, pass it via `--config`:
 
 ```sh
-python3 src/build.py --config path/to/your-config.yml
+python3 src/main.py --config path/to/your-config.yml
 ```
 
 ## Project structure
 
 ```
 src/
-  build.py        Static site generator
-  config.py       Configuration loader and validator
-  test_build.py   Unit tests for the generator
-  test_config.py  Unit tests for the configuration loader
+  main.py           CLI entrypoint (argument parsing, config loading)
+  builder.py        BlogBuilder class and helper functions for site generation
+  config.py         Configuration loader and validator
+  test_builder.py   Unit tests for the builder
+  test_config.py    Unit tests for the configuration loader
 config/
-  config.yml      Blog configuration (site, languages, publish, theme)
+  config.yml      Blog configuration (general, seo, languages, publish, theme)
 seo/
   robots.txt      Static robots rules; build appends Sitemap directive
 theme/

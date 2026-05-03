@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Auto-generated `sitemap.xml` listing language indexes and post pages with `lastmod` dates, plus `robots.txt` copied from `seo/robots.txt` with the `Sitemap:` directive injected (_0022-improve-seo_)
 
+- Refactored unit tests to follow the new module split (CLI in `src/main.py`, generator in `src/builder.py` as `BlogBuilder`); tests live in `src/test_builder.py` and `src/test_config.py` (_0023-refactor-builder-unit-test_)
+
 ### Changed
 
 - Strikethrough for missing-translation links is now applied via the `.missing-translation` CSS class in `theme/style.css` instead of the `<s>` HTML element, making it easier to customize in the theme (_0021-missing-translation-with-css_)
