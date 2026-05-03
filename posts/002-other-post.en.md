@@ -3,7 +3,7 @@ title: Other post
 date: 2026-02-02
 ---
 
-This is a test to check that the blog post are ordered descending by date.
+This is a test to check that the blog post are ordered descending by date. And that the excerpt is built automatically from the 200 first characters of the blog post.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id nibh eget erat placerat dapibus. Integer eu tristique est, vel fermentum sem. Sed tristique ligula eget lacus facilisis, et ornare velit ultricies. Nunc vel congue odio, lobortis facilisis enim. Suspendisse suscipit, risus non dictum viverra, risus neque mattis est, vitae dapibus tortor ex in sem. Pellentesque ut est et nisl facilisis congue. In eleifend eros eros, sit amet consectetur nunc fringilla non. Nunc vel libero non orci posuere lacinia.
 
