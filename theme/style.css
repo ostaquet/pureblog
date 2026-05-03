@@ -66,6 +66,10 @@ header a:hover {
     color: #2c5282;
 }
 
+.lang-switcher a.missing-translation {
+    text-decoration: line-through;
+}
+
 /* ── Main content ────────────────────────────────────── */
 
 main { margin-top: 0; }

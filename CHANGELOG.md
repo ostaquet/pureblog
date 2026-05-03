@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Strikethrough for missing-translation links is now applied via the `.missing-translation` CSS class in `theme/style.css` instead of the `<s>` HTML element, making it easier to customize in the theme (_0021-missing-translation-with-css_)
+
+### Changed
+
 - Localized back link on post pages: "Back" (en), "Retour" (fr), "Terug" (nl) (_0018-back-link-localization_)
 - Move theme files (raw template and css) out of source code
 

@@ -211,7 +211,7 @@ def test_render_lang_switcher_missing_translation() -> None:
         lambda lang: (f"../{lang}/", False) if lang == "nl" else (f"../{lang}/", True),
     )
     assert '<a href="../fr/">fr</a>' in html
-    assert '<a href="../nl/" class="missing-translation"><s>nl</s></a>' in html
+    assert '<a href="../nl/" class="missing-translation">nl</a>' in html
 
 
 def test_warn_missing_translations(capsys: pytest.CaptureFixture[str]) -> None:
@@ -361,12 +361,12 @@ def test_build_lang_switcher_on_post_page(
     en_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
     assert "<span>en</span>" in en_html
     assert "../../fr/bonjour/" in en_html
-    assert '<a href="./" class="missing-translation"><s>nl</s></a>' in en_html
+    assert '<a href="./" class="missing-translation">nl</a>' in en_html
 
     fr_html: str = (build_dir / "fr" / "bonjour" / "index.html").read_text()
     assert "<span>fr</span>" in fr_html
     assert "../../en/hello/" in fr_html
-    assert '<a href="./" class="missing-translation"><s>nl</s></a>' in fr_html
+    assert '<a href="./" class="missing-translation">nl</a>' in fr_html
 
 
 def test_build_lang_switcher_on_index_page(
@@ -435,8 +435,8 @@ def test_build_post_strikethrough_for_missing_translation(
     build.build_site()
 
     post_html: str = (build_dir / "en" / "only-english" / "index.html").read_text()
-    assert '<a href="./" class="missing-translation"><s>fr</s></a>' in post_html
-    assert '<a href="./" class="missing-translation"><s>nl</s></a>' in post_html
+    assert '<a href="./" class="missing-translation">fr</a>' in post_html
+    assert '<a href="./" class="missing-translation">nl</a>' in post_html
 
 
 def test_build_post_page_back_link_localized(

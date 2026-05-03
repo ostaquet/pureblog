@@ -169,7 +169,7 @@ def render_lang_switcher(
             items.append(f'<a href="{href}">{lang}</a>')
         else:
             items.append(
-                f'<a href="{href}" class="missing-translation"><s>{lang}</s></a>'
+                f'<a href="{href}" class="missing-translation">{lang}</a>'
             )
     return '<nav class="lang-switcher">' + " | ".join(items) + "</nav>"
 
