@@ -33,7 +33,18 @@ An estimated reading time is automatically calculated from the post word count (
 
 For example, `001-hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation with its own SEO-friendly slug, create `001-bonjour-le-monde.fr.md` (same prefix `001` links the translations). The French version will be served at `/fr/bonjour-le-monde/`.
 
-The post body supports the standard Markdown syntax used by Pureblog: headers (`#` to `####`), `**bold**`, `_italic_` / `*italic*`, `~~strikethrough~~`, unordered (`-`) and ordered (`1.`) lists, blockquotes (`>`), inline `` `code` `` and triple-backtick fenced code blocks. The full list with examples is in [`docs/markdown-cheatsheet.md`](docs/markdown-cheatsheet.md).
+The post body supports the standard Markdown syntax used by Pureblog: headers (`#` to `####`), `**bold**`, `_italic_` / `*italic*`, `~~strikethrough~~`, unordered (`-`) and ordered (`1.`) lists, blockquotes (`>`), inline `` `code` ``, triple-backtick fenced code blocks, and images (`![alt](url)`). The full list with examples is in [`docs/markdown-cheatsheet.md`](docs/markdown-cheatsheet.md).
+
+## Images and assets
+
+Static assets (images, etc.) live in the directory configured by `general.assets_dir` (default: `assets/`). The whole directory is copied verbatim into `build/assets/` on every build, so internal images can be referenced from posts using their project-root relative path:
+
+```markdown
+![External image](https://i.ibb.co/Vvh17pr/3jxqrKP.jpg)
+![Internal image](assets/img/documentation.png)
+```
+
+Relative `<img>` URLs are rewritten at build time to resolve from each page's location. If a referenced internal image cannot be found in `assets_dir`, the build prints a warning to stderr but still completes.
 
 The site builds a per-language index at `/{lang}/` and a root page that redirects to `/en/`. A language switcher appears on every page, linking to the correct per-language slug for each translation.
 
@@ -57,7 +68,7 @@ The static file `seo/robots.txt` is copied to `/robots.txt` at the root of the b
 
 All blog settings live in `config/config.yml`. The file is split into four documented sections:
 
-- `general`: site title, site URL, posts directory, build directory.
+- `general`: site title, site URL, posts directory, build directory, assets directory.
 - `seo`: path to the source `robots.txt` file.
 - `languages`: list of language codes plus localized labels for reading time and the back link.
 - `publish`: timezone and default publish hour used for RSS dates.
@@ -92,6 +103,7 @@ theme/
   template.html   HTML page template
   style.css       Stylesheet
 posts/            Markdown source files
+assets/           Static assets (images, etc.) copied verbatim into build/assets/
 e2e/
   Dockerfile      Playwright image that builds + serves + tests the site
   run.sh          Container entrypoint: serve build/ then run pytest

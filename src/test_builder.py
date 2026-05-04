@@ -56,6 +56,9 @@ def _make_config(
     for filename, content in post_files.items():
         (posts_dir / filename).write_text(content)
 
+    assets_dir: Path = tmp_path / "assets"
+    assets_dir.mkdir(exist_ok=True)
+
     style: Path = tmp_path / "style.css"
     style.write_text("body {}")
 
@@ -71,6 +74,7 @@ def _make_config(
         site_url=SITE_URL,
         posts_dir=posts_dir,
         build_dir=tmp_path / "build",
+        assets_dir=assets_dir,
         robots_file=robots,
         languages=languages if languages is not None else ["en", "fr", "nl"],
         reading_time_labels={
@@ -644,6 +648,111 @@ def test_build_index_shows_reading_time(tmp_path: Path) -> None:
     index_html: str = (build_dir / "en" / "index.html").read_text()
     assert "min read" in index_html
     assert 'class="reading-time"' in index_html
+
+
+# --- Image / asset handling tests ---
+
+
+SAMPLE_POST_WITH_IMAGES: str = """\
+---
+title: Image Post
+date: 2026-02-01
+excerpt: Has images.
+---
+
+External: ![ext](https://example.com/img.png)
+
+Internal: ![int](assets/img/foo.png)
+"""
+
+
+def test_extract_relative_image_sources() -> None:
+    html: str = (
+        '<p><img alt="ext" src="https://example.com/x.png" /> '
+        '<img alt="abs" src="/absolute.png" /> '
+        '<img alt="rel" src="assets/img/foo.png" /></p>'
+    )
+    assert builder.extract_relative_image_sources(html) == ["assets/img/foo.png"]
+
+
+def test_rewrite_relative_image_sources() -> None:
+    html: str = (
+        '<img src="assets/img/foo.png" />'
+        '<img src="https://x.example/y.png" />'
+        '<img src="/abs.png" />'
+    )
+    rewritten: str = builder.rewrite_relative_image_sources(html, "../..")
+    assert '<img src="../../assets/img/foo.png" />' in rewritten
+    assert '<img src="https://x.example/y.png" />' in rewritten
+    assert '<img src="/abs.png" />' in rewritten
+
+
+def test_build_copies_assets(tmp_path: Path) -> None:
+    cfg: BlogConfig = _make_config(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    (cfg.assets_dir / "img").mkdir()
+    (cfg.assets_dir / "img" / "logo.png").write_bytes(b"\x89PNGfake")
+    blog: builder.BlogBuilder = builder.BlogBuilder(cfg)
+    blog.build_site()
+    assert (cfg.build_dir / "assets" / "img" / "logo.png").read_bytes() == b"\x89PNGfake"
+
+
+def test_build_warns_when_assets_dir_missing(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    cfg: BlogConfig = _make_config(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    cfg.assets_dir.rmdir()
+    blog: builder.BlogBuilder = builder.BlogBuilder(cfg)
+    blog.build_site()
+    captured: CaptureResult[str] = capsys.readouterr()
+    assert "assets directory" in captured.err
+    assert not (cfg.build_dir / "assets").exists()
+
+
+def test_build_warns_about_missing_image(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {"001-images.en.md": SAMPLE_POST_WITH_IMAGES},
+        template_text="$content",
+    )
+    blog.build_site()
+    captured: CaptureResult[str] = capsys.readouterr()
+    assert "missing image" in captured.err
+    assert "assets/img/foo.png" in captured.err
+
+
+def test_build_does_not_warn_when_image_present(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    cfg: BlogConfig = _make_config(
+        tmp_path,
+        {"001-images.en.md": SAMPLE_POST_WITH_IMAGES},
+        template_text="$content",
+    )
+    (cfg.assets_dir / "img").mkdir()
+    (cfg.assets_dir / "img" / "foo.png").write_bytes(b"data")
+    blog: builder.BlogBuilder = builder.BlogBuilder(cfg)
+    blog.build_site()
+    captured: CaptureResult[str] = capsys.readouterr()
+    assert "missing image" not in captured.err
+
+
+def test_build_post_rewrites_internal_image_src(tmp_path: Path) -> None:
+    cfg: BlogConfig = _make_config(
+        tmp_path,
+        {"001-images.en.md": SAMPLE_POST_WITH_IMAGES},
+        template_text="$content",
+    )
+    (cfg.assets_dir / "img").mkdir()
+    (cfg.assets_dir / "img" / "foo.png").write_bytes(b"data")
+    blog: builder.BlogBuilder = builder.BlogBuilder(cfg)
+    blog.build_site()
+    post_html: str = (cfg.build_dir / "en" / "images" / "index.html").read_text()
+    assert 'src="../../assets/img/foo.png"' in post_html
+    assert 'src="https://example.com/img.png"' in post_html
 
 
 # --- format_rfc822_date / render_rss_item (BlogBuilder methods) ---

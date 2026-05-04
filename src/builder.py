@@ -35,6 +35,7 @@ class BlogBuilder:
         posts: list[Post] = self.load_posts()
         translations: dict[str, dict[str, Post]] = group_translations(posts)
         warn_missing_translations(translations, self.cfg.languages)
+        self.warn_missing_images(posts)
 
         for lang in self.cfg.languages:
             self.build_lang(lang, posts, translations, template)
@@ -56,6 +57,19 @@ class BlogBuilder:
             shutil.rmtree(self.cfg.build_dir)
         self.cfg.build_dir.mkdir()
         shutil.copy2(self.cfg.style_file, self.cfg.build_dir / "style.css")
+        self.copy_assets()
+
+    def copy_assets(self) -> None:
+        """Copy the configured assets directory into ``build/assets/``."""
+        source: Path = self.cfg.assets_dir
+        if not source.is_dir():
+            print(
+                f"Warning: assets directory '{source}' not found; "
+                f"no assets will be copied.",
+                file=sys.stderr,
+            )
+            return
+        shutil.copytree(source, self.cfg.build_dir / "assets")
 
     def load_posts(self) -> list[Post]:
         """Glob, parse, and sort all posts by date descending."""
@@ -154,7 +168,7 @@ class BlogBuilder:
                     f'<time>{post["date"]}</time>'
                     f'<span class="reading-time">{reading_time_str}</span>'
                     f"</div>"
-                    f'{post["html"]}</article>'
+                    f'{rewrite_relative_image_sources(post["html"], "../..")}</article>'
                 ),
                 root="../..",
             )
@@ -266,6 +280,23 @@ class BlogBuilder:
             source_text += directive + "\n"
         (self.cfg.build_dir / "robots.txt").write_text(source_text, encoding="utf-8")
 
+    def warn_missing_images(self, posts: list[Post]) -> None:
+        """Emit a stderr warning for each post-internal image that is missing."""
+        prefix: str = self.cfg.assets_dir.name + "/"
+        for post in posts:
+            for src in extract_relative_image_sources(post["html"]):
+                if not src.startswith(prefix):
+                    continue
+                relative: str = src[len(prefix):]
+                target: Path = self.cfg.assets_dir / relative
+                if target.is_file():
+                    continue
+                print(
+                    f"Warning: post '{post['post_id']}-{post['slug']}.{post['lang']}' "
+                    f"references missing image '{src}' (expected at {target}).",
+                    file=sys.stderr,
+                )
+
     def build_root_redirect(self) -> None:
         """Write a root index.html that redirects to /en/."""
         html: str = (
@@ -293,6 +324,29 @@ def warn_missing_translations(
             f"translation(s): {', '.join(missing)}",
             file=sys.stderr,
         )
+
+
+_RELATIVE_IMG_SRC_RE: re.Pattern[str] = re.compile(
+    r'(<img\b[^>]*?\bsrc=")(?!https?://|/|#)([^"]+)(")',
+    flags=re.IGNORECASE,
+)
+
+
+def extract_relative_image_sources(html_text: str) -> list[str]:
+    """Return all relative ``src`` values from ``<img>`` tags in ``html_text``."""
+    return [match.group(2) for match in _RELATIVE_IMG_SRC_RE.finditer(html_text)]
+
+
+def rewrite_relative_image_sources(html_text: str, root: str) -> str:
+    """Prefix relative ``<img src="...">`` paths with ``root`` so they resolve.
+
+    Absolute URLs (``http://...``, ``https://...``), root-relative URLs
+    (``/foo``) and fragment URLs (``#anchor``) are left untouched.
+    """
+    return _RELATIVE_IMG_SRC_RE.sub(
+        lambda m: f"{m.group(1)}{root}/{m.group(2)}{m.group(3)}",
+        html_text,
+    )
 
 
 def build_post_description(post: Post) -> str:

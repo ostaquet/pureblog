@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Image support in blog posts: standard Markdown `![alt](url)` syntax for both external (absolute) URLs and internal assets. The configured `general.assets_dir` directory (default `assets/`) is copied verbatim into `build/assets/` on every build, relative `<img>` paths are rewritten per page so they resolve from any depth, and a stderr warning is emitted for any referenced internal image that is missing on disk. Documented in `docs/markdown-cheatsheet.md` (_0027-support-images_)
 - Extended Markdown support for blog posts: headers (`#` to `####`), bold, italic, strikethrough (`~~text~~`), unordered and ordered lists, blockquotes, inline code and fenced code blocks. Markdown-to-HTML conversion now lives in `src/markdown_parser.py` (with dedicated tests in `src/test_markdown_parser.py`) and is documented in `docs/markdown-cheatsheet.md` (_0026-support-extensive-markdown_)
 - End-to-end test suite under `e2e/` (Dockerfile based on `mcr.microsoft.com/playwright/python`, entrypoint `e2e/run.sh`, tests in `e2e/test_e2e.py`) covering root redirect, per-language indexes, post rendering, language switching, missing-translation self-link, RSS feeds, sitemap and `robots.txt`. Invoked via `make e2e` and kept separate from `make test` (_0025-add-e2e-tests_)
 - Auto-generated `sitemap.xml` listing language indexes and post pages with `lastmod` dates, plus `robots.txt` copied from `seo/robots.txt` with the `Sitemap:` directive injected (_0022-improve-seo_)

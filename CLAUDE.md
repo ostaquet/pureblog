@@ -27,6 +27,8 @@ Posts support an optional `excerpt` field in YAML frontmatter. When present, it 
 
 Reading time is automatically calculated from the post body word count (200 wpm, minimum 1 minute) and displayed on both post and index pages with localized labels (`READING_TIME_LABELS`).
 
+Static assets live under the directory configured by `general.assets_dir` (default `assets/`). The whole tree is copied to `build/assets/` during `prepare_build_dir`. Posts reference assets with project-root relative paths (e.g. `assets/img/foo.png`); relative `<img src="...">` URLs are rewritten per page so they resolve from any depth, and the build emits a stderr warning for any internal image that does not exist on disk.
+
 Per-language RSS 2.0 feeds are generated at `build/{lang}/feed.xml`. The `SITE_URL` constant defines the base URL used in feed links (default: `https://example.com`). All HTML pages include an RSS autodiscovery `<link>` tag. RSS dates use Europe/Brussels timezone (`DEFAULT_TIMEZONE`) with a default publish time of 13:00 (`DEFAULT_PUBLISH_HOUR`), with proper DST handling via `zoneinfo`.
 
 ## End-to-end tests

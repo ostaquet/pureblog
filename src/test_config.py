@@ -13,6 +13,7 @@ general:
   site_url: "https://test.example"
   posts_dir: "posts"
   build_dir: "build"
+  assets_dir: "assets"
 seo:
   robots_file: "seo/robots.txt"
 languages:
@@ -44,6 +45,7 @@ def test_load_valid_config(tmp_path: Path) -> None:
     assert cfg.site_url == "https://test.example"
     assert cfg.posts_dir == Path("posts")
     assert cfg.build_dir == Path("build")
+    assert cfg.assets_dir == Path("assets")
     assert cfg.robots_file == Path("seo/robots.txt")
     assert cfg.languages == ["en", "fr"]
     assert cfg.reading_time_labels == {"en": "min read", "fr": "min de lecture"}

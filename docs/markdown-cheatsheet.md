@@ -75,6 +75,28 @@ def hello() -> str:
 
 Renders as `<pre><code>…</code></pre>`.
 
+## Images
+
+External images use the standard Markdown syntax with an absolute URL:
+
+```markdown
+![External image example](https://i.ibb.co/Vvh17pr/3jxqrKP.jpg)
+```
+
+Internal images live under the configured `general.assets_dir`
+(default: `assets/`). The whole directory is copied verbatim into
+`build/assets/` at build time, so reference assets relative to the
+project root:
+
+```markdown
+![Internal image example](assets/img/documentation.png)
+```
+
+The build rewrites relative `<img src="...">` URLs to be relative to
+the page's root, so the same Markdown works on both index and post
+pages. If a referenced internal image cannot be found in `assets_dir`,
+the build prints a warning to stderr but still succeeds.
+
 ## Paragraphs and line breaks
 
 Blank lines separate paragraphs. A single newline inside a paragraph is

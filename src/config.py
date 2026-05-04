@@ -23,6 +23,7 @@ class BlogConfig:
     site_url: str
     posts_dir: Path
     build_dir: Path
+    assets_dir: Path
     robots_file: Path
     languages: list[str]
     reading_time_labels: dict[str, str]
@@ -140,6 +141,7 @@ def load_config(config_path: Path) -> BlogConfig:
     site_url: str = _require_str(general, "general", "site_url")
     posts_dir: Path = Path(_require_str(general, "general", "posts_dir"))
     build_dir: Path = Path(_require_str(general, "general", "build_dir"))
+    assets_dir: Path = Path(_require_str(general, "general", "assets_dir"))
 
     robots_file: Path = Path(_require_str(seo, "seo", "robots_file"))
 
@@ -179,6 +181,7 @@ def load_config(config_path: Path) -> BlogConfig:
         site_url=site_url,
         posts_dir=posts_dir,
         build_dir=build_dir,
+        assets_dir=assets_dir,
         robots_file=robots_file,
         languages=languages,
         reading_time_labels=reading_time_labels,

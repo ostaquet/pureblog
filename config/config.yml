@@ -20,11 +20,16 @@
 #              Markdown posts named '{prefix}-{slug}.{lang}.md'.
 # build_dir  : Directory where the static site is generated. It is wiped on
 #              every build, so do not store source files here.
+# assets_dir : Directory containing static assets (images, etc.) referenced
+#              from posts. Its contents are copied verbatim into
+#              'build/assets/' so that markdown links like
+#              '![alt](assets/img/foo.png)' resolve at deploy time.
 general:
   site_title: "Olivier's Blog"
   site_url: "https://example.com"
   posts_dir: "posts"
   build_dir: "build"
+  assets_dir: "assets"
 
 # -----------------------------------------------------------------------------
 # SEO
