@@ -28,7 +28,12 @@ def test_english_index_lists_posts_in_descending_date_order(page: Page) -> None:
     page.goto(f"{BASE_URL}/en/")
     expect(page).to_have_title("Olivier's Blog")
     titles: list[str] = page.locator("main article a").all_inner_texts()
-    assert titles == ["Yolo", "Hello World", "Other post"], titles
+    assert titles == [
+        "Markdown format",
+        "Yolo",
+        "Hello World",
+        "Other post",
+    ], titles
 
 
 def test_post_page_renders_title_and_content(page: Page) -> None:
@@ -83,6 +88,54 @@ def test_sitemap_lists_all_language_indexes() -> None:
     body: str = response.text
     for lang in ("en", "fr", "nl"):
         assert f"/{lang}/" in body, f"sitemap missing /{lang}/"
+
+
+def test_markdown_post_renders_headers(page: Page) -> None:
+    page.goto(f"{BASE_URL}/en/markdown-format/")
+    article = page.locator("main article")
+    expect(article.locator("h1", has_text="This is a header 1")).to_have_count(1)
+    expect(article.locator("h2", has_text="This is a header 2")).to_have_count(1)
+    expect(article.locator("h3", has_text="This is a header 3")).to_have_count(1)
+    expect(article.locator("h4", has_text="This is a header 4")).to_have_count(1)
+
+
+def test_markdown_post_renders_emphasis(page: Page) -> None:
+    page.goto(f"{BASE_URL}/en/markdown-format/")
+    article = page.locator("main article")
+    expect(article.locator("strong")).to_contain_text(
+        "This is important text in bold"
+    )
+    expect(article.locator("em").first).to_contain_text(
+        "This is important test in italic"
+    )
+    expect(article.locator("del")).to_contain_text("This is not a good test")
+
+
+def test_markdown_post_renders_lists(page: Page) -> None:
+    page.goto(f"{BASE_URL}/en/markdown-format/")
+    article = page.locator("main article")
+    ul_items: list[str] = article.locator("ul > li").all_inner_texts()
+    assert any("List 1" in item for item in ul_items)
+    assert any("List 2" in item for item in ul_items)
+    assert any("List 3" in item for item in ul_items)
+    ol_items: list[str] = article.locator("ol > li").all_inner_texts()
+    assert ol_items[:3] == ["Item number 1", "Item number 2", "Item number 3"]
+
+
+def test_markdown_post_renders_inline_and_fenced_code(page: Page) -> None:
+    page.goto(f"{BASE_URL}/en/markdown-format/")
+    article = page.locator("main article")
+    expect(article.locator("ul > li code", has_text="a bit of code")).to_have_count(1)
+    pre_code = article.locator("pre code")
+    expect(pre_code).to_contain_text("This is clearly some code.")
+    expect(pre_code).to_contain_text("Is it important code?")
+
+
+def test_markdown_post_renders_blockquote(page: Page) -> None:
+    page.goto(f"{BASE_URL}/en/markdown-format/")
+    expect(page.locator("main article blockquote")).to_contain_text(
+        "This is a quote, a very important quote."
+    )
 
 
 def test_robots_txt_advertises_sitemap() -> None:
