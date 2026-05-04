@@ -12,7 +12,9 @@ RUN apk update && apk add --no-cache \
     sudo \
     libgcc \
     libstdc++ \
-    ripgrep
+    ripgrep \
+    docker-cli \
+    docker-cli-buildx
 
 # Recommanded setup on https://code.claude.com/docs/en/setup for Alpine
 RUN USE_BUILTIN_RIPGREP=0
@@ -20,6 +22,9 @@ RUN USE_BUILTIN_RIPGREP=0
 # Create non-root user with sudo access
 RUN addgroup -S claude && adduser -S claude -G claude \
     && echo "claude ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Create docker group, add claude user to it for Docker-in-Docker access
+RUN addgroup -S docker && addgroup claude docker
 
 # Create wrapper script 'c' that adds dangerous permissions flag
 # It is typically to be used for the "make claude" command in the Makefile.

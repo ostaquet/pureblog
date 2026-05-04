@@ -12,11 +12,16 @@ RUN apk update && apk add --no-cache \
     sudo \
     libgcc \
     libstdc++ \
-    ripgrep
+    ripgrep \
+    docker-cli \
+    docker-cli-buildx
 
 # Create non-root user with sudo access
 RUN addgroup -S opencode && adduser -S opencode -G opencode \
     && echo "opencode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Create docker group, add claude user to it for Docker-in-Docker access
+RUN addgroup -S docker && addgroup opencode docker
 
 # Create wrapper script
 # It is typically to be used for the "make opencode" command in the Makefile.
