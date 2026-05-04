@@ -37,7 +37,7 @@ Compact orientation for AI agents. See `CLAUDE.md` for the longer narrative; thi
 
 - Backlog lives in `.tasks/{todo,done,analysed,ideas}` as Markdown files.
 - **Implement only the first `.tasks/todo/*.md` in alphabetical order.** Later todos describe a vision; do not pre-implement them or let them shape the current change.
-- Per-task definition of done: code → tests in `src/test_*.py` → `make test` green → `make lint` green → update `README.md` (humans) → update `CLAUDE.md` if agent-relevant → append entry in `CHANGELOG.md` referencing the task → commit → move task file from `.tasks/todo` to `.tasks/done`.
+- Per-task definition of done: code → tests in `src/test_*.py` → `make test` green → `make lint` green → `make e2e` green → update `README.md` (humans) → update `CLAUDE.md` if agent-relevant → append entry in `CHANGELOG.md` referencing the task → commit → move task file from `.tasks/todo` to `.tasks/done`.
 - **One commit per task.** Use `git commit --amend` to keep it that way; never bundle two tasks.
 - If blocked in autonomous mode: write your analysis/questions into the task file, move it to `.tasks/analysed/`, proceed to the next todo.
 
