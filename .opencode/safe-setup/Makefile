@@ -1,0 +1,26 @@
+.PHONY: up down shell opencode restart clean logs status
+
+up:
+	docker compose up --build -d --force-recreate
+	@echo "Containers started. Use 'make shell' or 'make opencode' to access dev environment"
+
+down:
+	docker compose down
+
+shell:
+	docker compose exec dev bash
+
+opencode:
+	docker compose exec dev opencode_start
+
+restart: down up
+
+clean: down
+	docker compose down --rmi all --volumes
+	docker system prune --all --force
+
+logs:
+	docker compose logs -f
+
+ps:
+	docker compose ps

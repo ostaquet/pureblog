@@ -1,0 +1,43 @@
+FROM alpine:latest
+
+# Install packages
+# apk add libgcc libstdc++ ripgrep is needed for the claude cli to work, but it is not included in the base image.
+RUN apk update && apk add --no-cache \
+    bash \
+    curl \
+    git \
+    build-base \
+    python3 \
+    py3-pip \
+    sudo \
+    libgcc \
+    libstdc++ \
+    ripgrep
+
+# Create non-root user with sudo access
+RUN addgroup -S opencode && adduser -S opencode -G opencode \
+    && echo "opencode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Create wrapper script
+# It is typically to be used for the "make opencode" command in the Makefile.
+RUN echo '#!/bin/bash' > /usr/local/bin/opencode_start && \
+    echo 'export PATH="$HOME/.opencode/bin:$PATH"' >> /usr/local/bin/opencode_start && \
+    echo 'exec opencode' >> /usr/local/bin/opencode_start && \
+    chmod +x /usr/local/bin/opencode_start
+
+# Set up working directory
+WORKDIR /workspace
+
+# Copy and set up entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Switch to non-root user
+USER opencode
+
+# Install Claude Code CLI for the main user
+RUN curl -fsSL https://opencode.ai/install | bash && \
+    echo 'export PATH="$HOME/.opencode/bin:$PATH"' >> ~/.bashrc
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]

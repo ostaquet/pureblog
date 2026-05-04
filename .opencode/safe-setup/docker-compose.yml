@@ -1,0 +1,19 @@
+name: ${PROJECT_NAME:-opencode-dev}
+
+services:
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.opencode
+    image: ${PROJECT_NAME:-opencode-dev}/opencode-dev
+    container_name: ${PROJECT_NAME:-opencode-dev}-opencode-dev
+    volumes:
+      - ../..:/workspace
+    env_file:
+      - .env
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME:-workspace}
+      - OPENCODE_CONFIG_DIR=/workspace/.opencode/
+    stdin_open: true
+    tty: true

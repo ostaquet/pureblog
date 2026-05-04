@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Auto-generated `sitemap.xml` listing language indexes and post pages with `lastmod` dates, plus `robots.txt` copied from `seo/robots.txt` with the `Sitemap:` directive injected (_0022-improve-seo_)
 - Localized back link on post pages: "Back" (en), "Retour" (fr), "Terug" (nl) (_0018-back-link-localization_)
 - Strikethrough for missing-translation links is now applied via the `.missing-translation` CSS class in `theme/style.css` instead of the `<s>` HTML element, making it easier to customize in the theme (_0021-missing-translation-with-css_)
+- Add support of agentic tool Opencode (details in `.opencode` with a safe setup as already done for Claude Code)
 
 ### Changed
 
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration manager: blog settings now live in `config/config.yml` (general, languages, publish, theme), loaded and validated by `src/config.py`. `build.py` accepts `--config <path>` to point at an alternative file (_0019-config-mgnt_)
 - Warning on stderr when a post is missing one or more translations; language switcher renders missing-translation links as strikethrough pointing to the current page (avoids 404s) (_0020-handle-not-translated-post_)
 - Split module between `main.py` and `builder.py` to ease the architecture + Refactored unit tests to follow the new module split (CLI in `src/main.py`, generator in `src/builder.py` as `BlogBuilder`); tests live in `src/test_builder.py` and `src/test_config.py` (_0023-refactor-builder-unit-test_)
+- Refactor agentic framework: adjust some parts of Claude Code and move `.claude/tasks` to `.tasks` in order to use different tools.
 
 ## [1.0.0]
 

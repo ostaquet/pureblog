@@ -1,2 +1,4 @@
 .env
 /claude-data
+docker-compose.override.yml
+*.local.json

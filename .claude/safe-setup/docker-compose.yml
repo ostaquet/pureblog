@@ -1,16 +1,20 @@
+name: ${PROJECT_NAME:-claude-dev}
+
 services:
 
   dev:
     build:
       context: .
       dockerfile: Dockerfile.claude
-    image: techanism/my-blog-claude
-    container_name: my-blog-claude
+    image: ${PROJECT_NAME:-claude-dev}/claude-dev
+    container_name: ${PROJECT_NAME:-claude-dev}-claude-dev
     volumes:
       - ../..:/workspace
-      - ./claude-data:/home/claude/.claude
-      - ./claude-data/.claude.json:/home/claude/.claude.json
+      - ${CLAUDE_DATA_PATH:-./claude-data}:/home/claude/.claude
+      - ${CLAUDE_DATA_PATH:-./claude-data}/.claude.json:/home/claude/.claude.json
     env_file:
       - .env
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME:-workspace}
     stdin_open: true
     tty: true

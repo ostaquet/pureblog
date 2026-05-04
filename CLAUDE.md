@@ -1,10 +1,10 @@
-# Claude Development Guide for Olivier's Blog
+# Agentic Development Guide for Pureblog
 
-This document providers instructions for AI assistants (like Claude) working on the Olivier's Blog project.
+This document providers instructions for AI assistants (like Claude) working on the Pureblog project.
 
 ## Project Overview
 
-Olivier's Blog project is a blog to let Olivier express himself on various topics.
+Pureblog is a minimal static blog engine that converts Markdown posts to HTML with enhanced multilanguage support.
 
 ## Design principles
 
@@ -32,7 +32,7 @@ Per-language RSS 2.0 feeds are generated at `build/{lang}/feed.xml`. The `SITE_U
 
 ## Tasks & agents
 
-This list of tasks can be found in `.claude/tasks/todo` and `.claude/tasks/done`. Done tasks provide history of my prompts. Todo tasks are the next envisonned steps.
+This list of tasks can be found in `.tasks/todo` and `.tasks/done`. Done tasks provide history of my prompts. Todo tasks are the next envisonned steps.
 
 **CRITITCAL** You can always look the vision ahead in written todo tasks, but we NEVER implement anything else that the very next step (first todo tasks, by alphabetic order). Other tasks are informative and may help making future-proof design decisions. If it leads to unecessary complexity, we just forget about them and act as if they were not written at all.
 
@@ -46,6 +46,6 @@ When a tasks involves enhancing the project (typically adding a new feature), a 
 - Update the `CHANGELOG.md` with your changes and the task related to the change.
 - Commit and mark the task done.
 
-**IMPORTANT** If you block on something and are in autonomous mode, adapt the task with your analysis and questions, move it to `analyzed` and move to the next task.
+**IMPORTANT** If you block on something and are in autonomous mode, adapt the task with your analysis and questions, move it to `.tasks/analyzed` and move to the next task.
 
 **CRITICAL** Commit everytime you have something stable. You should end up having ONE commit per task. `Use commit --amend` if needed. NEVER have two different tasks commited together.
