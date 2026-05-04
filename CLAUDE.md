@@ -29,6 +29,10 @@ Reading time is automatically calculated from the post body word count (200 wpm,
 
 Per-language RSS 2.0 feeds are generated at `build/{lang}/feed.xml`. The `SITE_URL` constant defines the base URL used in feed links (default: `https://example.com`). All HTML pages include an RSS autodiscovery `<link>` tag. RSS dates use Europe/Brussels timezone (`DEFAULT_TIMEZONE`) with a default publish time of 13:00 (`DEFAULT_PUBLISH_HOUR`), with proper DST handling via `zoneinfo`.
 
+## End-to-end tests
+
+E2E tests live in `e2e/` (outside `src/`) and run inside the Microsoft Playwright Python Docker image. `make e2e` builds the image (which builds the site at image build time), starts `python -m http.server` against `build/` and runs `pytest e2e/test_e2e.py`. They are intentionally separate from `make test` so unit tests stay fast and Docker-free.
+
 ## Test-Driven Development
 
 ## Tasks & agents

@@ -1,4 +1,6 @@
-.PHONY: venv build serve clean test lint
+.PHONY: venv build serve clean test lint e2e
+
+E2E_IMAGE = pureblog-e2e
 
 ifneq (,$(wildcard /.dockerenv))
 VENV = .venv_docker
@@ -23,6 +25,10 @@ lint: venv
 	. $(VENV)/bin/activate; flake8 src/
 	. $(VENV)/bin/activate; mypy src/
 	. $(VENV)/bin/activate; bandit -q -c pyproject.toml -r src/
+
+e2e:
+	docker build -f e2e/Dockerfile -t $(E2E_IMAGE) .
+	docker run --rm $(E2E_IMAGE)
 
 clean:
 	rm -rf build $(VENV)

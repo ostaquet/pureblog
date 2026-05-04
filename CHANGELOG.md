@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- End-to-end test suite under `e2e/` (Dockerfile based on `mcr.microsoft.com/playwright/python`, entrypoint `e2e/run.sh`, tests in `e2e/test_e2e.py`) covering root redirect, per-language indexes, post rendering, language switching, missing-translation self-link, RSS feeds, sitemap and `robots.txt`. Invoked via `make e2e` and kept separate from `make test` (_0025-add-e2e-tests_)
 - Auto-generated `sitemap.xml` listing language indexes and post pages with `lastmod` dates, plus `robots.txt` copied from `seo/robots.txt` with the `Sitemap:` directive injected (_0022-improve-seo_)
 - Localized back link on post pages: "Back" (en), "Retour" (fr), "Terug" (nl) (_0018-back-link-localization_)
 - Strikethrough for missing-translation links is now applied via the `.missing-translation` CSS class in `theme/style.css` instead of the `<s>` HTML element, making it easier to customize in the theme (_0021-missing-translation-with-css_)

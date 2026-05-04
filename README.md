@@ -9,6 +9,7 @@ make build    # Build the site (creates venv automatically)
 make serve    # Build and start a local server on port 8000
 make test     # Run the unit tests
 make lint     # Run flake8, mypy (strict), and bandit on src/
+make e2e      # Build a Docker image and run Playwright end-to-end tests
 make clean    # Remove the build directory and virtual environments
 ```
 
@@ -85,4 +86,20 @@ theme/
   template.html   HTML page template
   style.css       Stylesheet
 posts/            Markdown source files
+e2e/
+  Dockerfile      Playwright image that builds + serves + tests the site
+  run.sh          Container entrypoint: serve build/ then run pytest
+  test_e2e.py     Playwright end-to-end tests
 ```
+
+## End-to-end tests
+
+`make e2e` builds a Docker image based on the official Playwright Python image
+(`mcr.microsoft.com/playwright/python`), produces the static site inside the
+container, serves it on port 8000 and runs the Playwright test suite in
+`e2e/test_e2e.py` against it. The tests cover the root redirect, per-language
+indexes, post pages, language switching (including the missing-translation
+self-link), the back link, RSS feeds, the sitemap and `robots.txt`.
+
+This target requires a working Docker daemon. Unit tests (`make test`) do not
+depend on Docker and remain the fast feedback loop for development.
