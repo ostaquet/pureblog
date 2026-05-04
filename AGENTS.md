@@ -17,7 +17,7 @@ Compact orientation for AI agents. See `CLAUDE.md` for the longer narrative; thi
 - Tests live **next to** the code in `src/` (`src/test_builder.py`, `src/test_config.py`), not under `tests/`. `pyproject.toml` sets `pythonpath = ["src"]` so imports are flat (`from builder import ...`).
 - `pyproject.toml` is config-only (pytest + pyright). There is no package metadata; dependencies are in `requirements.txt`.
 - Runtime config lives in `config/config.yml`. Every field is mandatory; the loader aborts on missing/invalid fields. When adding features, extend `src/config.py` validation and `test_config.py` together.
-- Static assets: `theme/template.html` (uses `$title`, `$lang`, `$lang_switcher`, `$description`, `$content`, `$root` placeholders), `theme/style.css`, `seo/robots.txt`.
+- Static assets: `theme/template.html` (uses `$title`, `$lang`, `$lang_switcher`, `$description`, `$content`, `$root`, `$site_title`, `$author`, `$year` placeholders), `theme/style.css`, `seo/robots.txt`.
 - `build/` is wiped on every build — never store source there.
 
 ## Documentation layout

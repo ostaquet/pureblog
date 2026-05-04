@@ -61,7 +61,7 @@ The static file `seo/robots.txt` is copied to `/robots.txt` at the root of the b
 
 All blog settings live in `config/config.yml`. The file is split into four documented sections:
 
-- `general`: site title, site URL, posts directory, build directory, assets directory.
+- `general`: site title, site URL, author, posts directory, build directory, assets directory. The `author` value is shown in the page footer (`© {author} {current-year}`).
 - `seo`: path to the source `robots.txt` file.
 - `languages`: list of language codes plus localized labels for reading time and the back link.
 - `publish`: timezone and default publish hour used for RSS dates.

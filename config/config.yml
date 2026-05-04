@@ -12,10 +12,12 @@
 # -----------------------------------------------------------------------------
 # General
 # -----------------------------------------------------------------------------
-# site_title : Human-readable name of the blog. Shown in <title>, RSS feed,
-#              and as default page title for the index pages.
+# site_title : Human-readable name of the blog. Shown in <title>, the header
+#              h1, the RSS feed and as default page title for the index pages.
 # site_url   : Absolute base URL of the deployed site (no trailing slash).
 #              Used for RSS <link>/<guid> elements. Update before deployment.
+# author     : Name of the blog author. Injected into the page footer next to
+#              the build-year (e.g. '© Olivier 2026').
 # posts_dir  : Directory (relative to the project root) containing the source
 #              Markdown posts named '{prefix}-{slug}.{lang}.md'.
 # build_dir  : Directory where the static site is generated. It is wiped on
@@ -27,6 +29,7 @@
 general:
   site_title: "Example's Blog"
   site_url: "https://example.com"
+  author: "Olivier"
   posts_dir: "posts"
   build_dir: "build"
   assets_dir: "assets"

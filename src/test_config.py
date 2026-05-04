@@ -11,6 +11,7 @@ VALID_CONFIG: str = """\
 general:
   site_title: "Test Blog"
   site_url: "https://test.example"
+  author: "Tester"
   posts_dir: "posts"
   build_dir: "build"
   assets_dir: "assets"
@@ -43,6 +44,7 @@ def test_load_valid_config(tmp_path: Path) -> None:
     cfg: config.BlogConfig = config.load_config(_write(tmp_path, VALID_CONFIG))
     assert cfg.site_title == "Test Blog"
     assert cfg.site_url == "https://test.example"
+    assert cfg.author == "Tester"
     assert cfg.posts_dir == Path("posts")
     assert cfg.build_dir == Path("build")
     assert cfg.assets_dir == Path("assets")
@@ -70,6 +72,12 @@ def test_load_missing_section(tmp_path: Path) -> None:
 def test_load_missing_field(tmp_path: Path) -> None:
     text: str = VALID_CONFIG.replace('  site_title: "Test Blog"\n', "")
     with pytest.raises(config.ConfigError, match="Missing field 'site_title'"):
+        config.load_config(_write(tmp_path, text))
+
+
+def test_load_missing_author(tmp_path: Path) -> None:
+    text: str = VALID_CONFIG.replace('  author: "Tester"\n', "")
+    with pytest.raises(config.ConfigError, match="Missing field 'author'"):
         config.load_config(_write(tmp_path, text))
 
 

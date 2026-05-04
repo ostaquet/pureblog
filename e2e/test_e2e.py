@@ -186,6 +186,20 @@ def test_post_renders_link_variants(page: Page) -> None:
     page.wait_for_url(f"{BASE_URL}/en/hello-world/")
 
 
+def test_header_h1_uses_site_title(page: Page) -> None:
+    page.goto(f"{BASE_URL}/en/")
+    expect(page.locator("header h1")).to_have_text("Example's Blog")
+
+
+def test_footer_shows_author_and_year(page: Page) -> None:
+    import datetime as _dt
+
+    page.goto(f"{BASE_URL}/en/")
+    footer_text: str = page.locator("footer").inner_text()
+    assert "Olivier" in footer_text
+    assert str(_dt.datetime.now().year) in footer_text
+
+
 def test_robots_txt_advertises_sitemap() -> None:
     response = requests.get(f"{BASE_URL}/robots.txt", timeout=5)
     assert response.status_code == 200

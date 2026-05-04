@@ -21,6 +21,7 @@ class ConfigError(Exception):
 class BlogConfig:
     site_title: str
     site_url: str
+    author: str
     posts_dir: Path
     build_dir: Path
     assets_dir: Path
@@ -139,6 +140,7 @@ def load_config(config_path: Path) -> BlogConfig:
 
     site_title: str = _require_str(general, "general", "site_title")
     site_url: str = _require_str(general, "general", "site_url")
+    author: str = _require_str(general, "general", "author")
     posts_dir: Path = Path(_require_str(general, "general", "posts_dir"))
     build_dir: Path = Path(_require_str(general, "general", "build_dir"))
     assets_dir: Path = Path(_require_str(general, "general", "assets_dir"))
@@ -179,6 +181,7 @@ def load_config(config_path: Path) -> BlogConfig:
     return BlogConfig(
         site_title=site_title,
         site_url=site_url,
+        author=author,
         posts_dir=posts_dir,
         build_dir=build_dir,
         assets_dir=assets_dir,

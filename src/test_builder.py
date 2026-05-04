@@ -1,5 +1,6 @@
 """Unit tests for the static blog builder."""
 
+from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -72,6 +73,7 @@ def _make_config(
     return BlogConfig(
         site_title="Olivier's Blog",
         site_url=SITE_URL,
+        author="Olivier",
         posts_dir=posts_dir,
         build_dir=tmp_path / "build",
         assets_dir=assets_dir,
@@ -648,6 +650,57 @@ def test_build_index_shows_reading_time(tmp_path: Path) -> None:
     index_html: str = (build_dir / "en" / "index.html").read_text()
     assert "min read" in index_html
     assert 'class="reading-time"' in index_html
+
+
+# --- Header / footer template tests ---
+
+
+def test_template_globals_contains_site_title_author_year(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    blog, _ = _build(tmp_path, {})
+    globals_: dict[str, str] = blog.template_globals()
+    assert globals_["site_title"] == "Olivier's Blog"
+    assert globals_["author"] == "Olivier"
+    current_year: int = datetime.now(tz=blog.cfg.default_timezone).year
+    assert globals_["year"] == str(current_year)
+
+
+def test_build_header_uses_site_title(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text=(
+            "<header><h1>$site_title</h1></header>"
+            "$lang_switcher $title $description $content $root"
+        ),
+    )
+    blog.build_site()
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert "<header><h1>Olivier's Blog</h1></header>" in index_html
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert "<header><h1>Olivier's Blog</h1></header>" in post_html
+
+
+def test_build_footer_uses_author_and_year(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text=(
+            "<footer>&copy; $author $year</footer>"
+            "$lang_switcher $title $description $content $root"
+        ),
+    )
+    blog.build_site()
+    current_year: int = datetime.now(tz=blog.cfg.default_timezone).year
+    expected: str = f"<footer>&copy; Olivier {current_year}</footer>"
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert expected in index_html
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert expected in post_html
 
 
 # --- Image / asset handling tests ---

@@ -29,6 +29,15 @@ class BlogBuilder:
     def __init__(self, cfg: BlogConfig):
         self.cfg = cfg
 
+    def template_globals(self) -> dict[str, str]:
+        """Return template substitutions that are the same on every page."""
+        year: int = datetime.now(tz=self.cfg.default_timezone).year
+        return {
+            "site_title": self.cfg.site_title,
+            "author": self.cfg.author,
+            "year": str(year),
+        }
+
     def build_site(self) -> None:
         self.prepare_build_dir()
         template: Template = Template(self.cfg.template_file.read_text(encoding="utf-8"))
@@ -173,6 +182,7 @@ class BlogBuilder:
                     f"</article>"
                 ),
                 root="../..",
+                **self.template_globals(),
             )
             (post_dir / "index.html").write_text(page, encoding="utf-8")
 
@@ -215,6 +225,7 @@ class BlogBuilder:
             description="",
             content=index_content,
             root="..",
+            **self.template_globals(),
         )
         (lang_dir / "index.html").write_text(page, encoding="utf-8")
 
