@@ -10,7 +10,7 @@ endif
 
 venv: requirements.txt
 	python3 -m venv $(VENV)
-	. $(VENV)/bin/activate; pip install --upgrade pip; pip install -r requirements.txt
+	. $(VENV)/bin/activate; pip install --upgrade pip; pip install -r requirements.txt | grep -v "Requirement already satisfied:" || true
 
 build: venv
 	. $(VENV)/bin/activate; python3 src/main.py
