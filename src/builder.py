@@ -36,6 +36,7 @@ class BlogBuilder:
         translations: dict[str, dict[str, Post]] = group_translations(posts)
         warn_missing_translations(translations, self.cfg.languages)
         self.warn_missing_images(posts)
+        self.warn_missing_internal_links(posts)
 
         for lang in self.cfg.languages:
             self.build_lang(lang, posts, translations, template)
@@ -168,7 +169,8 @@ class BlogBuilder:
                     f'<time>{post["date"]}</time>'
                     f'<span class="reading-time">{reading_time_str}</span>'
                     f"</div>"
-                    f'{rewrite_relative_image_sources(post["html"], "../..")}</article>'
+                    f"{rewrite_post_html_for_page(post['html'], '../..', self.cfg.posts_dir.name)}"
+                    f"</article>"
                 ),
                 root="../..",
             )
@@ -297,6 +299,24 @@ class BlogBuilder:
                     file=sys.stderr,
                 )
 
+    def warn_missing_internal_links(self, posts: list[Post]) -> None:
+        """Warn for each ``posts/{stem}.md`` link that does not resolve."""
+        posts_dir_name: str = self.cfg.posts_dir.name
+        for post in posts:
+            stems: list[str] = extract_internal_post_link_stems(
+                post["html"], posts_dir_name
+            )
+            for stem in stems:
+                target: Path = self.cfg.posts_dir / f"{stem}.md"
+                if target.is_file():
+                    continue
+                print(
+                    f"Warning: post '{post['post_id']}-{post['slug']}.{post['lang']}' "
+                    f"links to missing post '{posts_dir_name}/{stem}.md' "
+                    f"(expected at {target}).",
+                    file=sys.stderr,
+                )
+
     def build_root_redirect(self) -> None:
         """Write a root index.html that redirects to /en/."""
         html: str = (
@@ -331,6 +351,11 @@ _RELATIVE_IMG_SRC_RE: re.Pattern[str] = re.compile(
     flags=re.IGNORECASE,
 )
 
+_NEW_TAB_HREF_RE: re.Pattern[str] = re.compile(
+    r'(<a\b[^>]*?)\bhref="tab:([^"]*)"([^>]*>)',
+    flags=re.IGNORECASE,
+)
+
 
 def extract_relative_image_sources(html_text: str) -> list[str]:
     """Return all relative ``src`` values from ``<img>`` tags in ``html_text``."""
@@ -347,6 +372,80 @@ def rewrite_relative_image_sources(html_text: str, root: str) -> str:
         lambda m: f"{m.group(1)}{root}/{m.group(2)}{m.group(3)}",
         html_text,
     )
+
+
+def _internal_post_link_re(posts_dir_name: str) -> re.Pattern[str]:
+    """Compile a regex matching ``<a href="{posts_dir}/{stem}.md">`` openings."""
+    return re.compile(
+        r'(<a\b[^>]*?\bhref=")'
+        + re.escape(posts_dir_name)
+        + r'/([^"]+)\.md(")',
+        flags=re.IGNORECASE,
+    )
+
+
+def rewrite_new_tab_links(html_text: str) -> str:
+    """Convert ``href="tab:URL"`` into a same-tag link that opens in a new tab.
+
+    The ``tab:`` prefix is stripped from the URL and ``target="_blank"`` plus
+    ``rel="noopener noreferrer"`` (for tabnabbing protection) are appended to
+    the opening tag.
+    """
+    return _NEW_TAB_HREF_RE.sub(
+        lambda m: (
+            f'{m.group(1)}href="{m.group(2)}"'
+            f' target="_blank" rel="noopener noreferrer"{m.group(3)}'
+        ),
+        html_text,
+    )
+
+
+def rewrite_internal_post_links(
+    html_text: str, root: str, posts_dir_name: str
+) -> str:
+    """Rewrite ``href="{posts_dir}/{stem}.md"`` links to the built page URL.
+
+    Each stem is parsed via :func:`split_stem`; the resulting URL is
+    ``{root}/{lang}/{slug}/`` so the link works from any page depth.
+    Stems that fail to parse are left untouched.
+    """
+    pattern: re.Pattern[str] = _internal_post_link_re(posts_dir_name)
+
+    def replace(match: re.Match[str]) -> str:
+        stem: str = match.group(2)
+        try:
+            _, slug, lang = split_stem(stem)
+        except ValueError:
+            return match.group(0)
+        return f'{match.group(1)}{root}/{lang}/{slug}/{match.group(3)}'
+
+    return pattern.sub(replace, html_text)
+
+
+def transform_post_links(
+    html_text: str, root: str, posts_dir_name: str
+) -> str:
+    """Apply all post-link rewrites: new-tab markers and internal post links."""
+    html_text = rewrite_new_tab_links(html_text)
+    html_text = rewrite_internal_post_links(html_text, root, posts_dir_name)
+    return html_text
+
+
+def rewrite_post_html_for_page(
+    html_text: str, root: str, posts_dir_name: str
+) -> str:
+    """Apply image-source and link rewrites needed to render ``html_text``."""
+    html_text = rewrite_relative_image_sources(html_text, root)
+    html_text = transform_post_links(html_text, root, posts_dir_name)
+    return html_text
+
+
+def extract_internal_post_link_stems(
+    html_text: str, posts_dir_name: str
+) -> list[str]:
+    """Return all stems referenced via ``href="{posts_dir}/{stem}.md"``."""
+    pattern: re.Pattern[str] = _internal_post_link_re(posts_dir_name)
+    return [match.group(2) for match in pattern.finditer(html_text)]
 
 
 def build_post_description(post: Post) -> str:

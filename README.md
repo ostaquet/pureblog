@@ -33,7 +33,7 @@ An estimated reading time is automatically calculated from the post word count (
 
 For example, `001-hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation with its own SEO-friendly slug, create `001-bonjour-le-monde.fr.md` (same prefix `001` links the translations). The French version will be served at `/fr/bonjour-le-monde/`.
 
-The post body supports the standard Markdown syntax used by Pureblog: headers (`#` to `####`), `**bold**`, `_italic_` / `*italic*`, `~~strikethrough~~`, unordered (`-`) and ordered (`1.`) lists, blockquotes (`>`), inline `` `code` ``, triple-backtick fenced code blocks, and images (`![alt](url)`). The full list with examples is in [`docs/markdown-cheatsheet.md`](docs/markdown-cheatsheet.md).
+The post body supports the standard Markdown syntax used by Pureblog: headers (`#` to `####`), `**bold**`, `_italic_` / `*italic*`, `~~strikethrough~~`, unordered (`-`) and ordered (`1.`) lists, blockquotes (`>`), inline `` `code` ``, triple-backtick fenced code blocks, images (`![alt](url)`), and links (auto-links `<URL>`, same-tab `[x](URL)`, new-tab `[x](tab:URL)`, internal `[x](posts/{file}.md)`). The full list with examples is in [`docs/markdown-cheatsheet.md`](docs/markdown-cheatsheet.md).
 
 ## Images and assets
 

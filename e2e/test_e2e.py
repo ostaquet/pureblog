@@ -161,6 +161,31 @@ def test_post_image_is_served_and_fits_article(page: Page) -> None:
         )
 
 
+def test_post_renders_link_variants(page: Page) -> None:
+    page.goto(f"{BASE_URL}/en/markdown-format/")
+    article = page.locator("main article")
+
+    autolink = article.locator(
+        'a[href="http://www.example.com"]',
+        has_text="http://www.example.com",
+    )
+    expect(autolink).to_have_count(1)
+
+    same_tab = article.locator("a", has_text="the docs")
+    expect(same_tab).to_have_attribute("href", "http://www.example.com")
+    expect(same_tab).not_to_have_attribute("target", "_blank")
+
+    new_tab = article.locator("a", has_text="reference in a new tab")
+    expect(new_tab).to_have_attribute("href", "http://www.example.com")
+    expect(new_tab).to_have_attribute("target", "_blank")
+    expect(new_tab).to_have_attribute("rel", "noopener noreferrer")
+
+    internal = article.locator("a", has_text="Hello World")
+    expect(internal).to_have_attribute("href", "../../en/hello-world/")
+    internal.click()
+    page.wait_for_url(f"{BASE_URL}/en/hello-world/")
+
+
 def test_robots_txt_advertises_sitemap() -> None:
     response = requests.get(f"{BASE_URL}/robots.txt", timeout=5)
     assert response.status_code == 200

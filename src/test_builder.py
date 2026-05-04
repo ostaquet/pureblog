@@ -755,6 +755,144 @@ def test_build_post_rewrites_internal_image_src(tmp_path: Path) -> None:
     assert 'src="https://example.com/img.png"' in post_html
 
 
+# --- Link handling tests ---
+
+
+SAMPLE_POST_WITH_LINKS: str = """\
+---
+title: Link Post
+date: 2026-03-01
+excerpt: Has links.
+---
+
+External: [example](http://www.example.com)
+
+New tab: [other](tab:http://www.example.com)
+
+Internal: [hello](posts/001-hello-world.en.md)
+
+Autolink: <http://www.example.com>
+
+Missing: [gone](posts/999-missing.en.md)
+"""
+
+
+def test_rewrite_new_tab_links() -> None:
+    html: str = '<a href="tab:http://example.com">x</a>'
+    rewritten: str = builder.rewrite_new_tab_links(html)
+    assert 'href="http://example.com"' in rewritten
+    assert 'target="_blank"' in rewritten
+    assert 'rel="noopener noreferrer"' in rewritten
+    assert "tab:" not in rewritten
+
+
+def test_rewrite_new_tab_links_leaves_others_alone() -> None:
+    html: str = '<a href="http://example.com">x</a>'
+    assert builder.rewrite_new_tab_links(html) == html
+
+
+def test_rewrite_internal_post_links() -> None:
+    html: str = '<a href="posts/001-hello-world.en.md">hello</a>'
+    rewritten: str = builder.rewrite_internal_post_links(html, "../..", "posts")
+    assert '<a href="../../en/hello-world/">hello</a>' == rewritten
+
+
+def test_rewrite_internal_post_links_unparseable_left_alone() -> None:
+    html: str = '<a href="posts/no-prefix.md">x</a>'
+    assert (
+        builder.rewrite_internal_post_links(html, "../..", "posts") == html
+    )
+
+
+def test_transform_post_links_combines_tab_and_internal() -> None:
+    html: str = (
+        '<a href="tab:posts/001-hello-world.en.md">hello</a>'
+    )
+    rewritten: str = builder.transform_post_links(html, "../..", "posts")
+    assert 'href="../../en/hello-world/"' in rewritten
+    assert 'target="_blank"' in rewritten
+
+
+def test_extract_internal_post_link_stems() -> None:
+    html: str = (
+        '<a href="posts/001-hello-world.en.md">a</a>'
+        '<a href="posts/002-other.fr.md">b</a>'
+        '<a href="http://example.com">c</a>'
+    )
+    stems: list[str] = builder.extract_internal_post_link_stems(html, "posts")
+    assert stems == ["001-hello-world.en", "002-other.fr"]
+
+
+def test_build_post_renders_external_and_autolink(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {
+            "001-hello.en.md": SAMPLE_POST,
+            "002-links.en.md": SAMPLE_POST_WITH_LINKS,
+        },
+        template_text="$content",
+    )
+    blog.build_site()
+    post_html: str = (build_dir / "en" / "links" / "index.html").read_text()
+    assert '<a href="http://www.example.com">example</a>' in post_html
+    # Autolink rendered via python-markdown
+    assert post_html.count('href="http://www.example.com"') >= 2
+
+
+def test_build_post_renders_new_tab_link(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {
+            "001-hello.en.md": SAMPLE_POST,
+            "002-links.en.md": SAMPLE_POST_WITH_LINKS,
+        },
+        template_text="$content",
+    )
+    blog.build_site()
+    post_html: str = (build_dir / "en" / "links" / "index.html").read_text()
+    assert 'target="_blank"' in post_html
+    assert 'rel="noopener noreferrer"' in post_html
+    assert 'href="tab:' not in post_html
+
+
+def test_build_post_renders_internal_link(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {
+            "001-hello.en.md": SAMPLE_POST,
+            "002-links.en.md": SAMPLE_POST_WITH_LINKS,
+        },
+        template_text="$content",
+    )
+    blog.build_site()
+    post_html: str = (build_dir / "en" / "links" / "index.html").read_text()
+    assert '<a href="../../en/hello-world/">hello</a>' in post_html
+
+
+def test_build_warns_about_missing_internal_link(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    blog: builder.BlogBuilder
+    blog, _ = _build(
+        tmp_path,
+        {
+            "001-hello.en.md": SAMPLE_POST,
+            "002-links.en.md": SAMPLE_POST_WITH_LINKS,
+        },
+        template_text="$content",
+    )
+    blog.build_site()
+    captured: CaptureResult[str] = capsys.readouterr()
+    assert "missing post" in captured.err
+    assert "999-missing.en.md" in captured.err
+
+
 # --- format_rfc822_date / render_rss_item (BlogBuilder methods) ---
 
 

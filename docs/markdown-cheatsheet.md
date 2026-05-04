@@ -97,6 +97,34 @@ the page's root, so the same Markdown works on both index and post
 pages. If a referenced internal image cannot be found in `assets_dir`,
 the build prints a warning to stderr but still succeeds.
 
+## Links
+
+Pureblog renders four kinds of links:
+
+```markdown
+<http://www.example.com>
+
+[Open in same tab](http://www.example.com)
+
+[Open in new tab](tab:http://www.example.com)
+
+[Internal link](posts/001-bonjour-monde.fr.md)
+```
+
+- Auto-links (`<URL>`) and standard inline links (`[text](URL)`) render as
+  plain `<a href="URL">…</a>` and open in the same tab.
+- A `tab:` prefix on the URL opens the link in a new tab. The prefix is
+  stripped at build time and `target="_blank" rel="noopener noreferrer"`
+  is added to the anchor (the `rel` value protects against tabnabbing).
+- Internal links use the source filename of the target post under the
+  configured `general.posts_dir` (default: `posts/`). The path is
+  rewritten to the deployed URL `/{lang}/{slug}/`. If the referenced
+  source file does not exist, the build prints a warning to stderr but
+  still renders the link.
+
+`tab:` and internal-link rewrites compose: `[x](tab:posts/001-foo.en.md)`
+opens the resolved internal URL in a new tab.
+
 ## Paragraphs and line breaks
 
 Blank lines separate paragraphs. A single newline inside a paragraph is

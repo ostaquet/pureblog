@@ -38,6 +38,8 @@ Is it important code?
 
 ![Documentation illustration](assets/img/documentation.png)
 
+Visit <http://www.example.com> or read [the docs](http://www.example.com). Open the [reference in a new tab](tab:http://www.example.com), or jump to [Hello World](posts/001-hello-world.en.md).
+
 > This is a quote, a very important quote.
 
 1. Item number 1
