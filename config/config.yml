@@ -25,7 +25,7 @@
 #              'build/assets/' so that markdown links like
 #              '![alt](assets/img/foo.png)' resolve at deploy time.
 general:
-  site_title: "Olivier's Blog"
+  site_title: "Example's Blog"
   site_url: "https://example.com"
   posts_dir: "posts"
   build_dir: "build"

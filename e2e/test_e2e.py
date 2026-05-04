@@ -26,7 +26,7 @@ def test_root_redirects_to_english_index(page: Page) -> None:
 
 def test_english_index_lists_posts_in_descending_date_order(page: Page) -> None:
     page.goto(f"{BASE_URL}/en/")
-    expect(page).to_have_title("Olivier's Blog")
+    expect(page).to_have_title("Example's Blog")
     titles: list[str] = page.locator("main article a").all_inner_texts()
     assert titles == [
         "Markdown format",

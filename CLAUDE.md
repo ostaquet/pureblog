@@ -37,8 +37,6 @@ Per-language RSS 2.0 feeds are generated at `build/{lang}/feed.xml`. The `SITE_U
 
 E2E tests live in `e2e/` (outside `src/`) and run inside the Microsoft Playwright Python Docker image. `make e2e` builds the image (which builds the site at image build time), starts `python -m http.server` against `build/` and runs `pytest e2e/test_e2e.py`. They are intentionally separate from `make test` so unit tests stay fast and Docker-free.
 
-## Test-Driven Development
-
 ## Tasks & agents
 
 This list of tasks can be found in `.tasks/todo` and `.tasks/done`. Done tasks provide history of my prompts. Todo tasks are the next envisonned steps.
