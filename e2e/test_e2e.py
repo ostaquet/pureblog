@@ -196,7 +196,7 @@ def test_footer_shows_author_and_year(page: Page) -> None:
 
     page.goto(f"{BASE_URL}/en/")
     footer_text: str = page.locator("footer").inner_text()
-    assert "Olivier" in footer_text
+    assert "John Doe" in footer_text
     assert str(_dt.datetime.now().year) in footer_text
 
 
