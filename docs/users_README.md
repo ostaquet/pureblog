@@ -61,7 +61,7 @@ The static file `seo/robots.txt` is copied to `/robots.txt` at the root of the b
 
 All blog settings live in `config/config.yml`. The file is split into four documented sections:
 
-- `general`: site title, site URL, author, posts directory, build directory, assets directory.
+- `general`: site title, site URL, author, favicon emoji, posts directory, build directory, assets directory. The `author` is shown in the page footer (`© {author} {current-year}`); `favicon_emoji` (a single emoji like `📝`) is rendered into an SVG favicon at `/favicon.svg` and referenced from every page.
 - `seo`: path to the source `robots.txt` file.
 - `languages`: list of language codes plus localized labels for reading time and the back link.
 - `publish`: timezone and default publish hour used for RSS dates.

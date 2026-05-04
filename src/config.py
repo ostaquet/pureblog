@@ -5,6 +5,7 @@ Centralizes all blog settings so the engine is reusable for other blogs
 without changes to the source code.
 """
 
+import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,7 @@ class BlogConfig:
     site_title: str
     site_url: str
     author: str
+    favicon_emoji: str
     posts_dir: Path
     build_dir: Path
     assets_dir: Path
@@ -103,6 +105,25 @@ def _require_lang_map(
     return result
 
 
+def _validate_favicon_emoji(value: str) -> str:
+    """Validate that ``value`` is a single emoji grapheme cluster."""
+    if any(c.isspace() for c in value):
+        raise ConfigError(
+            "Field 'general.favicon_emoji' must not contain whitespace."
+        )
+    if len(value) > 8:
+        raise ConfigError(
+            "Field 'general.favicon_emoji' must be a single emoji "
+            "(up to 8 codepoints for ZWJ sequences)."
+        )
+    if not any(unicodedata.category(c).startswith("S") for c in value):
+        raise ConfigError(
+            "Field 'general.favicon_emoji' must be a single emoji character "
+            f"(got {value!r})."
+        )
+    return value
+
+
 def _parse_timezone(name: str) -> ZoneInfo:
     try:
         return ZoneInfo(name)
@@ -141,6 +162,9 @@ def load_config(config_path: Path) -> BlogConfig:
     site_title: str = _require_str(general, "general", "site_title")
     site_url: str = _require_str(general, "general", "site_url")
     author: str = _require_str(general, "general", "author")
+    favicon_emoji: str = _validate_favicon_emoji(
+        _require_str(general, "general", "favicon_emoji")
+    )
     posts_dir: Path = Path(_require_str(general, "general", "posts_dir"))
     build_dir: Path = Path(_require_str(general, "general", "build_dir"))
     assets_dir: Path = Path(_require_str(general, "general", "assets_dir"))
@@ -182,6 +206,7 @@ def load_config(config_path: Path) -> BlogConfig:
         site_title=site_title,
         site_url=site_url,
         author=author,
+        favicon_emoji=favicon_emoji,
         posts_dir=posts_dir,
         build_dir=build_dir,
         assets_dir=assets_dir,

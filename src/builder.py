@@ -53,6 +53,7 @@ class BlogBuilder:
         self.build_root_redirect()
         self.build_sitemap(posts)
         self.build_robots()
+        self.build_favicon()
 
         print(f"Built {len(posts)} posts -> {self.cfg.build_dir}/")
 
@@ -327,6 +328,20 @@ class BlogBuilder:
                     f"(expected at {target}).",
                     file=sys.stderr,
                 )
+
+    def build_favicon(self) -> None:
+        """Render ``general.favicon_emoji`` into ``build/favicon.svg``."""
+        emoji: str = html.escape(self.cfg.favicon_emoji, quote=True)
+        svg: str = (
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+            '<text x="50" y="55" font-size="80" text-anchor="middle"'
+            ' dominant-baseline="central">'
+            f"{emoji}"
+            "</text>"
+            "</svg>\n"
+        )
+        (self.cfg.build_dir / "favicon.svg").write_text(svg, encoding="utf-8")
 
     def build_root_redirect(self) -> None:
         """Write a root index.html that redirects to /en/."""

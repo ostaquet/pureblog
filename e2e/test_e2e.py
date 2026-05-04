@@ -200,6 +200,18 @@ def test_footer_shows_author_and_year(page: Page) -> None:
     assert str(_dt.datetime.now().year) in footer_text
 
 
+def test_favicon_is_served_and_referenced(page: Page) -> None:
+    response = requests.get(f"{BASE_URL}/favicon.svg", timeout=5)
+    assert response.status_code == 200
+    assert "<svg" in response.text
+    assert "📝" in response.text
+
+    page.goto(f"{BASE_URL}/en/")
+    favicon_link = page.locator('head link[rel="icon"]')
+    expect(favicon_link).to_have_attribute("type", "image/svg+xml")
+    expect(favicon_link).to_have_attribute("href", "../favicon.svg")
+
+
 def test_robots_txt_advertises_sitemap() -> None:
     response = requests.get(f"{BASE_URL}/robots.txt", timeout=5)
     assert response.status_code == 200

@@ -74,6 +74,7 @@ def _make_config(
         site_title="Olivier's Blog",
         site_url=SITE_URL,
         author="Olivier",
+        favicon_emoji="📝",
         posts_dir=posts_dir,
         build_dir=tmp_path / "build",
         assets_dir=assets_dir,
@@ -701,6 +702,40 @@ def test_build_footer_uses_author_and_year(tmp_path: Path) -> None:
     assert expected in index_html
     post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
     assert expected in post_html
+
+
+# --- Favicon tests ---
+
+
+def test_build_writes_favicon_svg(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    blog.build_site()
+    favicon: Path = build_dir / "favicon.svg"
+    assert favicon.is_file()
+    content: str = favicon.read_text(encoding="utf-8")
+    assert "<svg" in content
+    assert "📝" in content
+    assert "<text" in content
+
+
+def test_build_template_references_favicon(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {"001-hello.en.md": SAMPLE_POST},
+        template_text=(
+            '<link rel="icon" type="image/svg+xml" href="$root/favicon.svg">'
+            "$lang_switcher $title $description $content"
+        ),
+    )
+    blog.build_site()
+    index_html: str = (build_dir / "en" / "index.html").read_text()
+    assert 'href="../favicon.svg"' in index_html
+    post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
+    assert 'href="../../favicon.svg"' in post_html
 
 
 # --- Image / asset handling tests ---

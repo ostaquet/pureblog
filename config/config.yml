@@ -18,6 +18,9 @@
 #              Used for RSS <link>/<guid> elements. Update before deployment.
 # author     : Name of the blog author. Injected into the page footer next to
 #              the build-year (e.g. '© John Doe 2026').
+# favicon_emoji : Single emoji rendered as the site favicon. The build emits
+#                 an SVG favicon at '/favicon.svg' containing this emoji and
+#                 references it from every page via a <link rel="icon"> tag.
 # posts_dir  : Directory (relative to the project root) containing the source
 #              Markdown posts named '{prefix}-{slug}.{lang}.md'.
 # build_dir  : Directory where the static site is generated. It is wiped on
@@ -30,6 +33,7 @@ general:
   site_title: "Example's Blog"
   site_url: "https://example.com"
   author: "John Doe"
+  favicon_emoji: "📝"
   posts_dir: "posts"
   build_dir: "build"
   assets_dir: "assets"
