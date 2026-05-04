@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0]
+
 ### Added
 
 - Emoji-based favicon: new mandatory `general.favicon_emoji` config field (validated as a single emoji-like grapheme). The build renders an SVG favicon at `/favicon.svg` containing the emoji and the page template references it via `<link rel="icon" type="image/svg+xml">`, suppressing the browser's default `favicon.ico` 404 (_0031-add-favicon_)
