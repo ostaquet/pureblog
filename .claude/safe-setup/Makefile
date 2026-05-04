@@ -1,4 +1,4 @@
-.PHONY: up down shell claude restart clean logs status
+.PHONY: up down shell claude restart clean purge logs status
 
 claude-data/.claude.json:
 	mkdir -p claude-data
@@ -21,6 +21,9 @@ restart: down up
 
 clean: down
 	docker compose down --rmi all --volumes
+
+purge: clean
+	docker system prune --all --force
 
 logs:
 	docker compose logs -f

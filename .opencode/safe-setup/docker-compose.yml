@@ -10,6 +10,7 @@ services:
     container_name: ${PROJECT_NAME:-opencode-dev}-opencode-dev
     volumes:
       - ../..:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - .env
     environment:

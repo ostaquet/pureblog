@@ -1,4 +1,4 @@
-.PHONY: up down shell opencode restart clean logs status
+.PHONY: up down shell opencode restart clean purge logs status
 
 up:
 	docker compose up -d --build
@@ -17,6 +17,8 @@ restart: down up
 
 clean: down
 	docker compose down --rmi all --volumes
+
+purge: clean
 	docker system prune --all --force
 
 logs:
