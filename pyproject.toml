@@ -16,4 +16,4 @@ module = "bandit.*"
 ignore_missing_imports = true
 
 [tool.bandit]
-exclude_dirs = ["src/test_builder.py", "src/test_config.py", ".venv_docker", ".venv_local", "build"]
+exclude_dirs = ["src/test_*.py", ".venv_docker", ".venv_local", "build"]
