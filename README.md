@@ -8,7 +8,7 @@ It is fast and requires very low resources to host a Pureblog.
 
 ## Quick start
 
-Start by installing dependencies:
+Installing the dependencies to build your Pureblog:
 
 - Ensure that Python is installed (`python3 --version`). If not, go on https://www.python.org/downloads/.
 - Ensure that `pip` is installed (`pip3 --version`). If not, go on https://pip.pypa.io/en/stable/installation/.
@@ -17,15 +17,15 @@ Start by installing dependencies:
   - MacOS: `brew install make`
   - Linux: `sudo apt-get install build-essential`
 
-Then, build the example blog:
+Build the example blog:
 
-- Run `make serve` in a Terminal.
+- Run `make build` in a Terminal.
+
+Your Pureblog is available in `build/` and can be deployed with a simple copy-paste.
+
+- Run `make serve` in a Terminal to test it righ away.
 
 Visit the website on http://localhost:8000
-
-## How it works?
-
-Pureblog is a tool that convert blog posts written in Markdown into static HTML. Static HTML is light, very fast,
 
 ## Important things to know
 
@@ -61,5 +61,5 @@ docs/             Documentation for users and developers
 e2e/              Playwrigth end-to-end-tests
 .claude/          Agentic safe-setup for Claude Code
 .opencode/        Agentic safe-setup for Opencode
-.tasks/           Tasks for the agentic development framework
+.tasks/           Structured micro-prompting tasks for agentic development
 ```

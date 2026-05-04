@@ -1,8 +1,6 @@
-# Hacking on Olivier's Blog with Claude Code
+# Hacking with Claude Code
 
-This Docker setup provides a sandboxed environment with all tools needed to hack on Olivier's Blog:
-
-- Claude Code CLI
+This Docker safe-setup provides a sandboxed environment with all tools needed to work with Claude Code.
 
 ## Prerequisites
 
@@ -22,22 +20,14 @@ GIT_USER_EMAIL=your.email@example.com
 make up
 
 # Enter the dev environment
-make shell
+make claude
 ```
-
-## Persistent Data
-
-- **Claude history**: Stored in a named Docker volume (`claude-history`) that persists across container restarts
-- **Git configuration**: Automatically set from `GIT_USER_NAME` and `GIT_USER_EMAIL` environment variables
 
 ## Inside the Container
 
 You're now user `claude` in `/workspace` (the project root).
 
-```bash
-# Use Claude Code
-claude
-```
+Python and Go development environments are available. The container is also configured to support running Docker in a Docker (for E2E tests).
 
 ## Commands
 

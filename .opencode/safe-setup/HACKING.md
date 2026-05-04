@@ -1,11 +1,10 @@
 # Hacking with Opencode
 
-This Docker setup provides a sandboxed environment with all tools needed to hack with OpenCode CLI
+This Docker safe-setup provides a sandboxed environment with all tools needed to hack with OpenCode CLI
 
 ## Prerequisites
 
 1. Docker and Docker Compose installed
-2. A Claude Code account
 
 ## Getting Started
 
@@ -19,17 +18,15 @@ GIT_USER_EMAIL=your.email@example.com
 # Build and start containers
 make up
 
-# Enter the dev environment
-make shell
+# Start opencode
+make opencode
 ```
-
-## Persistent Data
-
-- **Git configuration**: Automatically set from `GIT_USER_NAME` and `GIT_USER_EMAIL` environment variables
 
 ## Inside the Container
 
 You're now user `opencode` in `/workspace` (the project root).
+
+Python and Go development environments are available. The container is also configured to support running Docker in a Docker (for E2E tests).
 
 ## Commands
 

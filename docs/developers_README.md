@@ -15,11 +15,43 @@ make e2e      # Build a Docker image and run Playwright end-to-end tests
 make clean    # Remove the build directory and virtual environments
 ```
 
+## Agentic development
+
+This project supports Claude Code and Opencode for agentic development. Details can be found in the respective directories `.claude` and `.opencode`.
+
+In order to avoid giving all access to the local machine, the project offers safe-setup to run the agents in a sandboxed container. The documentation about the safe-setup is in [.claude/safe-setup/HACKING.md](../.claude/safe-setup/HACKING.md) and in [.opencode/safe-setup/HACKING.md](../.opencode/safe-setup/HACKING.md).
+
+We believe that agentic development must be more structured than solely prompting and hoping for the best. This is why this project uses the concept of **Structured Micro-prompting**. The tasks are described in `.tasks/` folder with a clear status:
+
+- `.tasks/todo`: Tasks to do for the agent under the form `9999-thing-todo.md`.
+- `.tasks/done`: Tasks done.
+- `.tasks/analysed`: If the task to do is too complex and required analysis.
+- `.tasks/ideas`: Ideas of tasks for the future.
+
+When starting the agent in its safe-setup, you can prompt:
+
+- `Read the AGENTS.md`
+- `Implement next task`
+
+The agent will follow the workflow of the tasks and iterate to provide code with the expected quality and documentation.
+
 ## Tests and quality
 
 ### Linter and SAST
 
+The project uses:
+
+- flake8 for code style
+- mypy for type checking (strict mode)
+- bandit for security checking
+
+`make lint` runs the linters.
+
 ### Unit tests
+
+Unit tests are wrtten with `pytest` framework. The unit tests lives next to the source code in `src/`.
+
+`make test` runs the unit tests.
 
 ### End-to-end tests
 
