@@ -204,7 +204,7 @@ def test_favicon_is_served_and_referenced(page: Page) -> None:
     response = requests.get(f"{BASE_URL}/favicon.svg", timeout=5)
     assert response.status_code == 200
     assert "<svg" in response.text
-    assert "📝" in response.text
+    assert "🌎" in response.text
 
     page.goto(f"{BASE_URL}/en/")
     favicon_link = page.locator('head link[rel="icon"]')

@@ -23,7 +23,6 @@ class BlogConfig:
     site_title: str
     site_url: str
     author: str
-    favicon_emoji: str
     posts_dir: Path
     build_dir: Path
     assets_dir: Path
@@ -35,6 +34,7 @@ class BlogConfig:
     default_publish_hour: int
     template_file: Path
     style_file: Path
+    favicon_emoji: str
 
 
 def _require_section(data: dict[str, Any], section: str) -> dict[str, Any]:
@@ -162,9 +162,6 @@ def load_config(config_path: Path) -> BlogConfig:
     site_title: str = _require_str(general, "general", "site_title")
     site_url: str = _require_str(general, "general", "site_url")
     author: str = _require_str(general, "general", "author")
-    favicon_emoji: str = _validate_favicon_emoji(
-        _require_str(general, "general", "favicon_emoji")
-    )
     posts_dir: Path = Path(_require_str(general, "general", "posts_dir"))
     build_dir: Path = Path(_require_str(general, "general", "build_dir"))
     assets_dir: Path = Path(_require_str(general, "general", "assets_dir"))
@@ -201,6 +198,9 @@ def load_config(config_path: Path) -> BlogConfig:
 
     template_file: Path = Path(_require_str(theme, "theme", "template_file"))
     style_file: Path = Path(_require_str(theme, "theme", "style_file"))
+    favicon_emoji: str = _validate_favicon_emoji(
+        _require_str(theme, "theme", "favicon_emoji")
+    )
 
     return BlogConfig(
         site_title=site_title,

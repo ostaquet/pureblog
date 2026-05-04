@@ -61,11 +61,11 @@ The static file `seo/robots.txt` is copied to `/robots.txt` at the root of the b
 
 All blog settings live in `config/config.yml`. The file is split into four documented sections:
 
-- `general`: site title, site URL, author, favicon emoji, posts directory, build directory, assets directory. The `author` is shown in the page footer (`© {author} {current-year}`); `favicon_emoji` (a single emoji like `📝`) is rendered into an SVG favicon at `/favicon.svg` and referenced from every page.
+- `general`: site title, site URL, author, posts directory, build directory, assets directory.
 - `seo`: path to the source `robots.txt` file.
 - `languages`: list of language codes plus localized labels for reading time and the back link.
 - `publish`: timezone and default publish hour used for RSS dates.
-- `theme`: paths to the template and stylesheet files.
+- `theme`: paths to the template, stylesheet files and favicon emoji.
 
 All fields are mandatory. The build aborts with an explanatory error if any field is missing or invalid (for example, a missing label for a declared language, or an unknown timezone).
 
@@ -74,3 +74,23 @@ To use a different configuration file, pass it via `--config`:
 ```sh
 python3 src/main.py --config path/to/your-config.yml
 ```
+
+## Design & style
+
+The design files are defined in the theme (see the section `theme` of the configuration).
+
+The `template.html` is the generic template of the pages of the website. This file is defined in the configuration `theme.template_file`.
+
+The parameters are identified by placeholder marked `$parameter`. Available parameters in the template are:
+
+- `$lang`: the current language code of the page.
+- `$description`: the excerpt defined in the header of the post.
+- `$root`: the main domain of the website (defined in config `general.site_url`)
+- `$site_title`: the title of the website as defined in the config (`general.site_title`)
+- `$title`: the title of the page defined in the header of the post.
+- `$language_switcher`: the language switcher
+- `$content`: the content in HTML
+- `$author`: the author as defined in the config (`general.author`)
+- `$year`: the year of the last build of the website.
+
+The style of the HTML is defined in the CSS stylesheet (in the config file as `theme.style_file`).

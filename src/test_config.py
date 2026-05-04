@@ -12,7 +12,6 @@ general:
   site_title: "Test Blog"
   site_url: "https://test.example"
   author: "Tester"
-  favicon_emoji: "🌟"
   posts_dir: "posts"
   build_dir: "build"
   assets_dir: "assets"
@@ -32,6 +31,7 @@ publish:
 theme:
   template_file: "theme/template.html"
   style_file: "theme/style.css"
+  favicon_emoji: "🌟"
 """
 
 
