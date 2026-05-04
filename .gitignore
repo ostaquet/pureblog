@@ -3,3 +3,4 @@ __pycache__/
 .venv_docker/
 .venv_local/
 .pytest_cache/
+.mypy_cache/
