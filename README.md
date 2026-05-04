@@ -33,6 +33,8 @@ An estimated reading time is automatically calculated from the post word count (
 
 For example, `001-hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation with its own SEO-friendly slug, create `001-bonjour-le-monde.fr.md` (same prefix `001` links the translations). The French version will be served at `/fr/bonjour-le-monde/`.
 
+The post body supports the standard Markdown syntax used by Pureblog: headers (`#` to `####`), `**bold**`, `_italic_` / `*italic*`, `~~strikethrough~~`, unordered (`-`) and ordered (`1.`) lists, blockquotes (`>`), inline `` `code` `` and triple-backtick fenced code blocks. The full list with examples is in [`docs/markdown-cheatsheet.md`](docs/markdown-cheatsheet.md).
+
 The site builds a per-language index at `/{lang}/` and a root page that redirects to `/en/`. A language switcher appears on every page, linking to the correct per-language slug for each translation.
 
 If a translation is missing for a post, the build prints a warning to stderr (the build still succeeds), and the language switcher renders the missing language as a strikethrough link pointing to the current page so the reader does not get a 404.
@@ -74,10 +76,14 @@ python3 src/main.py --config path/to/your-config.yml
 ```
 src/
   main.py           CLI entrypoint (argument parsing, config loading)
-  builder.py        BlogBuilder class and helper functions for site generation
-  config.py         Configuration loader and validator
-  test_builder.py   Unit tests for the builder
-  test_config.py    Unit tests for the configuration loader
+  builder.py            BlogBuilder class and helper functions for site generation
+  config.py             Configuration loader and validator
+  markdown_parser.py    Markdown-to-HTML rendering used by the builder
+  test_builder.py       Unit tests for the builder
+  test_config.py        Unit tests for the configuration loader
+  test_markdown_parser.py  Unit tests for the Markdown parser
+docs/
+  markdown-cheatsheet.md  Supported Markdown syntax reference
 config/
   config.yml      Blog configuration (general, seo, languages, publish, theme)
 seo/

@@ -8,10 +8,10 @@ from string import Template
 import sys
 from typing import Any, Callable, TypedDict
 
-import markdown
 import yaml
 
 from config import BlogConfig
+from markdown_parser import render_markdown
 
 
 class Post(TypedDict):
@@ -351,7 +351,7 @@ def parse_post(filepath: Path) -> Post:
     frontmatter: str = parts[1]
     body: str = parts[2]
     metadata: dict[str, Any] = yaml.safe_load(frontmatter)
-    content: str = markdown.markdown(body, extensions=["fenced_code"])
+    content: str = render_markdown(body)
     post_id: str
     slug: str
     lang: str

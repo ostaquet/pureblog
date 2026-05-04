@@ -17,7 +17,7 @@ Pureblog is a minimal static blog engine that converts Markdown posts to HTML wi
 
 ## Architecture
 
-Source code lives in the `src/` folder: `main.py` (CLI entrypoint), `builder.py` (`BlogBuilder` class plus parsing helpers), `config.py` (YAML config loader), and the `test_builder.py` / `test_config.py` test files. The HTML template and stylesheet live under `theme/`, the source `robots.txt` lives under `seo/`, and the YAML configuration lives under `config/`. Tests import from `src/` via the `pythonpath` setting in `pyproject.toml`.
+Source code lives in the `src/` folder: `main.py` (CLI entrypoint), `builder.py` (`BlogBuilder` class plus parsing helpers), `config.py` (YAML config loader), `markdown_parser.py` (Markdown-to-HTML conversion), and the `test_builder.py` / `test_config.py` / `test_markdown_parser.py` test files. The HTML template and stylesheet live under `theme/`, the source `robots.txt` lives under `seo/`, and the YAML configuration lives under `config/`. The supported Markdown syntax is documented in `docs/markdown-cheatsheet.md` — when extending the parser, update both `markdown_parser.py` and the cheatsheet. Tests import from `src/` via the `pythonpath` setting in `pyproject.toml`.
 
 ### Multi-language support
 
