@@ -4,6 +4,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import pytest
+from _pytest.capture import CaptureResult
 
 import builder
 from config import BlogConfig
@@ -247,7 +248,7 @@ def test_warn_missing_translations(capsys: pytest.CaptureFixture[str]) -> None:
         },
     }
     builder.warn_missing_translations(translations, ["en", "fr", "nl"])
-    captured: pytest.CaptureResult[str] = capsys.readouterr()
+    captured: CaptureResult[str] = capsys.readouterr()
     assert "001" in captured.err
     assert "Hello" in captured.err
     assert "fr" in captured.err and "nl" in captured.err
@@ -397,7 +398,7 @@ def test_build_warns_about_missing_translations(
     build_dir: Path
     blog, build_dir = _build(tmp_path, {"002-only-english.en.md": SAMPLE_POST})
     blog.build_site()
-    captured: pytest.CaptureResult[str] = capsys.readouterr()
+    captured: CaptureResult[str] = capsys.readouterr()
     assert "002" in captured.err
     assert "fr" in captured.err and "nl" in captured.err
     assert (build_dir / "en" / "only-english" / "index.html").exists()
@@ -466,7 +467,7 @@ def test_build_robots_warns_when_source_missing(
         tmp_path, {"001-hello.en.md": SAMPLE_POST}, robots_content=None
     )
     blog.build_site()
-    captured: pytest.CaptureResult[str] = capsys.readouterr()
+    captured: CaptureResult[str] = capsys.readouterr()
     assert "robots.txt" in captured.err
     assert not (build_dir / "robots.txt").exists()
 

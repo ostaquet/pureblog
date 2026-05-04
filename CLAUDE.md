@@ -13,6 +13,7 @@ Pureblog is a minimal static blog engine that converts Markdown posts to HTML wi
 - Function names are verbs, variable names are nouns.
 - Write understandable code, not clever code.
 - Functions must be short (max 60 lines).
+- `make lint` must be clean: `flake8` (max line 100), `mypy --strict`, and `bandit`. No `# noqa`, no `# type: ignore`, no `# nosec` escape hatches.
 
 ## Architecture
 

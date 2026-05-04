@@ -8,6 +8,7 @@ A minimal static blog engine that converts Markdown posts to HTML with enhanced 
 make build    # Build the site (creates venv automatically)
 make serve    # Build and start a local server on port 8000
 make test     # Run the unit tests
+make lint     # Run flake8, mypy (strict), and bandit on src/
 make clean    # Remove the build directory and virtual environments
 ```
 

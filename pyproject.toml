@@ -3,3 +3,17 @@ pythonpath = ["src"]
 
 [tool.pyright]
 extraPaths = ["src"]
+
+[tool.mypy]
+mypy_path = "src"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = "bandit.*"
+ignore_missing_imports = true
+
+[tool.bandit]
+exclude_dirs = ["src/test_builder.py", "src/test_config.py", ".venv_docker", ".venv_local", "build"]

@@ -140,7 +140,7 @@ def load_config(config_path: Path) -> BlogConfig:
     site_url: str = _require_str(general, "general", "site_url")
     posts_dir: Path = Path(_require_str(general, "general", "posts_dir"))
     build_dir: Path = Path(_require_str(general, "general", "build_dir"))
-    
+
     robots_file: Path = Path(_require_str(seo, "seo", "robots_file"))
 
     codes_value: Any = _require_field(languages_section, "languages", "codes")

@@ -4,3 +4,6 @@ pytest
 types-Markdown
 types-PyYAML
 tzdata
+flake8
+mypy
+bandit

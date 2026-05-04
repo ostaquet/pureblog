@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Localized back link on post pages: "Back" (en), "Retour" (fr), "Terug" (nl) (_0018-back-link-localization_)
 - Strikethrough for missing-translation links is now applied via the `.missing-translation` CSS class in `theme/style.css` instead of the `<s>` HTML element, making it easier to customize in the theme (_0021-missing-translation-with-css_)
 - Add support of agentic tool Opencode (details in `.opencode` with a safe setup as already done for Claude Code)
+- Linter and SAST tooling: `flake8`, `mypy --strict`, and `bandit` are now run via `make lint`. Configuration lives in `.flake8` and `pyproject.toml`. `requirements.txt` updated; existing source code adjusted to pass all three checks (_0024-add-python-linter_)
 
 ### Changed
 

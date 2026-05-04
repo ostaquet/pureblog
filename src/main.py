@@ -7,6 +7,7 @@ from config import BlogConfig, ConfigError, load_config
 
 DEFAULT_CONFIG_PATH: Path = Path("config/config.yml")
 
+
 def main(argv: list[str] | None = None) -> int:
     """CLI entrypoint. Loads configuration then builds the site."""
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
@@ -19,7 +20,7 @@ def main(argv: list[str] | None = None) -> int:
         help=f"Path to the configuration file (default: {DEFAULT_CONFIG_PATH}).",
     )
     args: argparse.Namespace = parser.parse_args(argv)
-    
+
     try:
         cfg: BlogConfig = load_config(args.config)
     except ConfigError as exc:

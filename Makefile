@@ -1,4 +1,4 @@
-.PHONY: venv build serve clean test
+.PHONY: venv build serve clean test lint
 
 ifneq (,$(wildcard /.dockerenv))
 VENV = .venv_docker
@@ -18,6 +18,11 @@ serve: build
 
 test: venv
 	. $(VENV)/bin/activate; pytest src/ -v
+
+lint: venv
+	. $(VENV)/bin/activate; flake8 src/
+	. $(VENV)/bin/activate; mypy src/
+	. $(VENV)/bin/activate; bandit -q -c pyproject.toml -r src/
 
 clean:
 	rm -rf build $(VENV)

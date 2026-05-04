@@ -4,7 +4,8 @@ Compact orientation for AI agents. See `CLAUDE.md` for the longer narrative; thi
 
 ## Commands
 
-- `make build` / `make test` / `make serve` / `make clean` — all auto-create the venv from `requirements.txt`.
+- `make build` / `make test` / `make lint` / `make serve` / `make clean` — all auto-create the venv from `requirements.txt`.
+- `make lint` runs `flake8` (config in `.flake8`, max line 100), `mypy --strict` (config in `pyproject.toml`), and `bandit` (excludes test files via `pyproject.toml`). All three must pass clean — no `# noqa`, no `# type: ignore`, no `# nosec`.
 - The Makefile picks `.venv_docker` when `/.dockerenv` exists, else `.venv_local`. Do not assume a single `.venv/` path.
 - `pytest`, `python`, etc. are **not** on the global PATH. Either use `make test` or activate the appropriate venv first (`. .venv_docker/bin/activate`).
 - Run a single test: `. .venv_docker/bin/activate && pytest src/test_builder.py::test_name -v`.

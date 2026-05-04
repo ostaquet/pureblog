@@ -25,10 +25,10 @@ class Post(TypedDict):
     html: str
 
 
-class BlogBuilder:    
+class BlogBuilder:
     def __init__(self, cfg: BlogConfig):
         self.cfg = cfg
-        
+
     def build_site(self) -> None:
         self.prepare_build_dir()
         template: Template = Template(self.cfg.template_file.read_text(encoding="utf-8"))
@@ -45,12 +45,10 @@ class BlogBuilder:
 
         print(f"Built {len(posts)} posts -> {self.cfg.build_dir}/")
 
-
     def format_reading_time(self, minutes: int, lang: str) -> str:
         """Return localized reading time string, e.g. '2 min read'."""
         label: str = self.cfg.reading_time_labels[lang]
         return f"{minutes} {label}"
-
 
     def prepare_build_dir(self) -> None:
         """Clean and recreate the build directory, copy static assets."""
@@ -58,7 +56,6 @@ class BlogBuilder:
             shutil.rmtree(self.cfg.build_dir)
         self.cfg.build_dir.mkdir()
         shutil.copy2(self.cfg.style_file, self.cfg.build_dir / "style.css")
-
 
     def load_posts(self) -> list[Post]:
         """Glob, parse, and sort all posts by date descending."""
@@ -71,7 +68,6 @@ class BlogBuilder:
         posts.sort(key=lambda p: p["date"], reverse=True)
         return posts
 
-
     def format_rfc822_date(self, iso_date: str) -> str:
         """Convert an ISO date string (YYYY-MM-DD) to RFC 822 format for RSS.
 
@@ -81,7 +77,6 @@ class BlogBuilder:
             hour=self.cfg.default_publish_hour, tzinfo=self.cfg.default_timezone
         )
         return dt.strftime("%a, %d %b %Y %H:%M:%S %z")
-
 
     def render_rss_item(self, post: Post, lang: str) -> str:
         """Render a single RSS <item> element for a post."""
@@ -98,7 +93,6 @@ class BlogBuilder:
             f"<guid>{url}</guid>"
             "</item>"
         )
-
 
     def build_feed(self, lang: str, lang_dir: Path, lang_posts: list[Post]) -> None:
         """Build an RSS 2.0 feed.xml for a given language."""
@@ -120,7 +114,6 @@ class BlogBuilder:
         )
         (lang_dir / "feed.xml").write_text(feed, encoding="utf-8")
 
-
     def build_post_pages(
         self,
         lang: str,
@@ -137,15 +130,13 @@ class BlogBuilder:
             post_dir: Path = lang_dir / slug
             post_dir.mkdir(parents=True)
             sibling_posts: dict[str, Post] = translations.get(post_id, {})
-            switcher: str = render_lang_switcher(
-                lang,
-                available_langs,
-                lambda other_lang, sp=sibling_posts: (
-                    (f"../../{other_lang}/{sp[other_lang]['slug']}/", True)
-                    if other_lang in sp
-                    else ("./", False)
-                ),
-            )
+
+            def resolve(other_lang: str, sp: dict[str, Post] = sibling_posts) -> tuple[str, bool]:
+                if other_lang in sp:
+                    return (f"../../{other_lang}/{sp[other_lang]['slug']}/", True)
+                return ("./", False)
+
+            switcher: str = render_lang_switcher(lang, available_langs, resolve)
             back_label: str = self.cfg.back_labels[lang]
             reading_time_str: str = self.format_reading_time(
                 post["reading_time"], lang
@@ -168,7 +159,6 @@ class BlogBuilder:
                 root="../..",
             )
             (post_dir / "index.html").write_text(page, encoding="utf-8")
-
 
     def build_index_page(
         self,
@@ -212,7 +202,6 @@ class BlogBuilder:
         )
         (lang_dir / "index.html").write_text(page, encoding="utf-8")
 
-
     def build_lang(
         self,
         lang: str,
@@ -227,7 +216,6 @@ class BlogBuilder:
         self.build_post_pages(lang, lang_dir, lang_posts, translations, template)
         self.build_index_page(lang, lang_dir, lang_posts, template)
         self.build_feed(lang, lang_dir, lang_posts)
-
 
     def build_sitemap(self, posts: list[Post]) -> None:
         """Write sitemap.xml listing all language indexes and post pages."""
@@ -262,7 +250,6 @@ class BlogBuilder:
         )
         (self.cfg.build_dir / "sitemap.xml").write_text(sitemap, encoding="utf-8")
 
-
     def build_robots(self) -> None:
         """Copy seo/robots.txt to build/, ensuring the Sitemap directive is set."""
         directive: str = f"Sitemap: {self.cfg.site_url}/sitemap.xml"
@@ -278,7 +265,6 @@ class BlogBuilder:
                 source_text += "\n"
             source_text += directive + "\n"
         (self.cfg.build_dir / "robots.txt").write_text(source_text, encoding="utf-8")
-
 
     def build_root_redirect(self) -> None:
         """Write a root index.html that redirects to /en/."""
@@ -307,8 +293,8 @@ def warn_missing_translations(
             f"translation(s): {', '.join(missing)}",
             file=sys.stderr,
         )
-        
-        
+
+
 def build_post_description(post: Post) -> str:
     """Return the post description: excerpt or truncated plain text."""
     if post["excerpt"]:
@@ -380,8 +366,8 @@ def parse_post(filepath: Path) -> Post:
         "lang": lang,
         "html": content,
     }
-    
-    
+
+
 def estimate_reading_time(text: str) -> int:
     """Estimate reading time in minutes from raw markdown text."""
     word_count: int = len(text.split())
