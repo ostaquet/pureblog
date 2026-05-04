@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Compact orientation for AI agents. See `CLAUDE.md` for the longer narrative; this file lists only what an agent is likely to get wrong without help.
+Compact orientation for AI agents. This file lists what an agent is likely to get wrong without help; for user- and developer-facing prose see the docs under `docs/`.
 
 ## Commands
 
@@ -17,7 +17,7 @@ Compact orientation for AI agents. See `CLAUDE.md` for the longer narrative; thi
 - Tests live **next to** the code in `src/` (`src/test_builder.py`, `src/test_config.py`), not under `tests/`. `pyproject.toml` sets `pythonpath = ["src"]` so imports are flat (`from builder import ...`).
 - `pyproject.toml` is config-only (pytest + pyright). There is no package metadata; dependencies are in `requirements.txt`.
 - Runtime config lives in `config/config.yml`. Every field is mandatory; the loader aborts on missing/invalid fields. When adding features, extend `src/config.py` validation and `test_config.py` together.
-- Static assets: `theme/template.html` (uses `$title`, `$lang`, `$lang_switcher`, `$description`, `$content`, `$root`, `$site_title`, `$author`, `$year` placeholders), `theme/style.css`, `seo/robots.txt`. The build also emits `build/favicon.svg` derived from `general.favicon_emoji`.
+- Static assets: `theme/template.html` (uses `$title`, `$lang`, `$lang_switcher`, `$description`, `$content`, `$root`, `$site_title`, `$author`, `$year` placeholders), `theme/style.css`, `seo/robots.txt`. The build also emits `build/favicon.svg` derived from `theme.favicon_emoji`.
 - `build/` is wiped on every build — never store source there.
 
 ## Documentation layout
@@ -25,12 +25,11 @@ Compact orientation for AI agents. See `CLAUDE.md` for the longer narrative; thi
 `README.md` is a high-level pitch + Quick start only. Detailed prose lives under `docs/`:
 
 - `docs/users_README.md` — user-facing feature prose (writing posts, languages, RSS, SEO, configuration).
-- `docs/markdown_format.md` — Markdown syntax cheatsheet (formerly `markdown-cheatsheet.md`).
+- `docs/markdown_format.md` — Markdown syntax cheatsheet.
 - `docs/developers_README.md` — tooling, tests, quality gates, internal FAQ.
-- `CLAUDE.md` — agent-relevant internals (architecture notes, helper functions, build-time rewrites).
 - `CHANGELOG.md` — one entry per task, referencing the task slug.
 
-When a task adds or changes a feature, update the doc that **owns** the content rather than bloating `README.md`. Always add a `CHANGELOG.md` entry. Update `CLAUDE.md` only if the change matters to an agent reading the codebase.
+When a task adds or changes a feature, update the doc that **owns** the content rather than bloating `README.md`. Always add a `CHANGELOG.md` entry.
 
 ## Post conventions
 
@@ -49,7 +48,7 @@ When a task adds or changes a feature, update the doc that **owns** the content 
 
 - Backlog lives in `.tasks/{todo,done,analysed,ideas}` as Markdown files.
 - **Implement only the first `.tasks/todo/*.md` in alphabetical order.** Later todos describe a vision; do not pre-implement them or let them shape the current change.
-- Per-task definition of done: code → tests in `src/test_*.py` → `make test` green → `make lint` green → `make e2e` green → update the owning doc under `docs/` (users / markdown / developers) → update `CLAUDE.md` if agent-relevant → append entry in `CHANGELOG.md` referencing the task → commit → move task file from `.tasks/todo` to `.tasks/done`.
+- Per-task definition of done: code → tests in `src/test_*.py` → `make test` green → `make lint` green → `make e2e` green → update the owning doc under `docs/` (users / markdown / developers) → append entry in `CHANGELOG.md` referencing the task → commit → move task file from `.tasks/todo` to `.tasks/done`.
 - **One commit per task.** Use `git commit --amend` to keep it that way; never bundle two tasks.
 - If blocked in autonomous mode: write your analysis/questions into the task file, move it to `.tasks/analysed/`, proceed to the next todo.
 

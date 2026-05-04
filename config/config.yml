@@ -5,7 +5,7 @@
 # When the engine starts it validates this file and reports a clear error if
 # anything is missing. To use a different file, run:
 #
-#     python3 src/build.py --config path/to/your-config.yml
+#     python3 src/main.py --config path/to/your-config.yml
 #
 # =============================================================================
 
@@ -85,9 +85,9 @@ publish:
 # -----------------------------------------------------------------------------
 # Theme
 # -----------------------------------------------------------------------------
-# template_file : Filename of the page template. Uses
-#                 $-style placeholders: $title, $lang, $lang_switcher,
-#                 $description, $content, $root.
+# template_file : Filename of the page template. Uses $-style placeholders:
+#                 $title, $lang, $lang_switcher, $description, $content,
+#                 $root, $site_title, $author, $year.
 # style_file    : Filename of the CSS stylesheet. Copied
 #                 verbatim into the build directory as '/style.css'.
 # favicon_emoji : Single emoji rendered as the site favicon. The build emits

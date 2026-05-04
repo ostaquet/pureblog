@@ -109,16 +109,16 @@ def _validate_favicon_emoji(value: str) -> str:
     """Validate that ``value`` is a single emoji grapheme cluster."""
     if any(c.isspace() for c in value):
         raise ConfigError(
-            "Field 'general.favicon_emoji' must not contain whitespace."
+            "Field 'theme.favicon_emoji' must not contain whitespace."
         )
     if len(value) > 8:
         raise ConfigError(
-            "Field 'general.favicon_emoji' must be a single emoji "
+            "Field 'theme.favicon_emoji' must be a single emoji "
             "(up to 8 codepoints for ZWJ sequences)."
         )
     if not any(unicodedata.category(c).startswith("S") for c in value):
         raise ConfigError(
-            "Field 'general.favicon_emoji' must be a single emoji character "
+            "Field 'theme.favicon_emoji' must be a single emoji character "
             f"(got {value!r})."
         )
     return value

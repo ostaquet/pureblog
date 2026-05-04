@@ -23,7 +23,7 @@ Build the example blog:
 
 Your Pureblog is available in `build/` and can be deployed with a simple copy-paste.
 
-- Run `make serve` in a Terminal to test it righ away.
+- Run `make serve` in a Terminal to test it right away.
 
 Visit the website on http://localhost:8000
 

@@ -20,7 +20,7 @@ An estimated reading time is automatically calculated from the post word count (
 
 For example, `001-hello-world.en.md` produces the URL `/en/hello-world/`. To add a French translation with its own SEO-friendly slug, create `001-bonjour-le-monde.fr.md` (same prefix `001` links the translations). The French version will be served at `/fr/bonjour-le-monde/`.
 
-The post body supports the standard Markdown syntax used by Pureblog. The full list with examples is in [`docs/markdown_format.md`](markdown_format.md).
+The post body supports the standard Markdown syntax used by Pureblog. The full list with examples is in [`markdown_format.md`](markdown_format.md).
 
 ## Images and assets
 
@@ -59,13 +59,13 @@ The static file `seo/robots.txt` is copied to `/robots.txt` at the root of the b
 
 ## Configuration
 
-All blog settings live in `config/config.yml`. The file is split into four documented sections:
+All blog settings live in `config/config.yml`. The file is split into five documented sections:
 
-- `general`: site title, site URL, author, posts directory, build directory, assets directory.
+- `general`: site title, site URL, author, posts directory, build directory, assets directory. The `author` is shown in the page footer (`© {author} {current-year}`).
 - `seo`: path to the source `robots.txt` file.
 - `languages`: list of language codes plus localized labels for reading time and the back link.
 - `publish`: timezone and default publish hour used for RSS dates.
-- `theme`: paths to the template, stylesheet files and favicon emoji.
+- `theme`: paths to the template and stylesheet files, plus `favicon_emoji` (a single emoji such as `📝` rendered into an SVG favicon at `/favicon.svg` and referenced from every page).
 
 All fields are mandatory. The build aborts with an explanatory error if any field is missing or invalid (for example, a missing label for a declared language, or an unknown timezone).
 
@@ -85,12 +85,12 @@ The parameters are identified by placeholder marked `$parameter`. Available para
 
 - `$lang`: the current language code of the page.
 - `$description`: the excerpt defined in the header of the post.
-- `$root`: the main domain of the website (defined in config `general.site_url`)
-- `$site_title`: the title of the website as defined in the config (`general.site_title`)
+- `$root`: relative path back to the build root from the current page (e.g. `..` for a language index, `../..` for a post page); use it to prefix asset URLs so they resolve from any depth.
+- `$site_title`: the title of the website as defined in the config (`general.site_title`).
 - `$title`: the title of the page defined in the header of the post.
-- `$language_switcher`: the language switcher
-- `$content`: the content in HTML
-- `$author`: the author as defined in the config (`general.author`)
+- `$lang_switcher`: the language switcher.
+- `$content`: the content in HTML.
+- `$author`: the author as defined in the config (`general.author`).
 - `$year`: the year of the last build of the website.
 
 The style of the HTML is defined in the CSS stylesheet (in the config file as `theme.style_file`).
