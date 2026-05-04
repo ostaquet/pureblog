@@ -46,6 +46,8 @@ Static assets (images, etc.) live in the directory configured by `general.assets
 
 Relative `<img>` URLs are rewritten at build time to resolve from each page's location. If a referenced internal image cannot be found in `assets_dir`, the build prints a warning to stderr but still completes.
 
+Images larger than the article's text column are automatically scaled down to fit (via `max-width: 100%; height: auto;` in `theme/style.css`). Smaller images keep their natural size. Resizing the browser window reflows them accordingly.
+
 The site builds a per-language index at `/{lang}/` and a root page that redirects to `/en/`. A language switcher appears on every page, linking to the correct per-language slug for each translation.
 
 If a translation is missing for a post, the build prints a warning to stderr (the build still succeeds), and the language switcher renders the missing language as a strikethrough link pointing to the current page so the reader does not get a 404.

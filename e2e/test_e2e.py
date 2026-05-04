@@ -138,6 +138,29 @@ def test_markdown_post_renders_blockquote(page: Page) -> None:
     )
 
 
+def test_post_image_is_served_and_fits_article(page: Page) -> None:
+    """Image renders, is reachable, and never overflows the article width."""
+    response = requests.get(
+        f"{BASE_URL}/assets/img/documentation.png", timeout=5
+    )
+    assert response.status_code == 200
+
+    page.goto(f"{BASE_URL}/en/markdown-format/")
+    img = page.locator("main article img").first
+    expect(img).to_have_count(1)
+
+    for viewport_width in (320, 480, 1280):
+        page.set_viewport_size({"width": viewport_width, "height": 800})
+        article_width: float = page.locator("main article").evaluate(
+            "el => el.getBoundingClientRect().width"
+        )
+        img_width: float = img.evaluate("el => el.getBoundingClientRect().width")
+        assert img_width <= article_width + 0.5, (
+            f"image width {img_width} exceeds article width {article_width} "
+            f"at viewport {viewport_width}"
+        )
+
+
 def test_robots_txt_advertises_sitemap() -> None:
     response = requests.get(f"{BASE_URL}/robots.txt", timeout=5)
     assert response.status_code == 200

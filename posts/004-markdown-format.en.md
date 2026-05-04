@@ -36,6 +36,8 @@ Is it important code?
 
 #### This is a header 4
 
+![Documentation illustration](assets/img/documentation.png)
+
 > This is a quote, a very important quote.
 
 1. Item number 1
