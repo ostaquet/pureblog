@@ -1,7 +1,7 @@
 .PHONY: up down shell opencode restart clean logs status
 
 up:
-	docker compose up --build -d --force-recreate
+	docker compose up -d --build
 	@echo "Containers started. Use 'make shell' or 'make opencode' to access dev environment"
 
 down:
