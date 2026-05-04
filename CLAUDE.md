@@ -42,6 +42,7 @@ When a tasks involves enhancing the project (typically adding a new feature), a 
 - Add the feature in the code.
 - Add the relevant unit tests for the code.
 - Run the unit tests to ensure that everything passes.
+- Run the linter to ensure that everything passes.
 - Document in `README.md` for the humans.
 - Potentially update the `CLAUDE.md` for yourself.
 - Update the `CHANGELOG.md` with your changes and the task related to the change.
