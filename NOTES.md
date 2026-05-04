@@ -33,3 +33,6 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 ## URLs
 
 ## Future plans
+
+- Convert image to web image format to improve speed of the website.
+- Setup a better "starting website".
