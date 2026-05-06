@@ -1,8 +1,10 @@
 ---
-title: Qu'est-ce que Pureblog?
-date: 2026-05-06
-excerpt: Pureblog est un moteur de blog statique et minimaliste avec un excellent support pour le contenu multilingue.
+title: Premiers pas
+date: 2026-05-05
+excerpt: Pureblog est un moteur de blog statique et minimaliste avec la meilleur gestion de contenu multilingue. Découvrez les bases de Pureblog dans cette vue d'ensemble. Vous apprendrez comment installer, configurer et utiliser votre premier site web basé sur Pureblog, ainsi que le déployer sur un serveur web.
 ---
+
+# Qu'est-ce que Pureblog ?
 
 Pureblog est un moteur de blog statique et minimaliste avec un support amélioré pour les contenus rédigés en plusieurs langues. Pureblog convertit des contenus écrits en Markdown vers un site web statique.
 
