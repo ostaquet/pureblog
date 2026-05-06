@@ -34,5 +34,11 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## Future plans
 
-- Convert image to web image format to improve speed of the website.
-- Setup a better "starting website".
+- Setup a better "startup website".
+- Add a link to the Pureblog website on each page (www.pureblog.dev)
+- Add integration testing and packaging in CI/CD
+- Support only 1 language (hide language switcher)
+- Convert images to WebP format to improve speed of the website.
+- Ensure that the first language is the default language
+- When landing on the homepage, switch to the most appropriate language depending on the brower preferences
+- Allow users to add their pureblog in a list that appears on the main website?

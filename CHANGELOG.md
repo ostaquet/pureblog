@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Improve overall documentation.
+- Change end-to-end testing in order to have a separated environment for E2E testing. The Pureblog used for E2E tests is living now in `e2e/e2e_test_pureblog` and the documentation has been updated.
+
 ## [1.1.0]
 
 ### Added

@@ -55,7 +55,7 @@ Unit tests are wrtten with `pytest` framework. The unit tests lives next to the 
 
 ### End-to-end tests
 
-`make e2e` runs the end-to-end tests with Playwright (see `e2e/`)
+`make e2e` runs the end-to-end tests with Playwright (lives in `e2e/`)
 
 1. It builds a Docker image based on the official Playwright Python image.
 2. It produces the static test site inside the container.
@@ -67,6 +67,15 @@ The objective of the E2E tests is to ensure that the overal functionning of the 
 This target requires a working Docker daemon. It runs in a container to have a fully clean environment and ensure that the end users have no issues to build their website.
 
 Unit tests (`make test`) do not depend on Docker and remain the fast feedback loop for development.
+
+The end-to-end tests are performed on a dedicated configuration which lives in `e2e/e2e_test_pureblog/`. It could be useful to test manually the E2E test Pureblog. To do so:
+
+- Ensure that you're in the venv `make venv`
+- Activate the venv `source .venv_local/bin/activate`
+- Build the website with `python3 src/main.py --config e2e/e2e_test_pureblog/config/config.yml`.
+- Go into the built website `cd e2e/e2e_test_pureblog/build`
+- Serve it on 8000 `python3 -m http.server 8000`
+- Open the web browser on http://localhost:8000
 
 ## FAQ
 

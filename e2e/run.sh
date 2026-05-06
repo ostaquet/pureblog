@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-BUILD_DIR="/app/build"
+BUILD_DIR="/app/e2e/e2e_test_pureblog/build"
 PORT="${E2E_PORT:-8000}"
 BASE_URL="http://localhost:${PORT}"
 
