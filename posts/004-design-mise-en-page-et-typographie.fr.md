@@ -143,12 +143,12 @@ L'intégration d'images dans le texte repose sur le standard Markdown. Les image
 ```
 ![Exemple d'image externe](https://i.ibb.co/Vvh17pr/3jxqrKP.jpg)
 
-![Exemple d'image interne](assets/img/documentation.png)
+![Exemple d'image interne](assets/img/got_wallpaper.jpg)
 ```
 
 ![Exemple d'image externe](https://i.ibb.co/Vvh17pr/3jxqrKP.jpg)
 
-![Exemple d'image interne](assets/img/documentation.png)
+![Exemple d'image interne](assets/img/got_wallpaper.jpg)
 
 Par défaut, les images sont affichées pour ne pas dépasser la taille du texte en largeur et sont toujours centrées sur le texte. Ceci permet de s'assurer que les images trop grande s'affichent correctement, y compris sur les écrans de smartphones.
 

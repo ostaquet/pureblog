@@ -53,6 +53,7 @@ There is only a hack to order the section with the date as the main page is alwa
 - TODO : Tester les flux RSS avec Inoreader
 
 - Setup a better "startup website" (WIP)
+- Check if the H1 in the body is OK based on aHref site audit
 - Add a check to ensure that all MD files in the posts/ are formatted correctly (I got an issue while building the startup website because the format was incorrect, space in the filename)
 - When we click on the "website title", it routes to the default language; even if we are on another language. It should route to the current language.
 - Add a link to the Pureblog website on each page (www.pureblog.dev)
