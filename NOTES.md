@@ -28,13 +28,31 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## Work in progress
 
+### Setup a better "startup website"
+
+I'm considering that the website available out-of-the-box should be the homepage of https://www.pureblog.dev. It should replace the fake website that is currently hosted as basic website. The fake website will still be used for the E2E testing (moved ✅). The pages that I plan to put on the main website:
+
+- ~~What is Pureblog?~~
+- Getting Started
+- ~~Text and typography~~
+- ~~Design and style~~
+- Writting a new post
+- SEO, RSS, etc
+- Languages
+- Contributions
+- How to host your Pureblog?
+
+There is only a hack to order the section with the date as the main page is always showing by publishing date desc.
+
 ## Known issues
 
 ## URLs
 
 ## Future plans
 
-- Setup a better "startup website".
+- Setup a better "startup website" (WIP)
+- Add a check to ensure that all MD files in the posts/ are formatted correctly (I got an issue while building the startup website because the format was incorrect, space in the filename)
+- When we click on the "website title", it routes to the default language; even if we are on another language. It should route to the current language.
 - Add a link to the Pureblog website on each page (www.pureblog.dev)
 - Add integration testing and packaging in CI/CD
 - Support only 1 language (hide language switcher)

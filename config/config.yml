@@ -27,9 +27,9 @@
 #              'build/assets/' so that markdown links like
 #              '![alt](assets/img/foo.png)' resolve at deploy time.
 general:
-  site_title: "Example's Blog"
-  site_url: "https://example.com"
-  author: "John Doe"
+  site_title: "Pureblog - Pure content. Any language."
+  site_url: "https://www.pureblog.dev"
+  author: "Olivier Staquet"
   posts_dir: "posts"
   build_dir: "build"
   assets_dir: "assets"
@@ -96,4 +96,4 @@ publish:
 theme:
   template_file: "theme/template.html"
   style_file: "theme/style.css"
-  favicon_emoji: "🌎"
+  favicon_emoji: "🌐"
