@@ -28,22 +28,6 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## Work in progress
 
-### Setup a better "startup website"
-
-I'm considering that the website available out-of-the-box should be the homepage of https://www.pureblog.dev. It should replace the fake website that is currently hosted as basic website. The fake website will still be used for the E2E testing (moved ✅). The pages that I plan to put on the main website:
-
-- ~~What is Pureblog?~~
-- Getting Started
-- ~~Text and typography~~
-- ~~Design and style~~
-- Writting a new post
-- SEO, RSS, etc
-- Languages
-- Contributions
-- How to host your Pureblog?
-
-There is only a hack to order the section with the date as the main page is always showing by publishing date desc.
-
 ## Known issues
 
 ## URLs
