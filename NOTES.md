@@ -51,15 +51,18 @@ There is only a hack to order the section with the date as the main page is alwa
 ## Future plans
 
 - TODO : Tester les flux RSS avec Inoreader
-
-- Setup a better "startup website" (WIP)
-- Check if the H1 in the body is OK based on aHref site audit
-- Add a check to ensure that all MD files in the posts/ are formatted correctly (I got an issue while building the startup website because the format was incorrect, space in the filename)
-- When we click on the "website title", it routes to the default language; even if we are on another language. It should route to the current language.
-- Add a link to the Pureblog website on each page (www.pureblog.dev)
-- Add integration testing and packaging in CI/CD
 - Support only 1 language (hide language switcher)
-- Convert images to WebP format to improve speed of the website.
+- Setup a better "startup website" (WIP)
+- What about the Google description for the index pages? (only posts have description)
+- Add a link to the Pureblog website on each page (www.pureblog.dev)
+- When we click on the "website title", it routes to the default language; even if we are on another language. It should route to the current language.
+
+- Check if the H1 in the body is OK based on aHref site audit
 - Ensure that the first language is the default language
 - When landing on the homepage, switch to the most appropriate language depending on the brower preferences
+
+- Add integration testing and packaging in CI/CD
+- It would be great to link to an anchor which is a heading in another page
+- Add a check to ensure that all MD files in the posts/ are formatted correctly (I got an issue while building the startup website because the format was incorrect, space in the filename)
+- Convert images to WebP format to improve speed of the website.
 - Allow users to add their pureblog in a list that appears on the main website?

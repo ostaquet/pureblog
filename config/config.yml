@@ -96,4 +96,4 @@ publish:
 theme:
   template_file: "theme/template.html"
   style_file: "theme/style.css"
-  favicon_emoji: "🌐"
+  favicon_emoji: "🤍"

@@ -4,30 +4,38 @@ date: 2026-05-01
 excerpt: Pureblog intègre de base un ensemble de mécanisme pour améliorer la visibilité de votre Pureblog sur les moteurs de recherche et dans les LLMs. Découvrez les solutions mises en place telles que les balises SEO (Search Engine Optimization), les sitemaps et les flux RSS.
 ---
 
-La visibilité de votre contenu en ligne est un point clé à ne pas négliger si vous souhaitez construire votre audience ou plus simplement partager vos réflexions. Pureblog a été conçu dès le départ pour permettre un bon référencement de votre contenu sur les moteurs de recherches (Google, Bing, etc) et dans les LLMs (ChatGPT, Claude, Gemini, etc).
+La visibilité de votre contenu en ligne est un point clé à ne pas négliger si vous souhaitez construire votre audience ou plus humblement partager vos réflexions. Pureblog a été conçu dès le départ pour permettre le meilleur référencement de votre contenu sur les moteurs de recherches (Google, Bing, etc) et sur les LLMs (ChatGPT, Claude, Gemini, etc).
 
-Cette page explique les mesures et les fonctionnalités intégrées à Pureblog afin d'améliorer la visibilité de votre site.
+Cette page explique les fonctionnalités intégrées à Pureblog qui améliore la visibilité de votre contenu.
 
-## Les signaux web essientiels (back to the basics)
+## Les signaux web essentiels (_back to the basics_)
 
-Les Core Web Vitals (Signaux Web essentiels) sont des métriques Google évaluant l'expérience utilisateur réelle d'un site web via la vitesse de chargement (LCP), la réactivité (INP) et la stabilité visuelle (CLS). Essentiels pour le SEO (facteurs de classement), ils ciblent des seuils spécifiques, notamment un LCP <= 2,5 s, un INP <= 200 ms et un CLS <= 0,1, analysés dans la [Search Console](https://search.google.com/search-console).
+Les signaux web essentiels (_Core Web Vitals_) sont des métriques Google évaluant l'expérience utilisateur réelle d'un site web via la vitesse de chargement (_LCP_), la réactivité (_INP_) et la stabilité visuelle (_CLS_). Ils sont essentiels pour le SEO (_Search Engine Optimization_ ou facteurs de classement), ils ciblent des seuils spécifiques, notamment un _LCP_ ≤ 2,5 s, un _INP_ ≤ 200 ms et un _CLS_ ≤ 0,1, analysés dans la [Google Search Console](https://search.google.com/search-console).
 
-Les 3 Métriques Clés (Core Web Vitals):
+Les 3 signaux web essentiels (_Core Web Vitals_) sont les suivants :
 
-- **Vitesse de chargement** ou [LCP (Largest Contentful Paint)](https://web.dev/articles/lcp?hl=fr) : Mesure le temps nécessaire pour afficher le plus grand élément visible (image, bloc de texte) à l'écran. Un bon LCP est inférieur ou égal à 2,5 secondes.
-- **Réactivité lors de l'interaction** ou [INP (Interaction to Next Paint)](https://web.dev/articles/inp?hl=fr) : Mesure la latence de toutes les interactions de l'utilisateur (clics, appuis) et sélectionne la pire. Il remplace le FID depuis mars 2024, avec un objectif cible de 200 millisecondes ou moins.
-- **Stabilité visuelle** ou [CLS (Cumulative Layout Shift)](https://web.dev/articles/cls?hl=fr) : Mesure les changements de mise en page inattendus. Le score doit être inférieur ou égal à 0,1 pour garantir une navigation stable
+- **La vitesse de chargement** ou [LCP (Largest Contentful Paint)](https://web.dev/articles/lcp?hl=fr) : Il s'agit de la mesure du temps nécessaire pour afficher le plus grand élément visible (image, bloc de texte) à l'écran. Un bon LCP est inférieur ou égal à 2,5 secondes.
+- **La réactivité lors de l'interaction** ou [INP (Interaction to Next Paint)](https://web.dev/articles/inp?hl=fr) : Il s'agit de la mesure de la latence de toutes les interactions de l'utilisateur (clics, appuis). La mesure sur base sur la pire interaction. Il remplace le _FID (First Input Delay)_ depuis mars 2024, avec un objectif cible de 200 millisecondes ou moins.
+- **La stabilité visuelle** ou [CLS (Cumulative Layout Shift)](https://web.dev/articles/cls?hl=fr) : Il s'agit de la mesure des changements de mise en page inattendus. Le score doit être inférieur ou égal à 0,1 pour garantir une navigation stable.
 
-Ces 3 éléments sont pris en charge par Pureblog de deux manières.
+Ces éléments sont pris en charge par Pureblog de deux manières :
 
-1. L'intégralité de votre Pureblog est statique, cela signifie que le LCP et le INP sont extrêmement bas.
-2. Toutes les pages ont un format unique basée sur le template HTML (voir aussi [comment modifier le design de votre Pureblog](posts/004-design-mise-en-page-et-typographie.fr.md)).
+1. L'intégralité de votre Pureblog est en HTML statique. C'est-à-dire qu'il est construit lors de la génération. Les pages sont légères et ne nécessitent aucun post-traitement dans le navigateur du visiteur. Cela signifie que le _LCP_ et le _INP_ restent extrêmement bas même si vous avez beaucoup de contenu.
+2. Toutes les pages ont un format unique basée sur un template dont vous avez le contrôle. Le template assure une cohérence au sein de votre Pureblog, tout en étant personnalisable (voir aussi [comment modifier le design de votre Pureblog](posts/004-design-mise-en-page-et-typographie.fr.md)).
 
 **TODO AJOUTER UN SCREENSHOT DES CORE VITALS DE CE SITE UNE FOIS PUBLIE**
 
 ## Les éléments clés du référencement
 
 Tous les éléments clés du référencement sont gérés dans Pureblog.
+
+Lorsque vous observez attentivement un résultat de recherche Google, vous trouvez les éléments clés suivants :
+
+- Le titre du site
+- L'icône (_favicon_)
+- L'URL
+- Le titre de la page
+- La description de la page
 
 ![Description de l'anatomie d'un résultat Google](assets/img/anatomie_google_entry_fr.png)
 
@@ -43,21 +51,21 @@ Chaque article de blog possède une description (`excerpt` dans l'entête de vot
 
 ## La séparation entre le titre et l'URL
 
-De nombreux blog utilisent le titre de la page comme URL. Nous pensons que c'est une mauvaise idée car cela peut impacter le référencement (si c'est bien utilisé) et surtout, un changement dans le titre de la page pour une correction ne devrait pas casser les URLs déjà référencées sur d'autres sites ou dans les moteurs de recherche.
+De nombreux blog utilisent le titre de la page comme URL. Nous pensons que c'est une mauvaise idée. En effet, le titre de la page peut contenir des mots "vides" (comme des "un", "les", etc). Or, l'URL ne nécessite pas ces mots "vides". L'URL doit être la plus courte possible et contenir les mots clés utiles au référencement. De plus, un changement dans le titre de la page pour une correction ne devrait pas casser les URLs déjà référencées sur d'autres sites ou dans les moteurs de recherche.
 
 C'est pour cela que le titre de la page et l'URL sont deux notions différenciées dans Pureblog.
 
-Le titre de la page (qui est repris dans la page visible pour les visiteurs) est défini dans l'entête de l'article (sous le tag `title`). C'est également ce titre qui est utilisé pour construire les indexes reprennant toutes les pages du site.
+Le titre de la page (qui est repris dans la page et qui est visible pour les visiteurs) est défini dans l'entête de l'article (sous le tag `title`). C'est également ce titre qui est utilisé pour construire les indexes reprennant toutes les pages du site.
 
-L'URL est composée par le nom du fichier de l'article. Le nom du fichier est composée par `<id>-<slug>.<lang>.md`. L'identifiant `id` permet de faire le lien avec une même page écrite dans différentes langues. Le `slug` est l'URL qui sera utilisée. La langue est le code ISO en 2 caractères (`lang`).
+L'URL, quant à elle, est composée à partir du nom de fichier de l'article. Le nom de fichier est composée par `<id>-<slug>.<lang>.md`. L'identifiant `id` permet de faire le lien avec une même page écrite dans différentes langues. Le `slug` est l'URL qui sera utilisée. La langue est le code ISO en 2 caractères (`lang`).
 
-Donc, un fichier portant le nom `002-ecrire-un-nouvel-article.fr.md` sera référencée sur l'URL `fr/ecrire-un-nouvel-article`.
+Donc, un fichier portant le nom `002-ecrire-nouvel-article.fr.md` sera référencée sur l'URL `fr/ecrire-nouvel-article`.
 
 ## Le sitemap
 
 Un sitemap (plan de site) est un fichier XML répertoriant les pages, vidéos et fichiers essentiels d'un site web pour les moteurs de recherche. Il agit comme une carte, facilitant le travail des robots d'indexation (crawl) pour découvrir et indexer efficacement le contenu, notamment pour les nouveaux sites ou les structures complexes.
 
-Pour un blog, il permet également de s'assurer que toutes les pages sont référencées; même celles qui ne se trouvent pas sur la page principale du site (sur une 2e ou 2e page par exemple).
+Pour un blog, il permet également de s'assurer que toutes les pages sont référencées; même celles qui ne se trouvent plus sur la page principale du site (sur une 2e ou 2e page par exemple).
 
 Pourquoi le sitemap est-il important ?
 
@@ -68,26 +76,28 @@ Pourquoi le sitemap est-il important ?
 
 Pureblog génère automatiquement un fichier sitemap pour l'ensemble de votre Pureblog en tenant compte des traductions et de la disponibilité des différentes langues.
 
-Le fichier sitemap est disponible à l'URL <https://www.pureblog.debv/sitemap.xml> et il est référencé automatiquement dans le `robots.txt` pour faciliter sa découverte par les crawlers (moteur de recherche et LLMs).
+Le fichier sitemap est disponible à l'URL <https://www.example.com/sitemap.xml> et il est référencé automatiquement dans le `robots.txt` pour faciliter sa découverte par les crawlers (moteur de recherche et LLMs).
+
+Exemple de sitemap pour ce Pureblog : <https://www.pureblog.dev/sitemap.xml>.
 
 ## Les flux RSS
 
-Le flux RSS (Really Simple Syndication) est un format de fichier XML qui permet de syndiquer et de diffuser automatiquement des contenus web (articles, actualités, podcasts) fréquemment mis à jour. Il permet aux utilisateurs de s'abonner à leurs sites favoris et de recevoir les nouvelles mises à jour sans avoir à visiter chaque site individuellement.
+Le flux RSS (_Really Simple Syndication_) est un format de fichier XML qui permet de syndiquer et de diffuser automatiquement des contenus web (articles, actualités, podcasts) fréquemment mis à jour. Il permet aux utilisateurs de s'abonner à leurs sites favoris et de recevoir les nouvelles mises à jour sans avoir à visiter chaque site individuellement.
 
-Les utilisateurs peuvent consulter les dernières publications sous forme de résumés ou de textes intégraux via des lecteurs dédiés comme Feedly, Inoreader ou encore des extensions de navigateur.
+Les utilisateurs peuvent consulter les dernières publications sous forme de résumés ou de textes intégraux via des lecteurs dédiés comme [Feedly](https://feedly.com/), [Inoreader](https://www.inoreader.com/fr/) ou encore des extensions de navigateur.
 
-Pureblog fournit un flux RSS par langue. Les flux RSS sont générés automatiquement lors de la génération de votre site. Les flux RSS sont disponibles via des URLs de cette forme : `https://www.example.com/<lang>/feed.xml`.
+Pureblog fournit un flux RSS par langue. Les flux RSS sont générés automatiquement lors de la génération de votre Pureblog. Les flux RSS sont disponibles via des URLs sour la forme `https://www.example.com/<lang>/feed.xml`.
 
 Pour la langue que vous être en train de lire sur ce site, le flux RSS est disponible sur <https://www.pureblog.dev/fr/feed.xml> et il est référencé sur chaque page dans une balise meta data pour assurer sa découverte aisée pour les applications tierces.
 
-Les flux RSS sont toujours composés d'un ensemble d'articles.
+Un flux RSS est toujours composé d'un ensemble d'articles.
 
 Chaque article contient :
 
 - Un titre défini dans l'entête de votre article (tag `title`)
 - Une description définie dans l'entête de votre article (tag `excerpt`). Si ce tag n'est pas défini, Pureblog utilise automatiquement les 200 premiers caractères de votre article.
-- Le moment de publication qui est composé de la date dans l'entête de votre article (tag `date`) et la configuration (`publish.default_timezone` et `publish.default_publish_hour`).
-- Un lien permanent qui se base sur le nom du fichier de votre article (le fameux `slug`). ⚠️ Il est important de ne pas trop changer ces _slugs_ sous peine de référencer dans les moteurs de recherche des articles qui n'existent plus.
+- Le moment de publication qui est composé de la date mentionnée dans l'entête de votre article (tag `date`) et la configuration (`publish.default_timezone` et `publish.default_publish_hour`).
+- Un lien permanent qui se base sur le nom du fichier de votre article (le fameux `slug`). ⚠️ Il est important de ne pas trop changer ces _slugs_ sous peine d'impacter négativement le référencement dans les moteurs de recherche.
 
 ## Les fichiers de configuration pour les moteurs de recherches et les LLMs
 
