@@ -21,7 +21,7 @@ All types of contributions (_pull requests_, _issues_, and _discussions_) should
 
 - Use the [latest release version][latest-ver]. If your contribution involves code/documentation changes, update to the latest version of the default (`master`) branch.
 
-- Avoid making duplicate contributions by searching for existing [issues][issues] / [discussions][discus] / [pull requests][pr], but don't leave any unhelpful comments such as "I have the same problem". Prefer using [reactions][gh-reactions] if you simply want to "+1" an existing issue.
+- Avoid making duplicate contributions by searching for existing [issues][issues] / [pull requests][pr], but don't leave any unhelpful comments such as "I have the same problem". Prefer using [reactions][gh-reactions] if you simply want to "+1" an existing issue.
 
 - DO NOT email or tweet the project developers and maintainers directly, everything about the project should be left on GitHub.
 
@@ -77,6 +77,6 @@ See also: "[Suggesting a New Feature](#suggesting-a-new-feature)". Other than th
 [stfw]: https://www.webster-dictionary.org/definition/STFW
 [gh-reactions]: https://github.blog/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/
 [feat-creep]: https://en.wikipedia.org/wiki/Feature_creep
-[dev-env]: https://github.com/ostaquet/pureblog/docs/developers_README.md
+[dev-env]: docs/developers_README.md
 [cc]: https://www.conventionalcommits.org/
 [gh-pr]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
