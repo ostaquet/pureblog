@@ -8,4 +8,4 @@ Pureblog est un projet Open Source sous licence MIT.
 
 Vous êtes libre de contribuer directement sur le GitHub du projet <https://github.com/ostaquet/pureblog>.
 
-Veillez néanmoins à respecter la [ligne de conduite pour les contributions](https://github.com/ostaquet/pureblog).
+Veillez néanmoins à respecter la [ligne de conduite pour les contributions](https://github.com/ostaquet/pureblog?tab=contributing-ov-file).
