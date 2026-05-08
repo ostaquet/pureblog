@@ -27,9 +27,9 @@ Compact orientation for AI agents. This file lists what an agent is likely to ge
 - `docs/developers.md` — tooling, tests, quality gates, internal FAQ.
 - `CHANGELOG.md` — one entry per task, referencing the task slug.
 
-The documentation for the end users lives directly in the Pureblog under `posts/`. The documentation exists only in French with files `posts/*.fr.md`.
+The documentation for the end users lives directly in the Pureblog under `posts/`. It is maintained in French (`posts/*.fr.md`) and English (`posts/*.en.md`) — the two languages share the same numeric prefix and **must be kept in sync**: any feature change that touches a French post must also update the corresponding English post in the same commit (and vice versa). When adding a new user-facing post, create both `*.fr.md` and `*.en.md` files with the same numeric prefix.
 
-When a task adds or changes a feature, update the doc that **owns** the content rather than bloating `README.md`. Always add a `CHANGELOG.md` entry. If it is related to developement, udpate the `docs/developers.md` documentation. If it is related to a feature for the users, update the documentation under `posts/`.
+When a task adds or changes a feature, update the doc that **owns** the content rather than bloating `README.md`. Always add a `CHANGELOG.md` entry. If it is related to developement, udpate the `docs/developers.md` documentation. If it is related to a feature for the users, update the documentation under `posts/` (both French and English versions).
 
 ## Post conventions
 
