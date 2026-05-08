@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - English translations of the user-facing documentation under `posts/` (`001-getting-started.en.md`, `002-write-a-new-post.en.md`, `004-design-layout-and-typography.en.md`, `005-multilingual-management.en.md`, `006-online-visibility.en.md`, `010-contributions-and-open-source.en.md`). `AGENTS.md` updated so future feature work updates the French and English posts together (_0032-translate-user-doc-to-en_).
+- Dutch translations of the user-facing documentation under `posts/` (`001-eerste-stappen.nl.md`, `002-een-nieuw-bericht-schrijven.nl.md`, `004-ontwerp-opmaak-en-typografie.nl.md`, `005-meertalig-beheer.nl.md`, `006-online-zichtbaarheid.nl.md`, `010-bijdragen-en-open-source.nl.md`). `AGENTS.md` updated so future feature work updates the French, English and Dutch posts together (_0033-translate-user-doc-to-nl_).
 
 ### Changed
 
