@@ -74,7 +74,17 @@ Dans votre Pureblog, il y a quelques éléments à savoir.
 
 La configuration se trouve dans le fichier `config/config.yml`. Le fichier est bien documenté pour vous permettre d'adapter la configuration à vos besoins.
 
+Tous les champs sont obligatoires. La génération s'interrompt avec une erreur explicative si un champ est manquant ou invalide (par exemple, une traduction manquante pour une langue déclarée, ou un fuseau horaire inconnu).
+
+Pour utiliser un fichier de configuration différent, passez-le via `--config` :
+
+```
+python3 src/main.py --config path/to/your-config.yml
+```
+
 Par défaut, les articles de blogs se trouvent dans `posts/`. Les articles de blog sont des fichiers Markdown (`.md`). Le nom de fichier est composée par `<id>-<slug>.<lang>.md`. L'identifiant id permet de faire le lien avec une même page écrite dans différentes langues. Le `slug` est l'URL qui sera utilisée. La langue est le code ISO en 2 caractères (`lang`).
+
+Les ressources statiques (images, etc.) se trouvent dans le répertoire configuré par `general.assets_dir` (par défaut : `assets/`). L'ensemble du répertoire est copié textuellement dans `build/assets/` à chaque génération, de sorte que les images internes peuvent être référencées depuis les articles en utilisant leur chemin relatif.
 
 N'hésitez pas à lire l'article concernant [la rédaction d'un nouvel article](posts/002-ecrire-un-nouvel-article.fr.md) pour vous familiariser avec Pureblog.
 

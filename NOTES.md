@@ -44,6 +44,7 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 - Check if the H1 in the body is OK based on aHref site audit
 - Ensure that the first language is the default language
 - When landing on the homepage, switch to the most appropriate language depending on the brower preferences
+- If the page is long (more than 1 scroll, add a "Back" link at the end of the article)
 
 - Add integration testing and packaging in CI/CD
 - It would be great to link to an anchor which is a heading in another page
