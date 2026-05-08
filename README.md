@@ -35,7 +35,7 @@ For additional information about the configuration, check <https://www.pureblog.
 
 ## Additional documentation
 
-- For the developers, you can find specific informattion on the [developer's README](docs/developers_README.md).
+- For the developers, you can find specific informattion on the [developer's README](docs/developers.md).
 
 ## Project structure
 
@@ -45,7 +45,7 @@ For users:
 config/           Blog configuration (general, seo, languages, publish, theme)
 seo/              Static files for SEO (like robots rules; build appends Sitemap directive)
 theme/            HTML page template and CSS stylesheet
-posts/            Markdown source files for the posts
+posts/            Markdown source files for the posts (and the documentation of Pureblog in the main repository)
 assets/           Static assets (images, etc.) copied verbatim into output folder
 build/            Default output folder for the static website (configurable). Ready to host.
 ```

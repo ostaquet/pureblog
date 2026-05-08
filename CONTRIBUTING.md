@@ -17,7 +17,7 @@ There are many ways to contribute, from writing tutorials or blog posts, improvi
 
 All types of contributions (_pull requests_, _issues_, and _discussions_) should follow these rules:
 
-- You should read through the [documentation][docs/developers_README.md] to understand the project features and how to use it properly. This is to respect the time of the project's developers and maintainers and to save their energy for other problems that really need to be resolved.
+- You should read through the [documentation][dev-env] and the [Pureblog website](https://www.pureblog.dev) to understand the project features and how to use it properly. This is to respect the time of the project's developers and maintainers and to save their energy for other problems that really need to be resolved.
 
 - Use the [latest release version][latest-ver]. If your contribution involves code/documentation changes, update to the latest version of the default (`master`) branch.
 
@@ -31,7 +31,7 @@ All types of contributions (_pull requests_, _issues_, and _discussions_) should
 
 We expect every reasonable question you ask to be answered appropriately. If you want a quick and timely response, please ask questions at [StackOverflow][stack-overflow], where there are tons of enthusiastic geeks who will positively answer your challenging questions.
 
-If you can't get an answer in any of the above ways, then create a new [discussion][discus]. As long as it is not a duplicate and [RTFM][rtfm] / [STFW][stfw] issue, we will respond as soon as possible.
+If you can't get an answer in any of the above ways, then create a new [issue][issues]. As long as it is not a duplicate and [RTFM][rtfm] / [STFW][stfw] issue, we will respond as soon as possible.
 
 ## Reporting a Bug
 
@@ -43,7 +43,7 @@ A great way to contribute to the project is to send a detailed issue when you en
 
 3. Make good use of your browser's incognito mode to troubleshoot if the problem is caused by caching.
 
-4. As a last option, you can create a new [Bug Report][bug-report] following the template to describe the details. If possible, providing a demo that reproduces the error will help us troubleshoot faster.
+4. As a last option, you can create a new [issue][issues] following the template to describe the details. If possible, providing a demo that reproduces the error will help us troubleshoot faster.
 
 ## Suggesting a New Feature
 
@@ -55,7 +55,7 @@ If accepted, we cannot make any commitments regarding the timeline for implement
 
 ## Contributing Code/Documentation
 
-If your request is about an enhancement, it is recommended to first submit a [Feature Request][feat-request] to discuss whether your idea fits the project.
+If your request is about an enhancement, it is recommended to first submit a [feature request][issues] to discuss whether your idea fits the project.
 
 See also: "[Suggesting a New Feature](#suggesting-a-new-feature)". Other than that, you can start the PR process.
 

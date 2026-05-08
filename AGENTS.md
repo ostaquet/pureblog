@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Compact orientation for AI agents. This file lists what an agent is likely to get wrong without help; for user- and developer-facing prose see the docs under `docs/`.
+Compact orientation for AI agents. This file lists what an agent is likely to get wrong without help; for developer-facing prose see the docs under `docs/`; for users-facing prose see the docs under `posts/`.
 
 ## Commands
 
@@ -24,12 +24,12 @@ Compact orientation for AI agents. This file lists what an agent is likely to ge
 
 `README.md` is a high-level pitch + Quick start only. Detailed prose lives under `docs/`:
 
-- `docs/users_README.md` — user-facing feature prose (writing posts, languages, RSS, SEO, configuration).
-- `docs/markdown_format.md` — Markdown syntax cheatsheet.
-- `docs/developers_README.md` — tooling, tests, quality gates, internal FAQ.
+- `docs/developers.md` — tooling, tests, quality gates, internal FAQ.
 - `CHANGELOG.md` — one entry per task, referencing the task slug.
 
-When a task adds or changes a feature, update the doc that **owns** the content rather than bloating `README.md`. Always add a `CHANGELOG.md` entry.
+The documentation for the end users lives directly in the Pureblog under `posts/`. The documentation exists only in French with files `posts/*.fr.md`.
+
+When a task adds or changes a feature, update the doc that **owns** the content rather than bloating `README.md`. Always add a `CHANGELOG.md` entry. If it is related to developement, udpate the `docs/developers.md` documentation. If it is related to a feature for the users, update the documentation under `posts/`.
 
 ## Post conventions
 
@@ -48,7 +48,7 @@ When a task adds or changes a feature, update the doc that **owns** the content 
 
 - Backlog lives in `.tasks/{todo,done,analysed,ideas}` as Markdown files.
 - **Implement only the first `.tasks/todo/*.md` in alphabetical order.** Later todos describe a vision; do not pre-implement them or let them shape the current change.
-- Per-task definition of done: code → tests in `src/test_*.py` → `make test` green → `make lint` green → `make e2e` green → update the owning doc under `docs/` (users / markdown / developers) → append entry in `CHANGELOG.md` referencing the task → commit → move task file from `.tasks/todo` to `.tasks/done`.
+- Per-task definition of done: code → tests in `src/test_*.py` → `make test` green → `make lint` green → `make e2e` green → update the owning doc under `docs/` and `posts/` → append entry in `CHANGELOG.md` referencing the task → commit → move task file from `.tasks/todo` to `.tasks/done`.
 - **One commit per task.** Use `git commit --amend` to keep it that way; never bundle two tasks.
 - If blocked in autonomous mode: write your analysis/questions into the task file, move it to `.tasks/analysed/`, proceed to the next todo.
 
