@@ -25,7 +25,7 @@ Every page of your Pureblog contains a language switcher, including the home pag
 
 ## RSS feeds and the sitemap
 
-Each language has its own RSS feed. This allows visitors to follow the posts of your Pureblog in their favourite language. RSS feeds are always attached under a language URL, of the form <https://www.pureblog.dev/fr/feed.xml>.
+Each language has its own RSS feed. This allows visitors to follow the posts of your Pureblog in their favourite language. RSS feeds are always attached under a language URL, of the form <https://www.pureblog.dev/en/feed.xml>.
 
 The sitemap is unique for the entire site. It contains the home pages and the posts. For each page, the sitemap mentions the language and the alternative languages available for that page along with the URLs. This is often where other blog engines fall short, because they do not handle alternate links between posts in the sitemap.
 
@@ -78,7 +78,7 @@ The `languages.reading_time_labels` and `languages.back_labels` parameters are t
 
 ## What happens if a post exists in only one language?
 
-The home pages, the sitemap and the RSS feeds rely exclusively on the presence of post files. So, if a file does not exist (the NL version, for example), the post does not appear anywhere on your Pureblog.
+The home pages, the sitemap and the RSS feeds rely exclusively on the presence of post files. So, if a file does not exist (the NL version, for example), the dutch version of the post does not appear anywhere on your Pureblog.
 
 If the post is not available in a language, the language switcher shows the language code with a strikethrough (e.g. ~~NL~~ ). If the visitor clicks the strikethrough link anyway, they are redirected to the current page.
 

@@ -37,7 +37,7 @@ When you look closely at a Google search result, you find the following key elem
 - The page title
 - The page description
 
-![Anatomy of a Google search result](assets/img/anatomie_google_entry_fr.png)
+![Anatomy of a Google search result](assets/img/anatomy_google_entry_en.png)
 
 The site title is set in the configuration file (`config/config.yml`) with the `general.site_title` parameter.
 

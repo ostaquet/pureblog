@@ -78,7 +78,7 @@ Les paramètres `languages.reading_time_labels` et `languages.back_labels` sont 
 
 ## Que se passe-t-il si un article existe dans une seule langue ?
 
-Les pages d'accueil, le sitemap et les flux RSS se basent exclusivement sur la présence des fichiers d'articles. Donc, si un fichier n'existe pas (la version NL par exemple), l'article n'apparaît nulle part sur votre Pureblog.
+Les pages d'accueil, le sitemap et les flux RSS se basent exclusivement sur la présence des fichiers d'articles. Donc, si un fichier n'existe pas (la version NL par exemple), l'article écrit en néerlandais n'apparaît nulle part sur votre Pureblog.
 
 Si l'article n'est pas disponible dans une langue, le sélecteur de langue indique le code langue barré (exemple : ~~NL~~ ). Si le visiteur clique quand même sur le lien barré, il est redirigé vers la page actuelle.
 
