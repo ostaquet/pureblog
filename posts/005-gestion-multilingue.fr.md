@@ -1,16 +1,16 @@
 ---
 title: Gestion multilingue
 date: 2026-05-02
-excerpt: L'intégration multilingue est un point clé de Pureblog. Découvrez en quoi Pureblog est différent et comment les langues sont gérés pour assurer la meilleure expérience utilisateur et le meilleur référencement.
+excerpt: L'intégration multilingue est un point clé de Pureblog. Découvrez en quoi Pureblog est différent et comment les langues sont gérées pour assurer la meilleure expérience utilisateur et le meilleur référencement.
 ---
 
-Pureblog est avant tout un moteur de blog multilingue. Il a été créé après avoir fait de nombreux essais avec des solutions existantes (WordPress, Ghost, Bearblog, Drupal, Chirpy/Jekyll). A chaque tentative, la gestion multilingue relevait plus du bidouillage que de la gestion intégrée dans le moteur. Les bidouilles fonctionnent d'un point de vue visuel pour le visiteur mais ont un impact négatif sur le référencement et l'expérience utilisateur dans la cas d'un usage avec un flux RSS.
+Pureblog est avant tout un moteur de blog multilingue. Il a été créé après avoir fait de nombreux essais avec des solutions existantes (WordPress, Ghost, Bearblog, Drupal, Chirpy/Jekyll). A chaque tentative, la gestion multilingue relevait plus du bidouillage que de la gestion intégrée dans le moteur. Les bidouilles fonctionnent d'un point de vue visuel pour le visiteur mais ont un impact négatif sur le référencement et l'expérience utilisateur dans le cas d'un usage avec un flux RSS.
 
-## Les pages d'accueil et les indexes
+## Les pages d'accueil et les index
 
 Les pages d'accueil des différentes langues sont différenciées par une extension de l'URL. Ceci permet de garder un flux RSS par langue afin que le visiteur puisse lire les articles de votre Pureblog dans sa langue préférée.
 
-Typiquement, le Pureblog que vous êtes en train de lire est disponible dans plusieurs langues. Il existe donc plusieurs URLs permettant d'accéder aux indexes:
+Typiquement, le Pureblog que vous êtes en train de lire est disponible dans plusieurs langues. Il existe donc plusieurs URLs permettant d'accéder aux index :
 
 - <https://www.pureblog.dev/en>
 - <https://www.pureblog.dev/fr>
@@ -21,7 +21,7 @@ Les différentes langues sont définies dans le fichier de configuration `config
 
 La langue par défaut est utilisée pour faire une redirection à partir de l'URL de base de votre Pureblog. Pour ce Pureblog, la langue par défaut est `en` (anglais). Donc, le visiteur qui ouvre l'URL <https://www.pureblog.dev> se voit automatiquement redirigé vers <https://www.pureblog.dev/en>.
 
-Toutes les pages de votre Pureblog contiennent un sélecteur de langue (_language switcher_); y compris les pages d'acceuil. Ce sélecteur permet au visiteur de basculer rapidement sur la langue de son choix.
+Toutes les pages de votre Pureblog contiennent un sélecteur de langue (_language switcher_); y compris les pages d'accueil. Ce sélecteur permet au visiteur de basculer rapidement sur la langue de son choix.
 
 ## Les flux RSS et le sitemap
 
@@ -33,11 +33,11 @@ Pour en savoir plus sur les flux RSS et les sitemaps, consultez [la page sur la 
 
 ## Les liens entre les langues pour un même article
 
-Pour améliorer le référencement, un article peut avoir une URL différentiée selon la langue. C'est également une différence par rapport aux moteurs de blog traditionels.
+Pour améliorer le référencement, un article peut avoir une URL différenciée selon la langue. C'est également une différence par rapport aux moteurs de blog traditionnels.
 
-L'URL est toujours composée à partir du nom de fichier de l'article. Le nom de fichier est composée par `<id>-<slug>.<lang>.md`. L'identifiant id permet de faire le lien avec une même page écrite dans différentes langues. Le `slug` est l'URL qui sera utilisée. La langue est le code ISO en 2 caractères (`lang`). Donc, un fichier portant le nom `002-ecrire-nouvel-article.fr.md` sera référencée sur l'URL `fr/ecrire-nouvel-article`.
+L'URL est toujours composée à partir du nom de fichier de l'article. Le nom de fichier est composé par `<id>-<slug>.<lang>.md`. L'identifiant `id` permet de faire le lien avec une même page écrite dans différentes langues. Le `slug` est l'URL qui sera utilisée. La langue est le code ISO en 2 caractères (`lang`). Donc, un fichier portant le nom `002-ecrire-nouvel-article.fr.md` sera référencé sur l'URL `/fr/ecrire-nouvel-article/`.
 
-Un article écrit en plusieurs langue peut avoir des URLs différenciées par langue. Par exemple :
+Un article écrit en plusieurs langues peut avoir des URLs différenciées par langue. Par exemple :
 
 - `002-write-new-post.en.md` pour l'anglais.
 - `002-ecrire-nouvel-article.fr.md` pour le français.
@@ -48,7 +48,7 @@ L'identifiant sert de connecteur entre les différentes langues du même article
 
 Comme indiqué plus haut, chaque page de votre Pureblog contient un sélecteur de langue. Ce sélecteur est clairement visible pour permettre au visiteur de lire l'article dans une autre langue. Si l'article n'est pas disponible dans une langue, le sélecteur indique le code langue barré (exemple : ~~NL~~ ). Si le visiteur clique quand même sur le lien barré, il est redirigé vers la page actuelle.
 
-Lorsqu'un article existe dans une langue mais pas dans les autres, un avertissement d'affiche lors de la génération du site.
+Lorsqu'un article existe dans une langue mais pas dans les autres, un avertissement s'affiche lors de la génération du site.
 
 ## La configuration des langues
 
@@ -76,13 +76,13 @@ Le premier code langue est la langue par défaut de votre Pureblog.
 
 Les paramètres `languages.reading_time_labels` et `languages.back_labels` sont les libellés qui sont utilisés lors de la génération du site pour indiquer le nombre de minutes de lecture d'un article et le libellé de retour à la page d'accueil.
 
-## Que se passe t'il si un article existe dans une seule langue ?
+## Que se passe-t-il si un article existe dans une seule langue ?
 
 Les pages d'accueil, le sitemap et les flux RSS se basent exclusivement sur la présence des fichiers d'articles. Donc, si un fichier n'existe pas (la version NL par exemple), l'article n'apparaît nulle part sur votre Pureblog.
 
 Si l'article n'est pas disponible dans une langue, le sélecteur de langue indique le code langue barré (exemple : ~~NL~~ ). Si le visiteur clique quand même sur le lien barré, il est redirigé vers la page actuelle.
 
-Lorsqu'un article existe dans une langue mais pas dans les autres, un avertissement d'affiche lors de la génération du site.
+Lorsqu'un article existe dans une langue mais pas dans les autres, un avertissement s'affiche lors de la génération du site.
 
 ## Est-ce que Pureblog fonctionne pour une seule langue ?
 

@@ -77,6 +77,6 @@ See also: "[Suggesting a New Feature](#suggesting-a-new-feature)". Other than th
 [stfw]: https://www.webster-dictionary.org/definition/STFW
 [gh-reactions]: https://github.blog/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/
 [feat-creep]: https://en.wikipedia.org/wiki/Feature_creep
-[dev-env]: docs/developers_README.md
+[dev-env]: docs/developers.md
 [cc]: https://www.conventionalcommits.org/
 [gh-pr]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests

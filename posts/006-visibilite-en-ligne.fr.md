@@ -15,7 +15,7 @@ Les signaux web essentiels (_Core Web Vitals_) sont des métriques Google évalu
 Les 3 signaux web essentiels (_Core Web Vitals_) sont les suivants :
 
 - **La vitesse de chargement** ou [LCP (Largest Contentful Paint)](https://web.dev/articles/lcp?hl=fr) : Il s'agit de la mesure du temps nécessaire pour afficher le plus grand élément visible (image, bloc de texte) à l'écran. Un bon LCP est inférieur ou égal à 2,5 secondes.
-- **La réactivité lors de l'interaction** ou [INP (Interaction to Next Paint)](https://web.dev/articles/inp?hl=fr) : Il s'agit de la mesure de la latence de toutes les interactions de l'utilisateur (clics, appuis). La mesure sur base sur la pire interaction. Il remplace le _FID (First Input Delay)_ depuis mars 2024, avec un objectif cible de 200 millisecondes ou moins.
+- **La réactivité lors de l'interaction** ou [INP (Interaction to Next Paint)](https://web.dev/articles/inp?hl=fr) : Il s'agit de la mesure de la latence de toutes les interactions de l'utilisateur (clics, appuis). La mesure se base sur la pire interaction. Il remplace le _FID (First Input Delay)_ depuis mars 2024, avec un objectif cible de 200 millisecondes ou moins.
 - **La stabilité visuelle** ou [CLS (Cumulative Layout Shift)](https://web.dev/articles/cls?hl=fr) : Il s'agit de la mesure des changements de mise en page inattendus. Le score doit être inférieur ou égal à 0,1 pour garantir une navigation stable.
 
 Ces éléments sont pris en charge par Pureblog de deux manières :
@@ -41,13 +41,13 @@ Lorsque vous observez attentivement un résultat de recherche Google, vous trouv
 
 Le titre du site est défini dans le fichier de configuration (`config/config.yml`) avec le paramètre `general.site_title`.
 
-L'icône du site est définie par un emoji dans le fichier de configuration avec le paramètre `theme.favicon_emoji`.
+L'icône du site (favicon) est générée automatiquement par Pureblog à partir d'un simple emoji défini dans le paramètre `theme.favicon_emoji` du fichier de configuration (par exemple `📝`). Pureblog produit un fichier SVG accessible à `/favicon.svg` et le référence sur toutes les pages du site, sans qu'aucune ressource graphique externe ne soit requise.
 
 L'URL est définie par le `slug` de la page et le code langue. Le `slug` est obtenu à partir du nom du fichier Markdown. Le `slug` est important pour le référencement.
 
 Le titre et la description de la page sont définis dans l'entête de l'article respectivement avec les tags `title` et `excerpt`.
 
-Chaque article de blog possède une description (`excerpt` dans l'entête de votre article). Cette description est générée automatiquement en utilisant les 200 premiers caractères de votre article si elle n'est pas définie. La description est utilisée dans le meta data de vos page d'article (`<meta name="description" content="xxx"/>`).
+Chaque article de blog possède une description (`excerpt` dans l'entête de votre article). Cette description est générée automatiquement en utilisant les 200 premiers caractères de votre article si elle n'est pas définie. La description est utilisée dans la balise meta de vos pages d'article (`<meta name="description" content="..."/>`).
 
 ## La séparation entre le titre et l'URL
 
@@ -57,15 +57,15 @@ C'est pour cela que le titre de la page et l'URL sont deux notions différencié
 
 Le titre de la page (qui est repris dans la page et qui est visible pour les visiteurs) est défini dans l'entête de l'article (sous le tag `title`). C'est également ce titre qui est utilisé pour construire les indexes reprennant toutes les pages du site.
 
-L'URL, quant à elle, est composée à partir du nom de fichier de l'article. Le nom de fichier est composée par `<id>-<slug>.<lang>.md`. L'identifiant `id` permet de faire le lien avec une même page écrite dans différentes langues. Le `slug` est l'URL qui sera utilisée. La langue est le code ISO en 2 caractères (`lang`).
+L'URL, quant à elle, est composée à partir du nom de fichier de l'article. Le nom de fichier est composé par `<id>-<slug>.<lang>.md`. L'identifiant `id` permet de faire le lien avec une même page écrite dans différentes langues. Le `slug` est l'URL qui sera utilisée. La langue est le code ISO en 2 caractères (`lang`).
 
-Donc, un fichier portant le nom `002-ecrire-nouvel-article.fr.md` sera référencée sur l'URL `fr/ecrire-nouvel-article`.
+Donc, un fichier portant le nom `002-ecrire-nouvel-article.fr.md` sera référencé sur l'URL `/fr/ecrire-nouvel-article/`.
 
 ## Le sitemap
 
 Un sitemap (plan de site) est un fichier XML répertoriant les pages, vidéos et fichiers essentiels d'un site web pour les moteurs de recherche. Il agit comme une carte, facilitant le travail des robots d'indexation (crawl) pour découvrir et indexer efficacement le contenu, notamment pour les nouveaux sites ou les structures complexes.
 
-Pour un blog, il permet également de s'assurer que toutes les pages sont référencées; même celles qui ne se trouvent plus sur la page principale du site (sur une 2e ou 2e page par exemple).
+Pour un blog, il permet également de s'assurer que toutes les pages sont référencées; même celles qui ne se trouvent plus sur la page principale du site (sur une 2e ou 3e page par exemple).
 
 Pourquoi le sitemap est-il important ?
 
@@ -74,7 +74,7 @@ Pourquoi le sitemap est-il important ?
 - **Optimisation SEO** : Il aide à mieux faire comprendre la structure du site et à indexer des contenus spécifiques (vidéos, images, actualités).
 - **Indispensable pour certains sites** : Crucial pour les grands sites, les sites récents avec peu de liens externes, ou ceux utilisant beaucoup de contenu riche (vidéo)
 
-Pureblog génère automatiquement un fichier sitemap pour l'ensemble de votre Pureblog en tenant compte des traductions et de la disponibilité des différentes langues.
+Pureblog génère automatiquement un fichier sitemap pour l'ensemble de votre Pureblog en tenant compte des traductions et de la disponibilité des différentes langues. Pour chaque page, la date de dernière modification (`<lastmod>`) est tirée de la date de l'article ; pour les pages d'index, c'est la date de l'article le plus récent dans la langue concernée qui est utilisée.
 
 Le fichier sitemap est disponible à l'URL <https://www.example.com/sitemap.xml> et il est référencé automatiquement dans le `robots.txt` pour faciliter sa découverte par les crawlers (moteur de recherche et LLMs).
 
@@ -86,9 +86,9 @@ Le flux RSS (_Really Simple Syndication_) est un format de fichier XML qui perme
 
 Les utilisateurs peuvent consulter les dernières publications sous forme de résumés ou de textes intégraux via des lecteurs dédiés comme [Feedly](https://feedly.com/), [Inoreader](https://www.inoreader.com/fr/) ou encore des extensions de navigateur.
 
-Pureblog fournit un flux RSS par langue. Les flux RSS sont générés automatiquement lors de la génération de votre Pureblog. Les flux RSS sont disponibles via des URLs sour la forme `https://www.example.com/<lang>/feed.xml`.
+Pureblog fournit un flux RSS par langue. Les flux RSS sont générés automatiquement lors de la génération de votre Pureblog. Les flux RSS sont disponibles via des URLs sous la forme `https://www.example.com/<lang>/feed.xml`.
 
-Pour la langue que vous être en train de lire sur ce site, le flux RSS est disponible sur <https://www.pureblog.dev/fr/feed.xml> et il est référencé sur chaque page dans une balise meta data pour assurer sa découverte aisée pour les applications tierces.
+Pour la langue que vous êtes en train de lire sur ce site, le flux RSS est disponible sur <https://www.pureblog.dev/fr/feed.xml> et il est référencé sur chaque page dans une balise `<link>` d'autodécouverte (_RSS autodiscovery_) pour assurer sa découverte aisée par les applications tierces.
 
 Un flux RSS est toujours composé d'un ensemble d'articles.
 
@@ -101,11 +101,11 @@ Chaque article contient :
 
 ## Les fichiers de configuration pour les moteurs de recherches et les LLMs
 
-Pureblog gère également un fichier de configuraton supplémentaire pour les moteurs de recherche et les LLMs.
+Pureblog gère également un fichier de configuration supplémentaire pour les moteurs de recherche et les LLMs.
 
 Le fichier `robots.txt` est un fichier texte placé à la racine d'un site web qui donne des instructions aux robots d'indexation (crawlers) sur les pages à explorer ou non. Il sert principalement à gérer le budget de crawl et à bloquer l'accès à des zones privées, mais n'empêche pas l'indexation si la page est liée ailleurs.
 
-Pureblog se base sur le fichier `robots.txt` référencé dans la configuration (`config/config.yml`) sous le paramètre `seo.robots_file`. Lors de la génération, le fichier renseigné est copié dans le site final est le lien vers le sitemap est ajouté automatiquement.
+Pureblog se base sur le fichier `robots.txt` référencé dans la configuration (`config/config.yml`) sous le paramètre `seo.robots_file`. Lors de la génération, le fichier renseigné est copié dans le site final et la directive `Sitemap:` est ajoutée automatiquement à la fin (uniquement si elle n'est pas déjà présente). Vous pouvez donc gérer librement le contenu de votre `robots.txt` source sans craindre de doublon.
 
 Le fichier `robots.txt` est disponible à l'URL <https://www.pureblog.dev/robots.txt>.
 

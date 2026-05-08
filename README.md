@@ -31,12 +31,10 @@ Visit the website on http://localhost:8000
 
 The configuration is the most important files and it lives in `config/config.yml`. [The example file](config/config.yml) is quite complete and verbose.
 
-For additional information about the configuration, check the [user's README](docs/users_README.md).
+For additional information about the configuration, check <https://www.pureblog.dev>.
 
 ## Additional documentation
 
-- For the users, you can find how to configure, write a post blogs, etc on the [user's README](docs/users_README.md).
-- The supported Markdown format is explained on [the Pureblog Markdown cheatsheet](docs/markdown_format.md).
 - For the developers, you can find specific informattion on the [developer's README](docs/developers_README.md).
 
 ## Project structure
@@ -44,7 +42,6 @@ For additional information about the configuration, check the [user's README](do
 For users:
 
 ```
-docs/             Documentation for users and developers
 config/           Blog configuration (general, seo, languages, publish, theme)
 seo/              Static files for SEO (like robots rules; build appends Sitemap directive)
 theme/            HTML page template and CSS stylesheet
@@ -57,7 +54,7 @@ For developers:
 
 ```
 src/              Source code and unit tests
-docs/             Documentation for users and developers
+docs/             Documentation for developers
 e2e/              Playwrigth end-to-end-tests
 .claude/          Agentic safe-setup for Claude Code
 .opencode/        Agentic safe-setup for Opencode

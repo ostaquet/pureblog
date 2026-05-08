@@ -1,7 +1,7 @@
 ---
 title: Design, mise en page et typographie
 date: 2026-05-03
-excerpt: Quelques exemples de typographie, images et liens; ainsi que les fichiers clés pour adapter le design à votre gôut.
+excerpt: Quelques exemples de typographie, images et liens; ainsi que les fichiers clés pour adapter le design à votre goût.
 ---
 
 Pureblog est conçu autour d'un design minimaliste permettant de couvrir les besoins dans le cadre d'une publication de blog posts.
@@ -56,6 +56,8 @@ _Texte en italique_
 
 Les lignes vides séparent les paragraphes. Un simple saut de ligne à l'intérieur d'un paragraphe est converti en espace, conformément au comportement standard de Markdown.
 
+Note : le texte barré (`~~…~~`) est volontairement ignoré à l'intérieur du code intégré (entre simples backticks) et des blocs de code (entre triples backticks), afin que les exemples de code restent rendus tels quels.
+
 ## Listes à puces
 
 ```
@@ -108,13 +110,16 @@ Il n'y a pas de saut automatique à la ligne lors de la mise en page de plusieur
 
 # Exemples de liens
 
-Il existe 5 types de liens :
+Il existe 4 types de liens :
 
 - Les liens automatiques (`<http://www.example.com>`)
 - Les liens externes dans le même onglet (`[Ouvrir dans le même onglet](http://www.example.com)`)
 - Les liens externes dans un nouvel onglet (`[Ouvrir dans un nouvel onglet](tab:http://www.example.com)`)
 - Les liens internes dans le même onglet (`[Lien interne](posts/001-qu-est-ce-que-pureblog.fr.md)`)
-- Les liens internes dans un nouvel onglet (`[Lien interne dans un nouvel onglet](tab:posts/001-qu-est-ce-que-pureblog.fr.md)`)
+
+Le préfixe `tab:` et les liens internes peuvent se combiner. Par exemple, `[Lien interne dans un nouvel onglet](tab:posts/001-qu-est-ce-que-pureblog.fr.md)` ouvre le lien interne résolu dans un nouvel onglet.
+
+🔐 Note de sécurité : les liens ouverts dans un nouvel onglet (`tab:`) reçoivent automatiquement les attributs `target="_blank"` et `rel="noopener noreferrer"`, ce qui protège vos visiteurs contre le _tabnabbing_.
 
 ```
 <http://www.example.com>
@@ -150,9 +155,9 @@ L'intégration d'images dans le texte repose sur le standard Markdown. Les image
 
 ![Exemple d'image interne](assets/img/got_wallpaper.jpg)
 
-Par défaut, les images sont affichées pour ne pas dépasser la taille du texte en largeur et sont toujours centrées sur le texte. Ceci permet de s'assurer que les images trop grande s'affichent correctement, y compris sur les écrans de smartphones.
+Par défaut, les images sont affichées pour ne pas dépasser la taille du texte en largeur et sont toujours centrées sur le texte. Ceci permet de s'assurer que les images trop grandes s'affichent correctement, y compris sur les écrans de smartphones.
 
-Si une image interne est utilisé dans un texte mais n'existe pas, un avertissement est indiqué lors du build du blog.
+Si une image interne est utilisée dans un texte mais n'existe pas, un avertissement est indiqué lors du build du blog.
 
 # Modifier le design de Pureblog (avancé)
 
@@ -164,12 +169,12 @@ Le fichier de template contient des paramètres qui sont remplacés lors de la c
 
 - `$lang` : le code langue de la page en cours.
 - `$description` : le résumé de la page tel qu'il est décrit dans le header d'un blog post (sous `excerpt`).
-- `$root` : le chemin relatif à la racine de constructuion de la page en cours (exemple : `..` pour une page principale pour une langue, `../..` pour un page de blog post). Ce paramètre est utilisé comme préfixe pour les URLs afin que l'affichage se passe bien.
-- `$site_title` : le titre du site web tel que définit dans la configuration (`general.site_title`).
-- `$title` : le titre de la page tel que définit dans le header d'un blog post (sous `title`).
-- `$lang_switcher` : le blog permettant de changer de langue sur une page.
+- `$root` : le chemin relatif à la racine de construction de la page en cours (exemple : `..` pour une page principale pour une langue, `../..` pour une page de blog post). Ce paramètre est utilisé comme préfixe pour les URLs afin que l'affichage se passe bien.
+- `$site_title` : le titre du site web tel que défini dans la configuration (`general.site_title`).
+- `$title` : le titre de la page tel que défini dans le header d'un blog post (sous `title`).
+- `$lang_switcher` : le bloc permettant de changer de langue sur une page.
 - `$content` : le contenu rendu en HTML.
-- `$author` : l'auteur tel que définit dans la configuration (`general.author`).
+- `$author` : l'auteur tel que défini dans la configuration (`general.author`). Il est affiché dans le pied de page sous la forme `© {auteur} {année}`.
 - `$year` : l'année du dernier build du site web.
 
 Les modifications de style graphique peuvent être réalisées dans la feuille de style. Le fichier de style (`theme.style_file`) est un CSS qui définit les règles de formatage des différents éléments du site.
