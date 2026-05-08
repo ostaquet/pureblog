@@ -37,7 +37,7 @@ Wanneer je een Google-zoekresultaat aandachtig bekijkt, vind je de volgende sleu
 - De paginatitel
 - De paginabeschrijving
 
-![Anatomie van een Google-zoekresultaat](assets/img/anatomie_google_entry_fr.png)
+![Anatomie van een Google-zoekresultaat](assets/img/anatomie_google_entry_nl.png)
 
 De sitetitel wordt gedefinieerd in het configuratiebestand (`config/config.yml`) met de parameter `general.site_title`.
 

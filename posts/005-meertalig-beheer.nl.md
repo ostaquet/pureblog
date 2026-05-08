@@ -25,7 +25,7 @@ Elke pagina van je Pureblog bevat een taalwisselaar (_language switcher_), inclu
 
 ## RSS-feeds en de sitemap
 
-Elke taal heeft zijn eigen RSS-feed. Hiermee kunnen bezoekers de berichten van je Pureblog in hun voorkeurstaal volgen. RSS-feeds zijn altijd gekoppeld onder een taal-URL, in de vorm <https://www.pureblog.dev/fr/feed.xml>.
+Elke taal heeft zijn eigen RSS-feed. Hiermee kunnen bezoekers de berichten van je Pureblog in hun voorkeurstaal volgen. RSS-feeds zijn altijd gekoppeld onder een taal-URL, in de vorm <https://www.pureblog.dev/nl/feed.xml>.
 
 De sitemap is uniek voor de gehele site. Hij bevat de startpagina's en de berichten. Voor elke pagina vermeldt de sitemap de taal en de beschikbare alternatieve talen voor die pagina, evenals de URLs. Dit is vaak het punt waar andere blogengines tekortschieten, omdat ze geen alternatieve links tussen berichten in de sitemap beheren.
 
