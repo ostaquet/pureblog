@@ -115,9 +115,9 @@ Il existe 4 types de liens :
 - Les liens automatiques (`<http://www.example.com>`)
 - Les liens externes dans le même onglet (`[Ouvrir dans le même onglet](http://www.example.com)`)
 - Les liens externes dans un nouvel onglet (`[Ouvrir dans un nouvel onglet](tab:http://www.example.com)`)
-- Les liens internes dans le même onglet (`[Lien interne](posts/001-qu-est-ce-que-pureblog.fr.md)`)
+- Les liens internes dans le même onglet (`[Lien interne](posts/001-premiers-pas.fr.md)`)
 
-Le préfixe `tab:` et les liens internes peuvent se combiner. Par exemple, `[Lien interne dans un nouvel onglet](tab:posts/001-qu-est-ce-que-pureblog.fr.md)` ouvre le lien interne résolu dans un nouvel onglet.
+Le préfixe `tab:` et les liens internes peuvent se combiner. Par exemple, `[Lien interne dans un nouvel onglet](tab:posts/001-premiers-pas.fr.md)` ouvre le lien interne résolu dans un nouvel onglet.
 
 🔐 Note de sécurité : les liens ouverts dans un nouvel onglet (`tab:`) reçoivent automatiquement les attributs `target="_blank"` et `rel="noopener noreferrer"`, ce qui protège vos visiteurs contre le _tabnabbing_.
 
@@ -125,8 +125,8 @@ Le préfixe `tab:` et les liens internes peuvent se combiner. Par exemple, `[Lie
 <http://www.example.com>
 [Ouvrir dans le même onglet](http://www.example.com)
 [Ouvrir dans un nouvel onglet](tab:http://www.example.com)
-[Lien interne](posts/001-qu-est-ce-que-pureblog.fr.md)
-[Lien interne dans un nouvel onglet](tab:posts/001-qu-est-ce-que-pureblog.fr.md)
+[Lien interne](posts/001-premiers-pas.fr.md)
+[Lien interne dans un nouvel onglet](tab:posts/001-premiers-pas.fr.md)
 ```
 
 <http://www.example.com>
@@ -135,9 +135,9 @@ Le préfixe `tab:` et les liens internes peuvent se combiner. Par exemple, `[Lie
 
 [Ouvrir dans un nouvel onglet](tab:http://www.example.com)
 
-[Lien interne](posts/001-qu-est-ce-que-pureblog.fr.md)
+[Lien interne](posts/001-premiers-pas.fr.md)
 
-[Lien interne dans un nouvel onglet](tab:posts/001-qu-est-ce-que-pureblog.fr.md)
+[Lien interne dans un nouvel onglet](tab:posts/001-premiers-pas.fr.md)
 
 Si un lien interne est utilisé dans un texte mais n'existe pas, un avertissement est indiqué lors du build du blog.
 
