@@ -41,9 +41,15 @@ RUN chmod +x /entrypoint.sh
 # Switch to non-root user
 USER opencode
 
-# Install Claude Code CLI for the main user
+# Install CLI for the main user
 RUN curl -fsSL https://opencode.ai/install | bash && \
     echo 'export PATH="$HOME/.opencode/bin:$PATH"' >> ~/.bashrc
+
+# "curl -fsSL https://opencode.ai/install | bash" is installing the last version
+# However in case of trouble, we could swithc down to a forced working version
+# Also, autoupdate is disabled for now (@ostaquet 19-MAY-2026)
+#RUN curl -fsSL https://opencode.ai/install | bash -s -- --version 1.14.48 && \
+#    echo 'export PATH="$HOME/.opencode/bin:$PATH"' >> ~/.bashrc
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]

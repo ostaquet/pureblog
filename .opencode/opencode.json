@@ -4,5 +4,6 @@
     "external_directory": {
       "/workspace/.opencode/safe-setup/**": "deny"
     }
-  }
+  },
+  "autoupdate": false
 }
