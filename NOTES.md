@@ -34,9 +34,9 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## Future plans
 
+- Add 404 page in the generation process
 - TODO : Tester les flux RSS avec Inoreader
 - Support only 1 language (hide language switcher)
-- Setup a better "startup website" (WIP)
 - What about the Google description for the index pages? (only posts have description)
 - Add a link to the Pureblog website on each page (www.pureblog.dev)
 - When we click on the "website title", it routes to the default language; even if we are on another language. It should route to the current language.

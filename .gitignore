@@ -4,3 +4,4 @@ __pycache__/
 .venv_local/
 .pytest_cache/
 .mypy_cache/
+.firebase/

@@ -1,4 +1,4 @@
-.PHONY: venv build serve clean test lint e2e
+.PHONY: venv build serve clean test lint e2e deploy
 
 E2E_IMAGE = pureblog-e2e
 
@@ -44,3 +44,7 @@ e2e:
 # Clean the build directory (classic output)
 clean:
 	rm -rf build $(VENV)
+
+# Deploy on Firebase Hosting
+deploy: build
+	firebase deploy

@@ -13,6 +13,7 @@ make test     # Run the unit tests
 make lint     # Run flake8, mypy (strict), and bandit on src/
 make e2e      # Build a Docker image and run Playwright end-to-end tests
 make clean    # Remove the build directory and virtual environments
+make deploy   # Deploy to the environment configured through Firebase
 ```
 
 ## Agentic development
@@ -76,6 +77,20 @@ The end-to-end tests are performed on a dedicated configuration which lives in `
 - Go into the built website `cd e2e/e2e_test_pureblog/build`
 - Serve it on 8000 `python3 -m http.server 8000`
 - Open the web browser on http://localhost:8000
+
+## Deployment
+
+Pureblog is setup to be deployed easily on Firebase Hosting. Considering that the blog engine is fully static, it costs nothing to be hosted on a Spark plan.
+
+In order to deploy on your own Firebase hosting:
+
+1. Create a Firebase project on https://console.firebase.google.com
+2. Add Hosting
+3. Install tools on your computer `npm `
+4. Update the file `.firebaserc` with your own project name (replace `pureblog-e61c4`)
+5. Perform a `make deploy`
+
+Follow the instructions in Firebase console to setup a custom domain name and don't forget to update the `site_url` in the `config/config.yml`.
 
 ## FAQ
 
