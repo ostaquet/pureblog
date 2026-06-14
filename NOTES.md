@@ -30,12 +30,17 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## Known issues
 
+- Tests with InoReader results
+  - RSS is running properly on the different languages
+  - Main page https://www.pureblog.dev doesn't work (we should redirect to main language)
+  - The favicon is still the Gandi favicon (weird... why?)
+  - As there is no image on the pages, the listing is a bit sad (great background), maybe add the possibility to set a main image on each page (facultative)
+
 ## URLs
 
 ## Future plans
 
 - Add 404 page in the generation process
-- TODO : Tester les flux RSS avec Inoreader
 - Support only 1 language (hide language switcher)
 - What about the Google description for the index pages? (only posts have description)
 - Add a link to the Pureblog website on each page (www.pureblog.dev)
