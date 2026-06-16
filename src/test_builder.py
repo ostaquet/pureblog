@@ -354,6 +354,31 @@ def test_build_root_redirect(tmp_path: Path) -> None:
     assert "refresh" in root_html
 
 
+def test_build_root_redirect_has_rss_discovery_link(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    blog.build_site()
+    root_html: str = (build_dir / "index.html").read_text()
+    assert 'type="application/rss+xml"' in root_html
+    assert 'href="en/feed.xml"' in root_html
+
+
+def test_build_root_redirect_rss_uses_default_language(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {"001-bonjour.fr.md": SAMPLE_POST_FR},
+        languages=["fr", "en", "nl"],
+    )
+    blog.build_site()
+    root_html: str = (build_dir / "index.html").read_text()
+    assert 'href="fr/feed.xml"' in root_html
+    assert 'type="application/rss+xml"' in root_html
+    assert "url=fr/" in root_html
+
+
 def test_build_lang_switcher_on_post_page(tmp_path: Path) -> None:
     blog: builder.BlogBuilder
     build_dir: Path

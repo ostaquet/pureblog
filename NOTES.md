@@ -31,8 +31,6 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 ## Known issues
 
 - Tests with InoReader results
-  - RSS is running properly on the different languages
-  - Main page https://www.pureblog.dev doesn't work (we should redirect to main language)
   - The favicon is still the Gandi favicon (weird... why?)
   - As there is no image on the pages, the listing is a bit sad (great background), maybe add the possibility to set a main image on each page (facultative)
   - Check the best practices of RSS on https://kevincox.ca/2022/05/06/rss-feed-best-practices/

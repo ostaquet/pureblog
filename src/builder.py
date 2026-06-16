@@ -344,14 +344,19 @@ class BlogBuilder:
         (self.cfg.build_dir / "favicon.svg").write_text(svg, encoding="utf-8")
 
     def build_root_redirect(self) -> None:
-        """Write a root index.html that redirects to /en/."""
-        html: str = (
-            '<!DOCTYPE html>\n<html lang="en">\n<head>\n'
+        """Write a root index.html that redirects to the default language."""
+        default_lang: str = self.cfg.languages[0]
+        feed_url: str = f"{default_lang}/feed.xml"
+        title_escaped: str = html.escape(self.cfg.site_title, quote=True)
+        redirect_html: str = (
+            f'<!DOCTYPE html>\n<html lang="{default_lang}">\n<head>\n'
             '<meta charset="utf-8">\n'
-            '<meta http-equiv="refresh" content="0;url=en/">\n'
+            f'<meta http-equiv="refresh" content="0;url={default_lang}/">\n'
+            f'<link rel="alternate" type="application/rss+xml"'
+            f' title="{title_escaped}" href="{feed_url}">\n'
             "</head>\n<body></body>\n</html>"
         )
-        (self.cfg.build_dir / "index.html").write_text(html, encoding="utf-8")
+        (self.cfg.build_dir / "index.html").write_text(redirect_html, encoding="utf-8")
 
 
 def warn_missing_translations(
