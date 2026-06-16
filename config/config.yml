@@ -68,6 +68,14 @@ languages:
     en: "← Back"
     fr: "← Retour"
     nl: "← Terug"
+  not_found_labels:
+    en: "Page not found"
+    fr: "Page introuvable"
+    nl: "Pagina niet gevonden"
+  not_found_home_labels:
+    en: "← Go to homepage"
+    fr: "← Aller à l'accueil"
+    nl: "← Naar de startpagina"
 
 # -----------------------------------------------------------------------------
 # Publish

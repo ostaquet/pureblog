@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Custom 404 page (`build/404.html`) generated automatically at build time using the site template and branding. The page displays a "page not found" message in the default language with a link back to the homepage and a full language switcher. Two new mandatory config entries under `languages`: `not_found_labels` and `not_found_home_labels` (_0035-add-404-page_).
+
 ### Fixed
 
 - RSS autodiscovery `<link>` tag is now also present in the root `index.html` (the redirect page), pointing to the default language's feed. The root redirect also uses the configured default language instead of the hardcoded `en` (_0034-rss-discovery-on-root_).

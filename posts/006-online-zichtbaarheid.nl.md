@@ -109,6 +109,28 @@ Pureblog steunt op het bestand `robots.txt` waarnaar wordt verwezen in de config
 
 Het bestand `robots.txt` is beschikbaar op de URL <https://www.pureblog.dev/robots.txt>.
 
+## Aangepaste 404-pagina
+
+Wanneer een bezoeker op een niet-bestaand URL van je site terechtkomt, ziet hij een 404-fout. Standaard toont de host een kale, opgemaakte foutpagina. Pureblog genereert automatisch een gestijlde `404.html` in de rootmap van de site, die gebruik maakt van jouw template en huisstijl. De bezoeker blijft zo in een consistente visuele omgeving en kan gemakkelijk de weg terug naar de startpagina vinden.
+
+De pagina toont het bericht "pagina niet gevonden" in de standaardtaal en een link naar de startpagina. Beide teksten worden geconfigureerd in `config/config.yml` onder de sectie `languages`:
+
+```yaml
+languages:
+  not_found_labels:
+    en: "Page not found"
+    fr: "Page introuvable"
+    nl: "Pagina niet gevonden"
+  not_found_home_labels:
+    en: "← Go to homepage"
+    fr: "← Aller à l'accueil"
+    nl: "← Naar de startpagina"
+```
+
+Er is ook een taalkiezer opgenomen met directe links naar de index van elke geconfigureerde taal, zodat bezoekers kunnen navigeren, zelfs na het landen op een ontbrekende URL.
+
+Op Firebase Hosting wordt het bestand `404.html` in de root automatisch geserveerd voor elke niet-overeenkomende URL. Andere statische hosters (Netlify, GitHub Pages, enz.) volgen dezelfde conventie.
+
 ## Andere nuttige functies
 
 Pureblog is compatibel met de leesmodi van webbrowsers zonder dat de lay-out wordt aangetast.

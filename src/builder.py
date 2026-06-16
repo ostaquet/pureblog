@@ -51,6 +51,7 @@ class BlogBuilder:
             self.build_lang(lang, posts, translations, template)
 
         self.build_root_redirect()
+        self.build_404_page(template)
         self.build_sitemap(posts)
         self.build_robots()
         self.build_favicon()
@@ -328,6 +329,32 @@ class BlogBuilder:
                     f"(expected at {target}).",
                     file=sys.stderr,
                 )
+
+    def build_404_page(self, template: Template) -> None:
+        """Write a styled 404 page to the build root with a link to the homepage."""
+        default_lang: str = self.cfg.languages[0]
+        not_found_label: str = self.cfg.not_found_labels[default_lang]
+        home_label: str = self.cfg.not_found_home_labels[default_lang]
+        home_url: str = f"{default_lang}/"
+        switcher: str = render_lang_switcher(
+            default_lang,
+            self.cfg.languages,
+            lambda lang: (f"{lang}/", True),
+        )
+        content: str = (
+            f"<h1>{not_found_label}</h1>"
+            f'<p><a href="{home_url}">{home_label}</a></p>'
+        )
+        page: str = template.substitute(
+            title=f"404 \u2013 {not_found_label}",
+            lang=default_lang,
+            lang_switcher=switcher,
+            description="",
+            content=content,
+            root=".",
+            **self.template_globals(),
+        )
+        (self.cfg.build_dir / "404.html").write_text(page, encoding="utf-8")
 
     def build_favicon(self) -> None:
         """Render ``general.favicon_emoji`` into ``build/favicon.svg``."""

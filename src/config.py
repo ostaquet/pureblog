@@ -30,6 +30,8 @@ class BlogConfig:
     languages: list[str]
     reading_time_labels: dict[str, str]
     back_labels: dict[str, str]
+    not_found_labels: dict[str, str]
+    not_found_home_labels: dict[str, str]
     default_timezone: ZoneInfo
     default_publish_hour: int
     template_file: Path
@@ -187,6 +189,12 @@ def load_config(config_path: Path) -> BlogConfig:
     back_labels: dict[str, str] = _require_lang_map(
         languages_section, "languages", "back_labels", languages
     )
+    not_found_labels: dict[str, str] = _require_lang_map(
+        languages_section, "languages", "not_found_labels", languages
+    )
+    not_found_home_labels: dict[str, str] = _require_lang_map(
+        languages_section, "languages", "not_found_home_labels", languages
+    )
 
     timezone_name: str = _require_str(publish, "publish", "default_timezone")
     default_timezone: ZoneInfo = _parse_timezone(timezone_name)
@@ -214,6 +222,8 @@ def load_config(config_path: Path) -> BlogConfig:
         languages=languages,
         reading_time_labels=reading_time_labels,
         back_labels=back_labels,
+        not_found_labels=not_found_labels,
+        not_found_home_labels=not_found_home_labels,
         default_timezone=default_timezone,
         default_publish_hour=default_publish_hour,
         template_file=template_file,

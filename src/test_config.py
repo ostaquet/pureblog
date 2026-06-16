@@ -25,6 +25,12 @@ languages:
   back_labels:
     en: "Back"
     fr: "Retour"
+  not_found_labels:
+    en: "Page not found"
+    fr: "Page introuvable"
+  not_found_home_labels:
+    en: "Go to homepage"
+    fr: "Aller à l'accueil"
 publish:
   default_timezone: "Europe/Brussels"
   default_publish_hour: 13
@@ -54,6 +60,10 @@ def test_load_valid_config(tmp_path: Path) -> None:
     assert cfg.languages == ["en", "fr"]
     assert cfg.reading_time_labels == {"en": "min read", "fr": "min de lecture"}
     assert cfg.back_labels == {"en": "Back", "fr": "Retour"}
+    assert cfg.not_found_labels == {"en": "Page not found", "fr": "Page introuvable"}
+    assert cfg.not_found_home_labels == {
+        "en": "Go to homepage", "fr": "Aller à l'accueil"
+    }
     assert str(cfg.default_timezone) == "Europe/Brussels"
     assert cfg.default_publish_hour == 13
     assert cfg.template_file == Path("theme/template.html")
@@ -127,6 +137,22 @@ def test_load_missing_language_label(tmp_path: Path) -> None:
 
 def test_load_missing_back_label(tmp_path: Path) -> None:
     text: str = VALID_CONFIG.replace('    fr: "Retour"\n', "")
+    with pytest.raises(
+        config.ConfigError, match="Missing label for language 'fr'"
+    ):
+        config.load_config(_write(tmp_path, text))
+
+
+def test_load_missing_not_found_label(tmp_path: Path) -> None:
+    text: str = VALID_CONFIG.replace('    fr: "Page introuvable"\n', "")
+    with pytest.raises(
+        config.ConfigError, match="Missing label for language 'fr'"
+    ):
+        config.load_config(_write(tmp_path, text))
+
+
+def test_load_missing_not_found_home_label(tmp_path: Path) -> None:
+    text: str = VALID_CONFIG.replace('    fr: "Aller à l\'accueil"\n', "")
     with pytest.raises(
         config.ConfigError, match="Missing label for language 'fr'"
     ):
