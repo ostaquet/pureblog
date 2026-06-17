@@ -111,7 +111,9 @@ Le fichier `robots.txt` est disponible à l'URL <https://www.pureblog.dev/robots
 
 ## Page 404 personnalisée
 
-Lorsqu'un visiteur arrive sur une URL inexistante de votre site, il voit une erreur 404. Par défaut, les hébergeurs affichent une page d'erreur brute, sans mise en forme. Pureblog génère automatiquement un fichier `404.html` à la racine du site, qui utilise votre template et votre identité visuelle. Le visiteur reste ainsi dans un environnement cohérent et peut retrouver facilement le chemin vers la page d'accueil.
+Lorsqu'un visiteur arrive sur une URL inexistante de votre site, il voit une erreur 404. Par défaut, les hébergeurs affichent une page d'erreur brute, sans mise en forme. Pureblog génère automatiquement un fichier `404.html` à la racine du site, qui reproduit l'identité visuelle de votre blog. Le visiteur reste ainsi dans un environnement cohérent et peut retrouver facilement le chemin vers la page d'accueil.
+
+La page est entièrement autonome : la feuille de style est intégrée directement dans le HTML et tous les liens utilisent l'URL absolue configurée dans `general.site_url`. Cela garantit que les styles et la navigation fonctionnent correctement quelle que soit la profondeur de l'URL à laquelle l'hébergeur sert la page d'erreur (par exemple, Firebase sert le même `404.html` que l'URL manquante soit `/brol` ou `/en/brol`).
 
 La page affiche le message « page introuvable » dans la langue par défaut, ainsi qu'un lien vers la page d'accueil. Les deux textes se configurent dans `config/config.yml` sous la section `languages` :
 

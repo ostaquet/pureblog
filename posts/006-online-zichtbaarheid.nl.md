@@ -111,7 +111,9 @@ Het bestand `robots.txt` is beschikbaar op de URL <https://www.pureblog.dev/robo
 
 ## Aangepaste 404-pagina
 
-Wanneer een bezoeker op een niet-bestaand URL van je site terechtkomt, ziet hij een 404-fout. Standaard toont de host een kale, opgemaakte foutpagina. Pureblog genereert automatisch een gestijlde `404.html` in de rootmap van de site, die gebruik maakt van jouw template en huisstijl. De bezoeker blijft zo in een consistente visuele omgeving en kan gemakkelijk de weg terug naar de startpagina vinden.
+Wanneer een bezoeker op een niet-bestaand URL van je site terechtkomt, ziet hij een 404-fout. Standaard toont de host een kale, niet-opgemaakte foutpagina. Pureblog genereert automatisch een gestijlde `404.html` in de rootmap van de site die de visuele identiteit van je blog weerspiegelt. De bezoeker blijft zo in een consistente omgeving en kan gemakkelijk de weg terug naar de startpagina vinden.
+
+De pagina is volledig zelfstandig: de stylesheet is rechtstreeks in de HTML ingebed en alle links gebruiken de absolute URL die is geconfigureerd in `general.site_url`. Dit garandeert dat stijlen en navigatie correct werken, ongeacht de URL-diepte waarop de host de foutpagina serveert (Firebase serveert bijvoorbeeld dezelfde `404.html` of de ontbrekende URL nu `/brol` of `/en/brol` is).
 
 De pagina toont het bericht "pagina niet gevonden" in de standaardtaal en een link naar de startpagina. Beide teksten worden geconfigureerd in `config/config.yml` onder de sectie `languages`:
 

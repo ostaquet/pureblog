@@ -111,9 +111,11 @@ The `robots.txt` file is available at the URL <https://www.pureblog.dev/robots.t
 
 ## Custom 404 page
 
-When a visitor lands on a URL that does not exist on your site, they see a 404 error. By default, hosting providers show a plain, unstyled error page. Pureblog automatically generates a styled `404.html` at the root of the site that uses your template and branding, so the visitor stays in a consistent visual environment and can find their way back to the homepage.
+When a visitor lands on a URL that does not exist on your site, they see a 404 error. By default, hosting providers show a plain, unstyled error page. Pureblog automatically generates a styled `404.html` at the root of the site that matches your blog's visual identity, so the visitor stays in a consistent environment and can find their way back to the homepage.
 
-The page displays the "page not found" message in the default language and a link to the homepage. Both texts are configured in `config/config.yml` under the `languages` section:
+The page is entirely self-contained: the stylesheet is embedded directly in the HTML and all links use the absolute URL configured in `general.site_url`. This ensures that styles and navigation work correctly regardless of the URL depth at which the hosting provider serves the error page (for example, Firebase serves the same `404.html` whether the missing URL is `/brol` or `/en/brol`).
+
+The page displays the "page not found" message in the default language with a link to the homepage. Both texts are configured in `config/config.yml` under the `languages` section:
 
 ```yaml
 languages:

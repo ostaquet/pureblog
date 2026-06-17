@@ -1198,27 +1198,19 @@ def test_build_creates_404_page(tmp_path: Path) -> None:
 def test_build_404_page_contains_not_found_label(tmp_path: Path) -> None:
     blog: builder.BlogBuilder
     build_dir: Path
-    blog, build_dir = _build(
-        tmp_path,
-        {"001-hello.en.md": SAMPLE_POST},
-        template_text="$content",
-    )
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
     blog.build_site()
     page: str = (build_dir / "404.html").read_text()
     assert "Page not found" in page
 
 
-def test_build_404_page_contains_home_link(tmp_path: Path) -> None:
+def test_build_404_page_home_link_is_absolute(tmp_path: Path) -> None:
     blog: builder.BlogBuilder
     build_dir: Path
-    blog, build_dir = _build(
-        tmp_path,
-        {"001-hello.en.md": SAMPLE_POST},
-        template_text="$content",
-    )
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
     blog.build_site()
     page: str = (build_dir / "404.html").read_text()
-    assert 'href="en/"' in page
+    assert f'href="{SITE_URL}/en/"' in page
     assert "Go to homepage" in page
 
 
@@ -1228,43 +1220,45 @@ def test_build_404_page_uses_default_language(tmp_path: Path) -> None:
     blog, build_dir = _build(
         tmp_path,
         {"001-bonjour.fr.md": SAMPLE_POST_FR},
-        template_text="$lang $content",
         languages=["fr", "en", "nl"],
     )
     blog.build_site()
     page: str = (build_dir / "404.html").read_text()
-    assert "fr " in page
-    assert 'href="fr/"' in page
+    assert 'lang="fr"' in page
+    assert f'href="{SITE_URL}/fr/"' in page
     assert "Page introuvable" in page
 
 
-def test_build_404_page_has_lang_switcher(tmp_path: Path) -> None:
+def test_build_404_page_lang_switcher_uses_absolute_urls(tmp_path: Path) -> None:
     blog: builder.BlogBuilder
     build_dir: Path
-    blog, build_dir = _build(
-        tmp_path,
-        {"001-hello.en.md": SAMPLE_POST},
-        template_text="$lang_switcher $content",
-    )
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
     blog.build_site()
     page: str = (build_dir / "404.html").read_text()
     assert "lang-switcher" in page
-    assert 'href="fr/"' in page
-    assert 'href="nl/"' in page
+    assert f'href="{SITE_URL}/fr/"' in page
+    assert f'href="{SITE_URL}/nl/"' in page
 
 
-def test_build_404_page_uses_template(tmp_path: Path) -> None:
+def test_build_404_page_inlines_css(tmp_path: Path) -> None:
     blog: builder.BlogBuilder
     build_dir: Path
-    blog, build_dir = _build(
-        tmp_path,
-        {"001-hello.en.md": SAMPLE_POST},
-        template_text="<footer>&copy; $author $year</footer>$content",
-    )
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
     blog.build_site()
     page: str = (build_dir / "404.html").read_text()
-    assert "<footer>" in page
-    assert "Olivier" in page
+    assert "<style>" in page
+    assert "body {}" in page
+
+
+def test_build_404_page_has_no_relative_asset_paths(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    blog.build_site()
+    page: str = (build_dir / "404.html").read_text()
+    assert 'href="./style.css"' not in page
+    assert 'href="../style.css"' not in page
+    assert 'href="style.css"' not in page
 
 
 def test_rss_discovery_link_in_html(tmp_path: Path) -> None:

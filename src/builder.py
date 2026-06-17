@@ -51,7 +51,7 @@ class BlogBuilder:
             self.build_lang(lang, posts, translations, template)
 
         self.build_root_redirect()
-        self.build_404_page(template)
+        self.build_404_page()
         self.build_sitemap(posts)
         self.build_robots()
         self.build_favicon()
@@ -330,29 +330,51 @@ class BlogBuilder:
                     file=sys.stderr,
                 )
 
-    def build_404_page(self, template: Template) -> None:
-        """Write a styled 404 page to the build root with a link to the homepage."""
+    def build_404_page(self) -> None:
+        """Write a self-contained 404 page with inlined CSS and absolute URLs.
+
+        The page uses no relative paths so it renders correctly regardless of
+        the URL depth at which the hosting provider serves it (e.g. Firebase
+        serves build/404.html for any unmatched URL under any sub-path).
+        """
         default_lang: str = self.cfg.languages[0]
         not_found_label: str = self.cfg.not_found_labels[default_lang]
         home_label: str = self.cfg.not_found_home_labels[default_lang]
-        home_url: str = f"{default_lang}/"
+        home_url: str = f"{self.cfg.site_url}/{default_lang}/"
+        css: str = self.cfg.style_file.read_text(encoding="utf-8")
+        year: int = datetime.now(tz=self.cfg.default_timezone).year
+        favicon_url: str = f"{self.cfg.site_url}/favicon.svg"
+        site_title_escaped: str = html.escape(self.cfg.site_title)
+        author_escaped: str = html.escape(self.cfg.author)
         switcher: str = render_lang_switcher(
             default_lang,
             self.cfg.languages,
-            lambda lang: (f"{lang}/", True),
+            lambda lang: (f"{self.cfg.site_url}/{lang}/", True),
         )
         content: str = (
             f"<h1>{not_found_label}</h1>"
             f'<p><a href="{home_url}">{home_label}</a></p>'
         )
-        page: str = template.substitute(
-            title=f"404 \u2013 {not_found_label}",
-            lang=default_lang,
-            lang_switcher=switcher,
-            description="",
-            content=content,
-            root=".",
-            **self.template_globals(),
+        page: str = (
+            f'<!DOCTYPE html>\n<html lang="{default_lang}">\n<head>\n'
+            '<meta charset="utf-8">\n'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+            f'<title>404 \u2013 {not_found_label}</title>\n'
+            '<meta name="description" content="">\n'
+            f'<link rel="icon" type="image/svg+xml" href="{favicon_url}">\n'
+            f"<style>\n{css}</style>\n"
+            "</head>\n<body>\n"
+            "<header>\n"
+            f'    <h1><a href="{home_url}">{site_title_escaped}</a></h1>\n'
+            f"    {switcher}\n"
+            "</header>\n"
+            "<main>\n"
+            f"    {content}\n"
+            "</main>\n"
+            "<footer>\n"
+            f"    <p>&copy; {author_escaped} {year}</p>\n"
+            "</footer>\n"
+            "</body>\n</html>"
         )
         (self.cfg.build_dir / "404.html").write_text(page, encoding="utf-8")
 

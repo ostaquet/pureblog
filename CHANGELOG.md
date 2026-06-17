@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- 404 page now works correctly when served from any URL depth (e.g. `/en/brol` as well as `/brol`): the stylesheet is inlined directly in the HTML and all navigation links use absolute URLs derived from `general.site_url`, removing all relative-path dependencies (_0036-fix-404_).
+
+### Fixed
+
 - RSS autodiscovery `<link>` tag is now also present in the root `index.html` (the redirect page), pointing to the default language's feed. The root redirect also uses the configured default language instead of the hardcoded `en` (_0034-rss-discovery-on-root_).
 
 ### Changed
