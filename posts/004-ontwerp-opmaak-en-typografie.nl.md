@@ -179,6 +179,28 @@ Het templatebestand bevat parameters die tijdens de bouw van de site worden verv
 
 Wijzigingen aan de visuele stijl kunnen worden doorgevoerd in de stylesheet. Het stijlbestand (`theme.style_file`) is een CSS-bestand dat de opmaakregels voor de verschillende elementen van de site definieert.
 
+## Favicon op basis van een emoji
+
+De favicon is het kleine icoontje dat in browsertabbladen, bladwijzers en zoekresultaten naast de naam van je site wordt weergegeven. Pureblog genereert het automatisch op basis van één enkele emoji die is ingesteld in `config/config.yml`:
+
+```yaml
+theme:
+  favicon_emoji: "🤍"
+```
+
+Vervang de emoji door elk gewenst teken — een hart, een camera, een raket — om je blog een onderscheidende identiteit te geven. De wijziging is van kracht na de volgende build.
+
+**Waarom een emoji in plaats van een PNG- of ICO-bestand?**
+
+Traditionele favicons vereisen speciale beeldbewerkingstools, meerdere resoluties (16×16, 32×32, 180×180…) en meerdere kilobytes aan bestanden. Pureblog kiest voor een eenvoudigere aanpak:
+
+- **Geen tools nodig.** Een emoji is gewoon een tekstteken: pas de configuratie aan, bouw opnieuw, klaar.
+- **Vectorformaat.** De emoji wordt als SVG gerenderd, waardoor het op elke grootte en schermresolutie perfect scherp is, inclusief HiDPI- en Retina-schermen.
+- **Geen gewicht.** De gegenereerde SVG is slechts een paar honderd bytes groot, vergeleken met tientallen kilobytes voor een klassieke iconenset.
+- **Directe persoonlijkheid.** Eén teken is genoeg om het tabblad onmiskenbaar van jou te maken.
+
+Het gegenereerde bestand `favicon.svg` wordt in de rootmap van de build geplaatst en op elke pagina via een `<link rel="icon">`-tag gerefereerd. Alle moderne browsers ondersteunen SVG-favicons.
+
 ## Aangepaste 404-pagina
 
 Wanneer een bezoeker op een niet-bestaand URL van je site terechtkomt, ziet hij een 404-fout. Standaard toont de host een kale, niet-opgemaakte foutpagina. Pureblog genereert automatisch een gestijlde `404.html` in de rootmap van de site die de visuele identiteit van je blog weerspiegelt. De bezoeker blijft zo in een consistente omgeving en kan gemakkelijk de weg terug naar de startpagina vinden.

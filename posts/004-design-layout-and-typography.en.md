@@ -179,6 +179,28 @@ The template file contains parameters that are replaced when the site is built. 
 
 Visual style changes can be made in the stylesheet. The style file (`theme.style_file`) is a CSS file that defines the formatting rules for the various elements of the site.
 
+## Favicon from an emoji
+
+The favicon is the small icon displayed in browser tabs, bookmarks, and search results next to your site name. Pureblog generates it automatically from a single emoji set in `config/config.yml`:
+
+```yaml
+theme:
+  favicon_emoji: "🤍"
+```
+
+Change the emoji to any character you like — a heart, a camera, a rocket — to give your blog a distinctive identity. The change takes effect on the next build.
+
+**Why an emoji instead of a PNG or ICO file?**
+
+Traditional favicons require dedicated image editing tools, multiple resolutions (16×16, 32×32, 180×180…) and several kilobytes of files. Pureblog takes a simpler path:
+
+- **No tooling needed.** An emoji is just a text character: edit the config, rebuild, done.
+- **Vector format.** The emoji is rendered as an SVG, so it is perfectly sharp at any size and on any screen density, including HiDPI / Retina displays.
+- **Zero weight.** The generated SVG is a few hundred bytes, compared with tens of kilobytes for a typical icon set.
+- **Instant personality.** One character is enough to make the tab unmistakably yours.
+
+The generated `favicon.svg` is placed at the root of the build directory and referenced from every page via a `<link rel="icon">` tag. Any modern browser supports SVG favicons.
+
 ## Custom 404 page
 
 When a visitor lands on a URL that does not exist on your site, they see a 404 error. By default, hosting providers show a plain, unstyled error page. Pureblog automatically generates a styled `404.html` at the root of the site that matches your blog's visual identity, so the visitor stays in a consistent environment and can find their way back to the homepage.

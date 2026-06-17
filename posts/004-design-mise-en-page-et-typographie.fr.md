@@ -179,6 +179,28 @@ Le fichier de template contient des paramètres qui sont remplacés lors de la c
 
 Les modifications de style graphique peuvent être réalisées dans la feuille de style. Le fichier de style (`theme.style_file`) est un CSS qui définit les règles de formatage des différents éléments du site.
 
+## Favicon à partir d'un emoji
+
+Le favicon est la petite icône affichée dans les onglets du navigateur, les favoris et les résultats de recherche à côté du nom de votre site. Pureblog le génère automatiquement à partir d'un seul emoji défini dans `config/config.yml` :
+
+```yaml
+theme:
+  favicon_emoji: "🤍"
+```
+
+Remplacez l'emoji par le caractère de votre choix — un cœur, un appareil photo, une fusée — pour donner à votre blog une identité distinctive. La modification prend effet lors du prochain build.
+
+**Pourquoi un emoji plutôt qu'un fichier PNG ou ICO ?**
+
+Les favicons traditionnels nécessitent des outils de retouche d'image dédiés, plusieurs résolutions (16×16, 32×32, 180×180…) et plusieurs kilo-octets de fichiers. Pureblog adopte une approche plus simple :
+
+- **Aucun outil requis.** Un emoji est simplement un caractère texte : modifiez la configuration, relancez le build, c'est fait.
+- **Format vectoriel.** L'emoji est rendu en SVG, ce qui garantit une netteté parfaite quelle que soit la taille et la densité d'écran, y compris les affichages HiDPI / Retina.
+- **Poids nul.** Le SVG généré ne représente que quelques centaines d'octets, contre des dizaines de kilo-octets pour un jeu d'icônes classique.
+- **Personnalité immédiate.** Un seul caractère suffit pour rendre l'onglet inimitable.
+
+Le fichier `favicon.svg` généré est placé à la racine du répertoire de build et référencé sur chaque page via une balise `<link rel="icon">`. Tous les navigateurs modernes prennent en charge les favicons SVG.
+
 ## Page 404 personnalisée
 
 Lorsqu'un visiteur arrive sur une URL inexistante de votre site, il voit une erreur 404. Par défaut, les hébergeurs affichent une page d'erreur brute, sans mise en forme. Pureblog génère automatiquement un fichier `404.html` à la racine du site, qui reproduit l'identité visuelle de votre blog. Le visiteur reste ainsi dans un environnement cohérent et peut retrouver facilement le chemin vers la page d'accueil.
