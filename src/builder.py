@@ -36,6 +36,7 @@ class BlogBuilder:
             "site_title": self.cfg.site_title,
             "author": self.cfg.author,
             "year": str(year),
+            "favicon": f"{self.cfg.site_url}/favicon.svg",
         }
 
     def build_site(self) -> None:
@@ -396,11 +397,13 @@ class BlogBuilder:
         """Write a root index.html that redirects to the default language."""
         default_lang: str = self.cfg.languages[0]
         feed_url: str = f"{default_lang}/feed.xml"
+        favicon_url: str = f"{self.cfg.site_url}/favicon.svg"
         title_escaped: str = html.escape(self.cfg.site_title, quote=True)
         redirect_html: str = (
             f'<!DOCTYPE html>\n<html lang="{default_lang}">\n<head>\n'
             '<meta charset="utf-8">\n'
             f'<meta http-equiv="refresh" content="0;url={default_lang}/">\n'
+            f'<link rel="icon" type="image/svg+xml" href="{favicon_url}">\n'
             f'<link rel="alternate" type="application/rss+xml"'
             f' title="{title_escaped}" href="{feed_url}">\n'
             "</head>\n<body></body>\n</html>"

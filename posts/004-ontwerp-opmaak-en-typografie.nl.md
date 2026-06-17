@@ -199,7 +199,7 @@ Traditionele favicons vereisen speciale beeldbewerkingstools, meerdere resolutie
 - **Geen gewicht.** De gegenereerde SVG is slechts een paar honderd bytes groot, vergeleken met tientallen kilobytes voor een klassieke iconenset.
 - **Directe persoonlijkheid.** Eén teken is genoeg om het tabblad onmiskenbaar van jou te maken.
 
-Het gegenereerde bestand `favicon.svg` wordt in de rootmap van de build geplaatst en op elke pagina via een `<link rel="icon">`-tag gerefereerd. Alle moderne browsers ondersteunen SVG-favicons.
+Het gegenereerde bestand `favicon.svg` wordt in de rootmap van de build geplaatst en op elke pagina — inclusief de root-redirectpagina — via een `<link rel="icon">`-tag gerefereerd. De referentie gebruikt een absolute URL afgeleid van `general.site_url`, zodat feedlezers zoals Inoreader het icoon correct oplossen en weergeven. Alle moderne browsers ondersteunen SVG-favicons.
 
 ## Aangepaste 404-pagina
 

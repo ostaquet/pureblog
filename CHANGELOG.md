@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Favicon now displays correctly in feed readers such as Inoreader: the `<link rel="icon">` tag uses an absolute URL derived from `general.site_url` and is also present in the root redirect `index.html` (previously only relative references on language pages) (_0038-favicon-in-inoreader_).
 - 404 page now works correctly when served from any URL depth (e.g. `/en/brol` as well as `/brol`): the stylesheet is inlined directly in the HTML and all navigation links use absolute URLs derived from `general.site_url`, removing all relative-path dependencies (_0036-fix-404_).
 
 ### Fixed

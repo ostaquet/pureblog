@@ -199,7 +199,7 @@ Les favicons traditionnels nécessitent des outils de retouche d'image dédiés,
 - **Poids nul.** Le SVG généré ne représente que quelques centaines d'octets, contre des dizaines de kilo-octets pour un jeu d'icônes classique.
 - **Personnalité immédiate.** Un seul caractère suffit pour rendre l'onglet inimitable.
 
-Le fichier `favicon.svg` généré est placé à la racine du répertoire de build et référencé sur chaque page via une balise `<link rel="icon">`. Tous les navigateurs modernes prennent en charge les favicons SVG.
+Le fichier `favicon.svg` généré est placé à la racine du répertoire de build et référencé sur chaque page — y compris la page de redirection racine — via une balise `<link rel="icon">`. La référence utilise une URL absolue dérivée de `general.site_url`, afin que les lecteurs de flux comme Inoreader résolvent et affichent correctement l'icône. Tous les navigateurs modernes prennent en charge les favicons SVG.
 
 ## Page 404 personnalisée
 

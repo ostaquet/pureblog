@@ -209,7 +209,16 @@ def test_favicon_is_served_and_referenced(page: Page) -> None:
     page.goto(f"{BASE_URL}/en/")
     favicon_link = page.locator('head link[rel="icon"]')
     expect(favicon_link).to_have_attribute("type", "image/svg+xml")
-    expect(favicon_link).to_have_attribute("href", "../favicon.svg")
+    expect(favicon_link).to_have_attribute(
+        "href", "https://example.com/favicon.svg"
+    )
+
+    root_response = requests.get(f"{BASE_URL}/", timeout=5)
+    assert root_response.status_code == 200
+    assert (
+        '<link rel="icon" type="image/svg+xml"'
+        ' href="https://example.com/favicon.svg">' in root_response.text
+    )
 
 
 def test_robots_txt_advertises_sitemap() -> None:

@@ -199,7 +199,7 @@ Traditional favicons require dedicated image editing tools, multiple resolutions
 - **Zero weight.** The generated SVG is a few hundred bytes, compared with tens of kilobytes for a typical icon set.
 - **Instant personality.** One character is enough to make the tab unmistakably yours.
 
-The generated `favicon.svg` is placed at the root of the build directory and referenced from every page via a `<link rel="icon">` tag. Any modern browser supports SVG favicons.
+The generated `favicon.svg` is placed at the root of the build directory and referenced from every page — including the root redirect page — via a `<link rel="icon">` tag. The reference uses an absolute URL derived from `general.site_url`, so feed readers such as Inoreader resolve and display the icon correctly. Any modern browser supports SVG favicons.
 
 ## Custom 404 page
 

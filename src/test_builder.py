@@ -699,6 +699,7 @@ def test_template_globals_contains_site_title_author_year(tmp_path: Path) -> Non
     assert globals_["author"] == "Olivier"
     current_year: int = datetime.now(tz=blog.cfg.default_timezone).year
     assert globals_["year"] == str(current_year)
+    assert globals_["favicon"] == f"{SITE_URL}/favicon.svg"
 
 
 def test_build_header_uses_site_title(tmp_path: Path) -> None:
@@ -762,15 +763,30 @@ def test_build_template_references_favicon(tmp_path: Path) -> None:
         tmp_path,
         {"001-hello.en.md": SAMPLE_POST},
         template_text=(
-            '<link rel="icon" type="image/svg+xml" href="$root/favicon.svg">'
+            '<link rel="icon" type="image/svg+xml" href="$favicon">'
             "$lang_switcher $title $description $content"
         ),
     )
     blog.build_site()
+    expected_link: str = (
+        f'<link rel="icon" type="image/svg+xml" href="{SITE_URL}/favicon.svg">'
+    )
     index_html: str = (build_dir / "en" / "index.html").read_text()
-    assert 'href="../favicon.svg"' in index_html
+    assert expected_link in index_html
     post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
-    assert 'href="../../favicon.svg"' in post_html
+    assert expected_link in post_html
+
+
+def test_build_root_redirect_references_favicon(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    blog.build_site()
+    root_html: str = (build_dir / "index.html").read_text()
+    assert (
+        f'<link rel="icon" type="image/svg+xml" href="{SITE_URL}/favicon.svg">'
+        in root_html
+    )
 
 
 # --- Image / asset handling tests ---
