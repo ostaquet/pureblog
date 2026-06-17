@@ -109,30 +109,6 @@ Pureblog uses the `robots.txt` file referenced in the configuration (`config/con
 
 The `robots.txt` file is available at the URL <https://www.pureblog.dev/robots.txt>.
 
-## Custom 404 page
-
-When a visitor lands on a URL that does not exist on your site, they see a 404 error. By default, hosting providers show a plain, unstyled error page. Pureblog automatically generates a styled `404.html` at the root of the site that matches your blog's visual identity, so the visitor stays in a consistent environment and can find their way back to the homepage.
-
-The page is entirely self-contained: the stylesheet is embedded directly in the HTML and all links use the absolute URL configured in `general.site_url`. This ensures that styles and navigation work correctly regardless of the URL depth at which the hosting provider serves the error page (for example, Firebase serves the same `404.html` whether the missing URL is `/brol` or `/en/brol`).
-
-The page displays the "page not found" message in the default language with a link to the homepage. Both texts are configured in `config/config.yml` under the `languages` section:
-
-```yaml
-languages:
-  not_found_labels:
-    en: "Page not found"
-    fr: "Page introuvable"
-    nl: "Pagina niet gevonden"
-  not_found_home_labels:
-    en: "← Go to homepage"
-    fr: "← Aller à l'accueil"
-    nl: "← Naar de startpagina"
-```
-
-A language switcher is also included, linking directly to the index of each configured language so visitors can navigate even after landing on a missing URL.
-
-On Firebase Hosting, the `404.html` file at the root is served automatically for any unmatched URL. Other static hosting providers (Netlify, GitHub Pages, etc.) follow the same convention.
-
 ## Other useful features
 
 Pureblog is compatible with browser reader modes without altering the layout.

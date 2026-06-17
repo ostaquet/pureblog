@@ -178,3 +178,27 @@ Het templatebestand bevat parameters die tijdens de bouw van de site worden verv
 - `$year`: het jaar van de laatste build van de website.
 
 Wijzigingen aan de visuele stijl kunnen worden doorgevoerd in de stylesheet. Het stijlbestand (`theme.style_file`) is een CSS-bestand dat de opmaakregels voor de verschillende elementen van de site definieert.
+
+## Aangepaste 404-pagina
+
+Wanneer een bezoeker op een niet-bestaand URL van je site terechtkomt, ziet hij een 404-fout. Standaard toont de host een kale, niet-opgemaakte foutpagina. Pureblog genereert automatisch een gestijlde `404.html` in de rootmap van de site die de visuele identiteit van je blog weerspiegelt. De bezoeker blijft zo in een consistente omgeving en kan gemakkelijk de weg terug naar de startpagina vinden.
+
+De pagina is volledig zelfstandig: de stylesheet is rechtstreeks in de HTML ingebed en alle links gebruiken de absolute URL die is geconfigureerd in `general.site_url`. Dit garandeert dat stijlen en navigatie correct werken, ongeacht de URL-diepte waarop de host de foutpagina serveert (Firebase serveert bijvoorbeeld dezelfde `404.html` of de ontbrekende URL nu `/brol` of `/en/brol` is).
+
+De pagina toont het bericht "pagina niet gevonden" in de standaardtaal en een link naar de startpagina. Beide teksten worden geconfigureerd in `config/config.yml` onder de sectie `languages`:
+
+```yaml
+languages:
+  not_found_labels:
+    en: "Page not found"
+    fr: "Page introuvable"
+    nl: "Pagina niet gevonden"
+  not_found_home_labels:
+    en: "← Go to homepage"
+    fr: "← Aller à l'accueil"
+    nl: "← Naar de startpagina"
+```
+
+Er is ook een taalkiezer opgenomen met directe links naar de index van elke geconfigureerde taal, zodat bezoekers kunnen navigeren, zelfs na het landen op een ontbrekende URL.
+
+Op Firebase Hosting wordt het bestand `404.html` in de root automatisch geserveerd voor elke niet-overeenkomende URL. Andere statische hosters (Netlify, GitHub Pages, enz.) volgen dezelfde conventie.

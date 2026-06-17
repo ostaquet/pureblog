@@ -178,3 +178,27 @@ Le fichier de template contient des paramètres qui sont remplacés lors de la c
 - `$year` : l'année du dernier build du site web.
 
 Les modifications de style graphique peuvent être réalisées dans la feuille de style. Le fichier de style (`theme.style_file`) est un CSS qui définit les règles de formatage des différents éléments du site.
+
+## Page 404 personnalisée
+
+Lorsqu'un visiteur arrive sur une URL inexistante de votre site, il voit une erreur 404. Par défaut, les hébergeurs affichent une page d'erreur brute, sans mise en forme. Pureblog génère automatiquement un fichier `404.html` à la racine du site, qui reproduit l'identité visuelle de votre blog. Le visiteur reste ainsi dans un environnement cohérent et peut retrouver facilement le chemin vers la page d'accueil.
+
+La page est entièrement autonome : la feuille de style est intégrée directement dans le HTML et tous les liens utilisent l'URL absolue configurée dans `general.site_url`. Cela garantit que les styles et la navigation fonctionnent correctement quelle que soit la profondeur de l'URL à laquelle l'hébergeur sert la page d'erreur (par exemple, Firebase sert le même `404.html` que l'URL manquante soit `/brol` ou `/en/brol`).
+
+La page affiche le message « page introuvable » dans la langue par défaut, ainsi qu'un lien vers la page d'accueil. Les deux textes se configurent dans `config/config.yml` sous la section `languages` :
+
+```yaml
+languages:
+  not_found_labels:
+    en: "Page not found"
+    fr: "Page introuvable"
+    nl: "Pagina niet gevonden"
+  not_found_home_labels:
+    en: "← Go to homepage"
+    fr: "← Aller à l'accueil"
+    nl: "← Naar de startpagina"
+```
+
+Un sélecteur de langue est également intégré, avec des liens directs vers l'index de chaque langue configurée, afin que les visiteurs puissent naviguer même après avoir atterri sur une URL manquante.
+
+Sur Firebase Hosting, le fichier `404.html` à la racine est servi automatiquement pour toute URL sans correspondance. Les autres hébergeurs statiques (Netlify, GitHub Pages, etc.) suivent la même convention.
