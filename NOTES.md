@@ -37,6 +37,8 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## URLs
 
+- https://www.pureblog.dev is the homepage of the Open Source project.
+
 ## Future plans
 
 - Speed up the initial loading (seems that Google Font are impacting the speed in the CSS)
@@ -54,3 +56,4 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 - Add a check to ensure that all MD files in the posts/ are formatted correctly (I got an issue while building the startup website because the format was incorrect, space in the filename)
 - Convert images to WebP format to improve speed of the website.
 - Allow users to add their pureblog in a list that appears on the main website?
+- Add MCP browsing and llms.txt ?
