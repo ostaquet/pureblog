@@ -23,7 +23,7 @@ Ces éléments sont pris en charge par Pureblog de deux manières :
 1. L'intégralité de votre Pureblog est en HTML statique. C'est-à-dire qu'il est construit lors de la génération. Les pages sont légères et ne nécessitent aucun post-traitement dans le navigateur du visiteur. Cela signifie que le _LCP_ et le _INP_ restent extrêmement bas même si vous avez beaucoup de contenu.
 2. Toutes les pages ont un format unique basée sur un template dont vous avez le contrôle. Le template assure une cohérence au sein de votre Pureblog, tout en étant personnalisable (voir aussi [comment modifier le design de votre Pureblog](posts/004-design-mise-en-page-et-typographie.fr.md)).
 
-**TODO AJOUTER UN SCREENSHOT DES CORE VITALS DE CE SITE UNE FOIS PUBLIE**
+![Performance de Pureblog sur Google Search Console](assets/img/lighthouse_performance.png)
 
 ## Les éléments clés du référencement
 

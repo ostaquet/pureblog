@@ -23,7 +23,7 @@ Deze elementen worden in Pureblog op twee manieren behandeld:
 1. Je volledige Pureblog is statische HTML. Dat wil zeggen dat het tijdens de generatie wordt gebouwd. De pagina's zijn licht en vereisen geen nabewerking in de browser van de bezoeker. Dit betekent dat _LCP_ en _INP_ extreem laag blijven, zelfs met veel inhoud.
 2. Alle pagina's hebben één formaat gebaseerd op een template waarover je de controle hebt. Het template zorgt voor consistentie binnen je Pureblog en blijft tegelijk aanpasbaar (zie ook [hoe je het ontwerp van je Pureblog aanpast](posts/004-ontwerp-opmaak-en-typografie.nl.md)).
 
-**TODO VOEG EEN SCREENSHOT TOE VAN DE CORE VITALS VAN DEZE SITE NA PUBLICATIE**
+![Prestaties of Pureblog op Google Search Console](assets/img/lighthouse_performance.png)
 
 ## Belangrijke SEO-elementen
 

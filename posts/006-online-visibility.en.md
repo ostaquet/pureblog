@@ -23,7 +23,7 @@ These elements are addressed by Pureblog in two ways:
 1. The whole of your Pureblog is static HTML. That is, it is built during generation. Pages are lightweight and require no post-processing in the visitor's browser. This means that _LCP_ and _INP_ remain extremely low even with a lot of content.
 2. All pages share a single format based on a template under your control. The template ensures consistency across your Pureblog, while remaining customisable (see also [how to customise the design of your Pureblog](posts/004-design-layout-and-typography.en.md)).
 
-**TODO ADD A SCREENSHOT OF THIS SITE'S CORE VITALS ONCE PUBLISHED**
+![Performance of Pureblog on Google Search Console](assets/img/lighthouse_performance.png)
 
 ## Key SEO elements
 
