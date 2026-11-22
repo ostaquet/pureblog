@@ -230,3 +230,8 @@ footer {
 }
 
 footer p { margin: 0; }
+
+footer a {
+    color: #888;
+    text-decoration: none;
+}

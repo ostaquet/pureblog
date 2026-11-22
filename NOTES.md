@@ -43,10 +43,7 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## Future plans
 
-- Speed up the initial loading (seems that Google Font are impacting the speed in the CSS)
 - Support only 1 language (hide language switcher)
-- What about the Google description for the index pages? (only posts have description)
-- Add a link to the Pureblog website on each page (www.pureblog.dev)
 
 - Check if the H1 in the body is OK based on aHref site audit
 - Ensure that the first language is the default language
