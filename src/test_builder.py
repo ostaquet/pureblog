@@ -86,6 +86,11 @@ def _make_config(
             "nl": "min leestijd",
         },
         back_labels={"en": "← Back", "fr": "← Retour", "nl": "← Terug"},
+        meta_descriptions={
+            "en": "Test blog in English.",
+            "fr": "Blog de test en français.",
+            "nl": "Testblog in het Nederlands.",
+        },
         not_found_labels={
             "en": "Page not found",
             "fr": "Page introuvable",
@@ -374,6 +379,25 @@ def test_build_root_redirect_has_rss_discovery_link(tmp_path: Path) -> None:
     assert 'href="en/feed.xml"' in root_html
 
 
+def test_build_root_redirect_has_meta_description(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    blog.build_site()
+    root_html: str = (build_dir / "index.html").read_text()
+    assert '<meta name="description" content="Test blog in English.">' in root_html
+
+
+def test_build_root_redirect_escapes_meta_description(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(tmp_path, {"001-hello.en.md": SAMPLE_POST})
+    blog.cfg.meta_descriptions["en"] = "A blog about \"pure\" content."
+    blog.build_site()
+    root_html: str = (build_dir / "index.html").read_text()
+    assert 'content="A blog about &quot;pure&quot; content.' in root_html
+
+
 def test_build_root_redirect_rss_uses_default_language(tmp_path: Path) -> None:
     blog: builder.BlogBuilder
     build_dir: Path
@@ -625,7 +649,20 @@ def test_build_post_page_has_meta_description(tmp_path: Path) -> None:
     post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
     assert '<meta name="description" content="A short test excerpt.">' in post_html
     index_html: str = (build_dir / "en" / "index.html").read_text()
-    assert '<meta name="description" content="">' in index_html
+    assert '<meta name="description" content="Test blog in English.">' in index_html
+
+
+def test_build_language_index_uses_localized_meta_description(tmp_path: Path) -> None:
+    blog: builder.BlogBuilder
+    build_dir: Path
+    blog, build_dir = _build(
+        tmp_path,
+        {"001-bonjour.fr.md": SAMPLE_POST_FR},
+        template_text='<meta name="description" content="$description">$content',
+    )
+    blog.build_site()
+    index_html: str = (build_dir / "fr" / "index.html").read_text()
+    assert '<meta name="description" content="Blog de test en français.">' in index_html
 
 
 def test_build_post_meta_description_fallback(tmp_path: Path) -> None:

@@ -49,6 +49,8 @@ De paginatitel en -beschrijving worden gedefinieerd in de front matter van het b
 
 Elk blogbericht heeft een beschrijving (`excerpt` in de front matter van je bericht). Deze beschrijving wordt automatisch gegenereerd op basis van de eerste 200 tekens van je bericht als ze niet is gedefinieerd. De beschrijving wordt gebruikt in de meta-tag van je berichtpagina's (`<meta name="description" content="..."/>`).
 
+Ook de rootpagina, die bezoekers doorstuurt naar de standaardtaal, heeft een metabeschrijving. Configureer één beschrijving per taal onder `languages.meta_descriptions` in `config/config.yml`. De beschrijving van de eerste taal in `languages.codes` wordt op de rootpagina gebruikt.
+
 ## Het onderscheid tussen titel en URL
 
 Veel blogs gebruiken de paginatitel als URL. Wij vinden dat een slecht idee. De paginatitel kan immers "leeg-woorden" bevatten (zoals "de", "een", enz.). De URL heeft die "leeg-woorden" niet nodig. De URL moet zo kort mogelijk zijn en sleutelwoorden bevatten die nuttig zijn voor SEO. Bovendien zou een wijziging in de paginatitel om een typfout te corrigeren geen reeds elders of in zoekmachines geïndexeerde URLs mogen breken.

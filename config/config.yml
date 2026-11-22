@@ -55,6 +55,8 @@ seo:
 # back_labels         : Localized "back to index" link shown at the top of
 #                       each post page. Every language listed in 'codes' must
 #                       have an entry here.
+# meta_descriptions   : Localized SEO description for the root redirect page.
+#                       Every language listed in 'codes' must have an entry here.
 languages:
   codes:
     - en
@@ -68,6 +70,10 @@ languages:
     en: "← Back"
     fr: "← Retour"
     nl: "← Terug"
+  meta_descriptions:
+    en: "Pureblog - Pure content. Any language."
+    fr: "Pureblog - Du contenu pur. Toutes les langues."
+    nl: "Pureblog - Pure inhoud. Elke taal."
   not_found_labels:
     en: "Page not found"
     fr: "Page introuvable"

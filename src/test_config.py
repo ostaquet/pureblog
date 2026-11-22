@@ -25,6 +25,9 @@ languages:
   back_labels:
     en: "Back"
     fr: "Retour"
+  meta_descriptions:
+    en: "Test blog in English."
+    fr: "Blog de test en français."
   not_found_labels:
     en: "Page not found"
     fr: "Page introuvable"
@@ -60,6 +63,9 @@ def test_load_valid_config(tmp_path: Path) -> None:
     assert cfg.languages == ["en", "fr"]
     assert cfg.reading_time_labels == {"en": "min read", "fr": "min de lecture"}
     assert cfg.back_labels == {"en": "Back", "fr": "Retour"}
+    assert cfg.meta_descriptions == {
+        "en": "Test blog in English.", "fr": "Blog de test en français."
+    }
     assert cfg.not_found_labels == {"en": "Page not found", "fr": "Page introuvable"}
     assert cfg.not_found_home_labels == {
         "en": "Go to homepage", "fr": "Aller à l'accueil"
@@ -140,6 +146,12 @@ def test_load_missing_back_label(tmp_path: Path) -> None:
     with pytest.raises(
         config.ConfigError, match="Missing label for language 'fr'"
     ):
+        config.load_config(_write(tmp_path, text))
+
+
+def test_load_missing_meta_description(tmp_path: Path) -> None:
+    text: str = VALID_CONFIG.replace('    fr: "Blog de test en français."\n', "")
+    with pytest.raises(config.ConfigError, match="Missing label for language 'fr'"):
         config.load_config(_write(tmp_path, text))
 
 

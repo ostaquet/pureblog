@@ -49,6 +49,8 @@ Le titre et la description de la page sont définis dans l'entête de l'article 
 
 Chaque article de blog possède une description (`excerpt` dans l'entête de votre article). Cette description est générée automatiquement en utilisant les 200 premiers caractères de votre article si elle n'est pas définie. La description est utilisée dans la balise meta de vos pages d'article (`<meta name="description" content="..."/>`).
 
+La page racine, qui redirige les visiteurs vers la langue par défaut, possède également une meta description. Configurez une description par langue sous `languages.meta_descriptions` dans `config/config.yml`. La description de la première langue de `languages.codes` est utilisée sur la page racine.
+
 ## La séparation entre le titre et l'URL
 
 De nombreux blog utilisent le titre de la page comme URL. Nous pensons que c'est une mauvaise idée. En effet, le titre de la page peut contenir des mots "vides" (comme des "un", "les", etc). Or, l'URL ne nécessite pas ces mots "vides". L'URL doit être la plus courte possible et contenir les mots clés utiles au référencement. De plus, un changement dans le titre de la page pour une correction ne devrait pas casser les URLs déjà référencées sur d'autres sites ou dans les moteurs de recherche.

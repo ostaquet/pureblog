@@ -225,7 +225,7 @@ class BlogBuilder:
             title=self.cfg.site_title,
             lang=lang,
             lang_switcher=switcher,
-            description="",
+            description=self.cfg.meta_descriptions[lang],
             content=index_content,
             root="..",
             **self.template_globals(),
@@ -399,10 +399,14 @@ class BlogBuilder:
         feed_url: str = f"{default_lang}/feed.xml"
         favicon_url: str = f"{self.cfg.site_url}/favicon.svg"
         title_escaped: str = html.escape(self.cfg.site_title, quote=True)
+        description: str = html.escape(
+            self.cfg.meta_descriptions[default_lang], quote=True
+        )
         redirect_html: str = (
             f'<!DOCTYPE html>\n<html lang="{default_lang}">\n<head>\n'
             '<meta charset="utf-8">\n'
             f'<meta http-equiv="refresh" content="0;url={default_lang}/">\n'
+            f'<meta name="description" content="{description}">\n'
             f'<link rel="icon" type="image/svg+xml" href="{favicon_url}">\n'
             f'<link rel="alternate" type="application/rss+xml"'
             f' title="{title_escaped}" href="{feed_url}">\n'

@@ -49,6 +49,8 @@ The page title and description are defined in the post front matter with the `ti
 
 Each blog post has a description (`excerpt` in the front matter of your post). This description is generated automatically using the first 200 characters of your post if it is not set. The description is used in the meta tag of your post pages (`<meta name="description" content="..."/>`).
 
+The root page, which redirects visitors to the default language, also has a meta description. Configure one description per language under `languages.meta_descriptions` in `config/config.yml`. The description for the first language in `languages.codes` is used on the root page.
+
 ## Separation between title and URL
 
 Many blogs use the page title as the URL. We think that's a bad idea. Indeed, the page title may contain "stop" words (such as "the", "an", etc.). The URL does not need those "stop" words. The URL should be as short as possible and contain keywords useful for SEO. Furthermore, a change in the page title to fix a typo should not break URLs already referenced on other sites or in search engines.
