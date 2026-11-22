@@ -30,6 +30,8 @@ B values is used to modify the effect of time on the score. A lower B causes pos
 
 ## Known issues
 
+- The favicon is still the Gandi favicon also on Google Search Console
+
 - Tests with InoReader results
   - The favicon is still the Gandi favicon (weird... why?)
   - As there is no image on the pages, the listing is a bit sad (great background), maybe add the possibility to set a main image on each page (facultative)
