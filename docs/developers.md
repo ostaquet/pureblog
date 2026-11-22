@@ -38,6 +38,14 @@ The agent will follow the workflow of the tasks and iterate to provide code with
 
 ## Tests and quality
 
+### Web font loading
+
+The Lora Google Fonts stylesheet is preloaded and switched to a stylesheet
+after the document starts rendering. This keeps the external font request out
+of the critical rendering path while retaining the font when JavaScript is
+available. A `noscript` stylesheet fallback is included for clients without
+JavaScript.
+
 ### Linter and SAST
 
 The project uses:

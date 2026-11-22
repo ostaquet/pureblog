@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation for emoji favicon customization: new "Favicon from an emoji" section in the design posts (`004`) in English, French and Dutch. Explains how to set `theme.favicon_emoji` and why SVG + emoji is preferable to a classic PNG/ICO icon set (_0037-emoji-customization_).
 - Custom 404 page (`build/404.html`) generated automatically at build time using the site template and branding. The page displays a "page not found" message in the default language with a link back to the homepage and a full language switcher. Two new mandatory config entries under `languages`: `not_found_labels` and `not_found_home_labels` (_0035-add-404-page_).
 
+### Performance
+
+- Google Fonts loading is no longer render-blocking: the Lora stylesheet is preloaded and applied asynchronously, with a `noscript` fallback (_0039-speedup_load_).
+
 ### Fixed
 
 - Favicon now displays correctly in feed readers such as Inoreader: the `<link rel="icon">` tag uses an absolute URL derived from `general.site_url` and is also present in the root redirect `index.html` (previously only relative references on language pages) (_0038-favicon-in-inoreader_).

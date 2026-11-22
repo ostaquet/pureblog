@@ -1296,3 +1296,10 @@ def test_rss_discovery_link_in_html(tmp_path: Path) -> None:
     assert "../en/feed.xml" in index_html
     post_html: str = (build_dir / "en" / "hello" / "index.html").read_text()
     assert "../../en/feed.xml" in post_html
+
+
+def test_google_fonts_stylesheet_is_not_render_blocking() -> None:
+    template: str = Path("theme/template.html").read_text()
+    assert 'rel="preload" as="style"' in template
+    assert "onload=\"this.onload=null;this.rel='stylesheet'\"" in template
+    assert "<noscript><link" in template
