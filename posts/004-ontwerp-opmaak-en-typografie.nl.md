@@ -174,7 +174,7 @@ Het templatebestand bevat parameters die tijdens de bouw van de site worden verv
 - `$title`: de paginatitel zoals gedefinieerd in de front matter van een blogbericht (`title`).
 - `$lang_switcher`: het blok waarmee de bezoeker op een pagina van taal kan wisselen.
 - `$content`: de inhoud, gerenderd als HTML.
-- `$author`: de auteur zoals gedefinieerd in de configuratie (`general.author`). Deze wordt in de voettekst weergegeven als `© {auteur} {jaar}`.
+- `$author`: de auteur zoals gedefinieerd in de configuratie (`general.author`). Deze wordt in de voettekst weergegeven als `© {auteur} {jaar}`, naast een link met bronvermelding naar Pureblog.
 - `$year`: het jaar van de laatste build van de website.
 
 Wijzigingen aan de visuele stijl kunnen worden doorgevoerd in de stylesheet. Het stijlbestand (`theme.style_file`) is een CSS-bestand dat de opmaakregels voor de verschillende elementen van de site definieert.

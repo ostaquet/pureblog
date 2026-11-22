@@ -174,7 +174,7 @@ Le fichier de template contient des paramètres qui sont remplacés lors de la c
 - `$title` : le titre de la page tel que défini dans le header d'un blog post (sous `title`).
 - `$lang_switcher` : le bloc permettant de changer de langue sur une page.
 - `$content` : le contenu rendu en HTML.
-- `$author` : l'auteur tel que défini dans la configuration (`general.author`). Il est affiché dans le pied de page sous la forme `© {auteur} {année}`.
+- `$author` : l'auteur tel que défini dans la configuration (`general.author`). Il est affiché dans le pied de page sous la forme `© {auteur} {année}`, à côté d'un lien de crédit vers Pureblog.
 - `$year` : l'année du dernier build du site web.
 
 Les modifications de style graphique peuvent être réalisées dans la feuille de style. Le fichier de style (`theme.style_file`) est un CSS qui définit les règles de formatage des différents éléments du site.

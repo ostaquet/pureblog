@@ -174,7 +174,7 @@ The template file contains parameters that are replaced when the site is built. 
 - `$title`: the page title as defined in the front matter of a blog post (`title`).
 - `$lang_switcher`: the block that lets the visitor switch language on a page.
 - `$content`: the content rendered as HTML.
-- `$author`: the author as defined in the configuration (`general.author`). It is shown in the footer as `© {author} {year}`.
+- `$author`: the author as defined in the configuration (`general.author`). It is shown in the footer as `© {author} {year}`, alongside a link crediting Pureblog.
 - `$year`: the year of the latest build of the website.
 
 Visual style changes can be made in the stylesheet. The style file (`theme.style_file`) is a CSS file that defines the formatting rules for the various elements of the site.

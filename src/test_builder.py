@@ -777,6 +777,15 @@ def test_build_footer_uses_author_and_year(tmp_path: Path) -> None:
     assert expected in post_html
 
 
+def test_default_template_has_pureblog_credit_link() -> None:
+    project_root: Path = Path(__file__).resolve().parent.parent
+    template: str = (project_root / "theme" / "template.html").read_text()
+    assert (
+        '<a href="https://www.pureblog.dev">Powered by Pureblog 🤍</a>'
+        in template
+    )
+
+
 # --- Favicon tests ---
 
 

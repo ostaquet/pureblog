@@ -217,6 +217,10 @@ pre code {
 /* ── Footer ──────────────────────────────────────────── */
 
 footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
     margin-top: 4rem;
     padding-top: 1.5rem;
     border-top: 1px solid #e0e0e0;
@@ -224,3 +228,5 @@ footer {
     font-size: 0.8rem;
     font-family: system-ui, -apple-system, sans-serif;
 }
+
+footer p { margin: 0; }
