@@ -68,6 +68,10 @@ languages:
     en: "← Back"
     fr: "← Retour"
     nl: "← Terug"
+  meta_descriptions:
+    en: "Example's Blog"
+    fr: "Example's Blog"
+    nl: "Example's Blog"
   not_found_labels:
     en: "Page not found"
     fr: "Page introuvable"

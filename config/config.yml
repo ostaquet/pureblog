@@ -71,9 +71,9 @@ languages:
     fr: "← Retour"
     nl: "← Terug"
   meta_descriptions:
-    en: "Pureblog - Pure content. Any language."
-    fr: "Pureblog - Du contenu pur. Toutes les langues."
-    nl: "Pureblog - Pure inhoud. Elke taal."
+    en: "Pureblog is a static, minimalist blog engine with the best multilingual content management."
+    fr: "Pureblog est un moteur de blog statique et minimaliste avec la meilleure gestion de contenu multilingue."
+    nl: "Pureblog is een statische, minimalistische blogengine met het beste meertalige contentbeheer."
   not_found_labels:
     en: "Page not found"
     fr: "Page introuvable"
